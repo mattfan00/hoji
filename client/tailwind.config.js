@@ -6,6 +6,10 @@ module.exports = {
       colors: {
         'primary': '#FDB147',
         'primary-dark': '#F3A73D',
+      },
+      fontSize: {
+        // ['font-size', 'line-height']
+        'xxs': ['0.625rem', '1rem']
       }
     },
     fontFamily: {

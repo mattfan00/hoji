@@ -11,7 +11,7 @@ const ProfileHeader = () => {
   }
 
   return (
-    <>
+    <div className="mb-20">
       <div className="flex items-center mb-6">
         <div className="mr-5 w-16 h-16 rounded-full overflow-hidden">
           <DefaultProPic />
@@ -30,7 +30,7 @@ const ProfileHeader = () => {
         </div>
       </div>
       <p>Senior at New York University studying Computer Science. I love to play video games, build apps, and eat food. Enjoy my content!</p>
-    </>
+    </div>
   )
 }
 

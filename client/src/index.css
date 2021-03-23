@@ -11,6 +11,10 @@
     @apply text-xl font-semibold
   }
 
+  h3 {
+    @apply text-lg font-semibold
+  }
+
   p {
     @apply my-4
   }
@@ -32,5 +36,16 @@
 
   .btn-primary {
     @apply bg-primary text-white hover:bg-primary-dark
+  }
+
+  .label {
+    @apply
+      bg-gray-100
+        uppercase
+        font-bold
+        text-xxs
+        px-2 py-1
+        rounded-lg
+        focus:outline-none
   }
 }
