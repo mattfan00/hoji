@@ -2,15 +2,14 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from "../Components/Button"
+import Logo from "../Icons/Logo"
 
 const Header = () => {
   return (
     <header className="flex justify-between items-center mb-20">
       <div className="flex items-center">
-        <div className="logo">
-          <Link to="/">
-            <img className="w-14 mr-8" src="/hoji.svg" alt="Logo" />
-          </Link>
+        <div className="logo w-14 mr-8">
+          <Link to="/"><Logo /></Link>
         </div>
         <div className="nav-items flex">
           <div className="mx-3 font-semibold">
