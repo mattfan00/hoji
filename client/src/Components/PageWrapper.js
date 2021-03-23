@@ -1,11 +1,19 @@
 import React from "react"
 import Header from "./Header"
+import Nav from "./Nav"
 
 const PageWrapper = ({ children }) => {
   return (
-    <div className="container max-w-2xl w-full mx-auto mt-16 mb-24 px-4">
-      <Header />
-      {children}
+    <div>
+      <div className="fixed h-screen z-50">
+        <Nav />
+      </div>
+      <main className="w-screen px-16">
+        <div className="max-w-xl m-auto pt-16 pb-20">
+          {/* <Header /> */}
+          {children}
+        </div>
+      </main>
     </div>
   )
 }

@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  body {
+    @apply text-sm
+  }
   h1 {
     @apply text-2xl font-semibold
   }

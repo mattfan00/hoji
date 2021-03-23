@@ -4,11 +4,12 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faPlus,
   faChevronDown,
-  faBookmark as faBookmarkSolid
+  faBookmark as faBookmarkSolid,
+  faBars,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
-  faBookmark as faBookmarkRegular
+  faBookmark as faBookmarkRegular,
 } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
@@ -16,4 +17,5 @@ library.add(
   faChevronDown,
   faBookmarkSolid,
   faBookmarkRegular,
+  faBars,
 )

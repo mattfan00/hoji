@@ -7,7 +7,7 @@ const Profile = () => {
     <div>
       <ProfileHeader />
 
-      <div className="p-4">
+      <div>
         <Entry
           username="mattfan00"
           date="Mar 21, 2021"

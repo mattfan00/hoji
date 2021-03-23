@@ -13,13 +13,13 @@ const ProfileHeader = () => {
   return (
     <div className="mb-20">
       <div className="flex items-center mb-6">
-        <div className="mr-5 w-16 h-16 rounded-full overflow-hidden">
+        <div className="mr-5 w-12 h-12 rounded-full overflow-hidden">
           <DefaultProPic />
         </div>
         <div className="flex-1 flex justify-between items-center">
           <div className="flex flex-col">
             <div className="flex items-baseline">
-              <h1 className="mr-3">Matthew Fan</h1>
+              <h2 className="mr-3">Matthew Fan</h2>
               <div className="text-gray-400">he/him</div>
             </div>
             <div>@mattfan00</div>
