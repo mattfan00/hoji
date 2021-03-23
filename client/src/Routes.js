@@ -1,6 +1,5 @@
 import React from "react"
 import {
-  BrowserRouter,
   Switch,
   Route
 } from "react-router-dom"
@@ -10,12 +9,10 @@ import Profile from "./Views/Profile"
 
 const Routes = () => {
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/:user" component={Profile} />
-      </Switch>
-    </BrowserRouter>
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route exact path="/:user" component={Profile} />
+    </Switch>
   )
 }
 
