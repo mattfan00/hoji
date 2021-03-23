@@ -9,7 +9,7 @@ const Header = () => {
       <div className="flex items-center">
         <div className="logo">
           <Link to="/">
-            <img className="w-14 mr-8" src="/hoji.svg" />
+            <img className="w-14 mr-8" src="/hoji.svg" alt="Logo" />
           </Link>
         </div>
         <div className="nav-items flex">
@@ -22,10 +22,6 @@ const Header = () => {
         </div>
       </div>
       <div className="flex items-center">
-        {/* <button className="bg-primary text-white uppercase font-bold text-xs px-5 py-2 rounded-lg focus:outline-none">
-          <FontAwesomeIcon className="mr-1.5" icon="plus" />
-          New
-        </button> */}
         <Button type="primary">
           <FontAwesomeIcon className="mr-1.5" icon="plus" />
           New
