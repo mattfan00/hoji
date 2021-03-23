@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import Button from "../Components/Button"
 
 const Header = () => {
   return (
@@ -22,15 +22,17 @@ const Header = () => {
         </div>
       </div>
       <div className="flex items-center">
-        <button className="bg-primary text-white uppercase font-bold text-xs px-5 py-2 rounded-lg focus:outline-none">
-          {/* <i className="fas fa-plus mr-1.5"></i> */}
-          <FontAwesomeIcon className="mr-1.5" icon={faPlus} />
+        {/* <button className="bg-primary text-white uppercase font-bold text-xs px-5 py-2 rounded-lg focus:outline-none">
+          <FontAwesomeIcon className="mr-1.5" icon="plus" />
           New
-        </button>
+        </button> */}
+        <Button type="primary">
+          <FontAwesomeIcon className="mr-1.5" icon="plus" />
+          New
+        </Button>
         <div className="ml-6 flex items-center">
           mattfan00
-          {/* <i class="fas fa-chevron-down text-xs ml-2"></i> */}
-          <FontAwesomeIcon className="ml-2" icon={faChevronDown} size="xs" />
+          <FontAwesomeIcon className="ml-2" icon="chevron-down" size="xs" />
         </div>
       </div>
     </header>
