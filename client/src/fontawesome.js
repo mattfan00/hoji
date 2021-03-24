@@ -6,6 +6,11 @@ import {
   faChevronDown,
   faBookmark as faBookmarkSolid,
   faBars,
+  faCog,
+  faSignOutAlt,
+  faCompass,
+  faUser,
+  faHome,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -18,4 +23,9 @@ library.add(
   faBookmarkSolid,
   faBookmarkRegular,
   faBars,
+  faCog,
+  faSignOutAlt,
+  faCompass,
+  faUser,
+  faHome,
 )

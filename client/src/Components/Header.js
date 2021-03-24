@@ -6,19 +6,19 @@ import Logo from "../Icons/Logo"
 
 const Header = () => {
   return (
-    <header className="flex justify-between items-center mb-20">
+    <header className="flex justify-between items-center mb-16">
       <div className="flex items-center">
-        <div className="logo w-14 mr-8">
+        <div className="logo w-10 mr-8">
           <Link to="/"><Logo /></Link>
         </div>
-        <div className="nav-items flex">
+        {/* <div className="nav-items flex">
           <div className="mx-3 font-semibold">
             <Link to="/">discover</Link>
           </div>
           <div className="mx-3 font-semibold">
             <Link to="/">about</Link>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="flex items-center">
         <Button type="primary">
