@@ -9,8 +9,8 @@ const PageWrapper = ({ children }) => {
         <Nav />
       </div> */}
       <main className="w-screen px-14">
+        <Header />
         <div className="max-w-xl m-auto pt-16 pb-20">
-          <Header />
           {children}
         </div>
       </main>

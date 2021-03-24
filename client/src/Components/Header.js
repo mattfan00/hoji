@@ -6,7 +6,7 @@ import Logo from "../Icons/Logo"
 
 const Header = () => {
   return (
-    <header className="flex justify-between items-center mb-16">
+    <header className="flex items-center pt-6 mb-4">
       <div className="flex items-center">
         <div className="logo w-10 mr-8">
           <Link to="/"><Logo /></Link>
@@ -21,14 +21,14 @@ const Header = () => {
         </div> */}
       </div>
       <div className="flex items-center">
-        <Button type="primary">
-          <FontAwesomeIcon className="mr-1.5" icon="plus" />
-          New
-        </Button>
-        <div className="ml-6 flex items-center">
+        <div className="mr-6 flex items-center">
           mattfan00
           <FontAwesomeIcon className="ml-2" icon="chevron-down" size="xs" />
         </div>
+        <Button>
+          <FontAwesomeIcon className="mr-1.5" icon="plus" />
+          New
+        </Button>
       </div>
     </header>
   )

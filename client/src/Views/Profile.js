@@ -9,18 +9,21 @@ const Profile = () => {
 
       <div>
         <Entry
+          key={1}
           username="mattfan00"
           date="Mar 21, 2021"
           type="thought"
           content="why is collaborative work so hard"
         />
         <Entry
+          key={2}
           username="mattfan00"
           date="Mar 21, 2021"
           type="thought"
           content="graduation is coming up! excited for my new life after school, but not excited to leave my old one"
         />
         <Entry
+          key={3}
           username="mattfan00"
           date="Mar 21, 2021"
           type="post"
@@ -28,6 +31,7 @@ const Profile = () => {
           description="I first started coding back in 8th grade when I took a programming course offered by my school and learned Visual Basic. After that I learned some HTML, CSS, and Javascript (copy and pasting from Stack Overflow) in highschool..."
         />
         <Entry
+          key={4}
           username="mattfan00"
           date="Mar 21, 2021"
           type="gallery"

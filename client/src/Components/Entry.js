@@ -21,7 +21,7 @@ const Gallery = ({ caption, photos}) => {
       <div className="mb-4">{caption}</div>
       <div className="flex">
         {photos.map(photo => (
-          <div class="h-32 w-24 bg-gray-100 mr-2 rounded-lg"></div>
+          <div className="h-32 w-24 bg-gray-100 mr-2 rounded-lg"></div>
         ))}
       </div>
     </div>

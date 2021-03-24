@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
   body {
     @apply text-sm
@@ -21,6 +22,11 @@
   p {
     @apply my-4
   }
+
+  .custom-input[placeholder]:empty:before {
+    content: attr(placeholder);
+    @apply text-gray-300
+  }
 }
 
 @layer components {
@@ -28,7 +34,7 @@
     @apply
       bg-gray-100
         uppercase
-        font-bold
+        font-semibold
         text-xs
         px-3 py-2
         rounded-lg
@@ -45,7 +51,7 @@
     @apply
       bg-gray-100
         uppercase
-        font-bold
+        font-semibold
         text-xxs
         px-2 py-1
         rounded-lg
