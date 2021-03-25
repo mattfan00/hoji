@@ -5,10 +5,12 @@ const Button = ({
   type,
   onClick,
   className,
-  lowercase
+  lowercase,
+  wrapper
 }) => {
   return (
     <button
+      ref={wrapper}
       className={`btn${type === "primary" ? " btn-primary" : ""}${lowercase ? " lowercase" : ""}${className ? ` ${className}` : ""}`}
       onClick={onClick}
     >
