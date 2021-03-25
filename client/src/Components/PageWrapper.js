@@ -10,7 +10,7 @@ const PageWrapper = ({ children }) => {
       </div> */}
       <main className="w-screen px-14">
         <Header />
-        <div className="max-w-xl m-auto pt-16 pb-20">
+        <div className="max-w-xl m-auto pt-10 pb-20">
           {children}
         </div>
       </main>

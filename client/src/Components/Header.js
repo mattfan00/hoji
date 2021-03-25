@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from "../Components/Button"
+import Dropdown from "../Components/Dropdown"
 import Logo from "../Icons/Logo"
 
 const Header = () => {
@@ -21,14 +22,22 @@ const Header = () => {
         </div> */}
       </div>
       <div className="flex items-center">
-        <div className="mr-6 flex items-center">
+        <Button className="mr-3">
+          <FontAwesomeIcon className="mr-1.5" icon="user" />
           mattfan00
-          <FontAwesomeIcon className="ml-2" icon="chevron-down" size="xs" />
-        </div>
-        <Button>
+        </Button>
+        {/* <Button>
           <FontAwesomeIcon className="mr-1.5" icon="plus" />
           New
-        </Button>
+        </Button> */}
+        <Dropdown
+          title="New"
+          icon="plus"
+        >
+          <Dropdown.Item to="/thought/new">Thought</Dropdown.Item>
+          <Dropdown.Item to="/thought/new">Post</Dropdown.Item>
+          <Dropdown.Item to="/thought/new">Gallery</Dropdown.Item>
+        </Dropdown>
       </div>
     </header>
   )

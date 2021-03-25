@@ -4,11 +4,12 @@ const Button = ({
   children,
   type,
   onClick,
-  className
+  className,
+  lowercase
 }) => {
   return (
     <button
-      className={`btn${type === "primary" ? " btn-primary" : ""}${className ? ` ${className}` : ""}`}
+      className={`btn${type === "primary" ? " btn-primary" : ""}${lowercase ? " lowercase" : ""}${className ? ` ${className}` : ""}`}
       onClick={onClick}
     >
       {children}
