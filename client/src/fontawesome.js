@@ -11,6 +11,7 @@ import {
   faCompass,
   faUser,
   faHome,
+  faLightbulb,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -28,4 +29,5 @@ library.add(
   faCompass,
   faUser,
   faHome,
+  faLightbulb,
 )

@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 
 const Button = ({
   children,
@@ -8,6 +9,7 @@ const Button = ({
   lowercase,
   wrapper,
   disabled,
+  href,
 }) => {
   return (
     <button
@@ -15,7 +17,11 @@ const Button = ({
       className={`btn${type === "primary" ? " btn-primary" : ""}${lowercase ? " lowercase" : ""}${disabled ? " disabled" : ""}${className ? ` ${className}` : ""}`}
       onClick={onClick}
     >
-      {children}
+      {href ? (
+        <Link to={href}>{children}</Link>
+      ) : (
+        children
+      )}
     </button>
   )
 }

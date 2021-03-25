@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
-import Button from "../Components/Button"
-import CustomInput from "../Components/CustomInput"
-import FadeAnimation from "../Components/FadeAnimation"
+import Button from "../../Components/Button"
+import CustomInput from "../../Components/CustomInput"
+import FadeAnimation from "../../Components/FadeAnimation"
 
 const NewThought = () => {
   const [text, setText] = useState("")

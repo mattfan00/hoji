@@ -7,11 +7,11 @@ import ClickOutside from "./ClickOutside"
 
 export const DropdownItem = ({
   children,
-  to
+  href,
 }) => {
   return (
     <Link
-      to={to}
+      to={href}
       className="block first:rounded-t-lg last:rounded-b-lg px-4 py-1.5 font-semibold text-xs hover:bg-gray-100 cursor-pointer transition-colors"
     >
       {children}

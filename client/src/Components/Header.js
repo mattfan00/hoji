@@ -22,7 +22,7 @@ const Header = () => {
         </div> */}
       </div>
       <div className="flex items-center">
-        <Button className="mr-3">
+        <Button className="mr-3" href="/matt">
           <FontAwesomeIcon className="mr-1.5" icon="user" />
           mattfan00
         </Button>
@@ -34,9 +34,15 @@ const Header = () => {
           title="New"
           icon="plus"
         >
-          <Dropdown.Item to="/thought/new">Thought</Dropdown.Item>
-          <Dropdown.Item to="/thought/new">Post</Dropdown.Item>
-          <Dropdown.Item to="/thought/new">Gallery</Dropdown.Item>
+          <Dropdown.Item href="/thought/new">
+            Thought
+          </Dropdown.Item>
+          <Dropdown.Item href="/post/new">
+            Post
+          </Dropdown.Item>
+          <Dropdown.Item href="/gallery/new">
+            Gallery
+          </Dropdown.Item>
         </Dropdown>
       </div>
     </header>
