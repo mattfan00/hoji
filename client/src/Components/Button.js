@@ -11,18 +11,30 @@ const Button = ({
   disabled,
   href,
 }) => {
+  const style = `btn${type === "primary" ? " btn-primary" : ""}${lowercase ? " lowercase" : ""}${disabled ? " disabled" : ""}${className ? ` ${className}` : ""}`
+
   return (
-    <button
-      ref={wrapper}
-      className={`btn${type === "primary" ? " btn-primary" : ""}${lowercase ? " lowercase" : ""}${disabled ? " disabled" : ""}${className ? ` ${className}` : ""}`}
-      onClick={onClick}
-    >
-      {href ? (
-        <Link to={href}>{children}</Link>
+    <>
+      {!href ? (
+        <button
+          ref={wrapper}
+          className={style}
+          onClick={onClick}
+        >
+          {children}
+        </button>
       ) : (
-        children
+        <Link to={href}>
+          <button
+            ref={wrapper}
+            className={style}
+            onClick={onClick}
+          >
+            {children}
+          </button>
+        </Link>
       )}
-    </button>
+    </>
   )
 }
 

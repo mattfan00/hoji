@@ -22,9 +22,9 @@ const Header = () => {
         </div> */}
       </div>
       <div className="flex items-center">
-        <Button className="mr-3" href="/matt">
-          <FontAwesomeIcon className="mr-1.5" icon="user" />
-          mattfan00
+        <Button className="mr-3" href="/mattfan00">
+          {/* <FontAwesomeIcon className="mr-1.5" icon="user" /> */}
+          @mattfan00
         </Button>
         {/* <Button>
           <FontAwesomeIcon className="mr-1.5" icon="plus" />
