@@ -6,12 +6,13 @@ const Button = ({
   onClick,
   className,
   lowercase,
-  wrapper
+  wrapper,
+  disabled,
 }) => {
   return (
     <button
       ref={wrapper}
-      className={`btn${type === "primary" ? " btn-primary" : ""}${lowercase ? " lowercase" : ""}${className ? ` ${className}` : ""}`}
+      className={`btn${type === "primary" ? " btn-primary" : ""}${lowercase ? " lowercase" : ""}${disabled ? " disabled" : ""}${className ? ` ${className}` : ""}`}
       onClick={onClick}
     >
       {children}

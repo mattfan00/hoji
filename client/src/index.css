@@ -46,6 +46,10 @@
     @apply bg-primary text-white hover:bg-primary-dark
   }
 
+  .btn.disabled {
+    @apply cursor-default pointer-events-none opacity-50
+  }
+
   .active {
     @apply bg-gray-200;
   }

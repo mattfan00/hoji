@@ -18,6 +18,12 @@ const CustomInput = ({
     onChange(textInput.current.innerText)
   }
 
+  const removeFormatting = (e) => {
+    e.preventDefault()
+    const text = e.clipboardData.getData("text/plain")
+    document.execCommand("insertHTML", false, text);
+    emitChange()
+  }
 
   return (
     <div className={className}>
@@ -28,7 +34,10 @@ const CustomInput = ({
         ref={textInput}
         dangerouslySetInnerHTML={{__html: initial}}
         onInput={emitChange}
+        onPaste={removeFormatting}
       ></CustomTag>
+      {/* {textInput.current &&
+      textInput.current.innerText.replace("\n\n", "\n").length} */}
     </div>
   )
 }

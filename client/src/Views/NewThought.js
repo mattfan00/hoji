@@ -2,14 +2,15 @@ import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
 import Button from "../Components/Button"
 import CustomInput from "../Components/CustomInput"
+import FadeAnimation from "../Components/FadeAnimation"
 
 const NewThought = () => {
   const [text, setText] = useState("")
   const history = useHistory()
+  const charLimit = 280
 
   const handleChange = (value) => {
-    // console.log(value)
-    setText(value)
+    setText(value.replace("\n\n", "\n"))
   }
 
   const submit = () => {
@@ -21,9 +22,8 @@ const NewThought = () => {
     history.push("/matt")
   }
 
-  const getNumCharacters = () => {
-    const newText = text.replace("\n\n", "\n")
-    return newText.length
+  const charLeft = () => {
+    return charLimit - text.length
   }
 
   return (
@@ -42,10 +42,22 @@ const NewThought = () => {
         // tagName="h2"
       />
 
-      <div className="flex">
-        <Button className="mr-2" type="primary" onClick={submit}>Submit</Button>
-        <Button onClick={cancel}>Cancel</Button>
-        {/* {text.length} */}
+      <div className="flex justify-between items-center">
+        <div className="flex">
+          <Button
+            className="mr-2"
+            type="primary"
+            onClick={submit}
+            disabled={text.length == 0 || charLeft() < 0}
+          >Submit</Button>
+          <Button onClick={cancel}>Cancel</Button>
+        </div>
+
+        <FadeAnimation show={charLeft() <= 20}>
+          <div>
+            <span className={`font-semibold${charLeft() < 0 ? " text-red-500" : ""}`}>{charLeft()} </span>
+            characters left</div>
+        </FadeAnimation>
       </div>
     </div>
   )
