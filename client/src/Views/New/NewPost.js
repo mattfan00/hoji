@@ -38,28 +38,29 @@ const NewPost = () => {
         <div className="label">post</div>
       </div>
 
-      <CustomInput
-        className="mb-2"
-        placeholder="give your post a title..."
-        onChange={handleTitleChange}
-        autofocus
-        // initial="hey"
-        tagName="h2"
-      />
+      <div className="mb-10">
+        <CustomInput
+          className="mb-2"
+          placeholder="give your post a title..."
+          onChange={handleTitleChange}
+          autofocus
+          // initial="hey"
+          tagName="h2"
+        />
 
-      <CustomInput
-        className="mb-10"
-        placeholder="give your post a description..."
-        onChange={handleDescriptionChange}
-        // initial="hey"
-      />
+        <CustomInput
+          className="mb-10"
+          placeholder="give your post a description..."
+          onChange={handleDescriptionChange}
+          // initial="hey"
+        />
 
-      <CustomInput
-        className="mb-10"
-        placeholder="start writing your post here..."
-        onChange={handleTextChange}
-        // initial="hey"
-      />
+        <CustomInput
+          placeholder="start writing your post here..."
+          onChange={handleTextChange}
+          // initial="hey"
+        />
+      </div>
 
       <div className="flex justify-between items-center">
         <div className="flex">

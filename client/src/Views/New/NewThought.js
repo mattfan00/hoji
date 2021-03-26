@@ -34,14 +34,15 @@ const NewThought = () => {
         <div className="label">thought</div>
       </div>
 
-      <CustomInput
-        className="mb-10"
-        placeholder="ideate your thought here..."
-        onChange={handleChange}
-        autofocus
-        // initial="hey"
-        // tagName="h2"
-      />
+      <div className="mb-10">
+        <CustomInput
+          placeholder="ideate your thought here..."
+          onChange={handleChange}
+          autofocus
+          // initial="hey"
+          // tagName="h2"
+        />
+      </div>
 
       <div className="flex justify-between items-center">
         <div className="flex">
