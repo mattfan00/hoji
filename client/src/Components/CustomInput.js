@@ -6,12 +6,15 @@ const CustomInput = ({
   onChange,
   initial,
   tagName,
+  autofocus,
 }) => {
   const textInput = useRef(null)
   const CustomTag = tagName ? tagName : "div"
 
   useEffect(() => {
-    textInput.current.focus()
+    if (autofocus) {
+      textInput.current.focus()
+    }
   }, [])
 
   const emitChange = () => {

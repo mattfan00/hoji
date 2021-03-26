@@ -1,8 +1,11 @@
 import React from "react"
 import {
   Switch,
-  Route
+  Route,
+  useLocation
 } from "react-router-dom"
+import { TransitionGroup, CSSTransition } from "react-transition-group"
+import FadeInRoute from "./Components/FadeInRoute"
 
 import Home from "./Views/Home"
 import Profile from "./Views/Profile"
@@ -10,16 +13,39 @@ import NewThought from "./Views/New/NewThought"
 import NewPost from "./Views/New/NewPost"
 import NewGallery from "./Views/New/NewGallery"
 
-const Routes = () => {
+const FadeRoute = ({ component: Component, ...rest }) => {
   return (
-    <Switch>
-      <Route exact path="/" component={Home} />
-      <Route exact path="/:user" component={Profile} />
+    <Route
+      {...rest}
+      render={routeProps => (
+        <FadeInRoute>
+          <Component {...routeProps} />
+        </FadeInRoute>
+      )}
+    />
+  );
+}
 
-      <Route exact path="/thought/new" component={NewThought} />
-      <Route exact path="/post/new" component={NewPost} />
-      <Route exact path="/gallery/new" component={NewGallery} />
-    </Switch>
+const Routes = () => {
+  const location = useLocation()
+
+  return (
+    <TransitionGroup>
+      <CSSTransition
+        key={location.pathname}
+        classNames="fade"
+        timeout={{ enter: 300, exit: 200 }}
+      >
+        <Switch location={location}>
+          <FadeRoute exact path="/" component={Home} />
+          <FadeRoute exact path="/:user" component={Profile} />
+
+          <FadeRoute exact path="/thought/new" component={NewThought} />
+          <FadeRoute exact path="/post/new" component={NewPost} />
+          <FadeRoute exact path="/gallery/new" component={NewGallery} />
+        </Switch>
+      </CSSTransition>
+    </TransitionGroup>
   )
 }
 

@@ -1,4 +1,5 @@
 import React from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const Thought = ({ content }) => {
   return (
@@ -19,10 +20,17 @@ const Gallery = ({ caption, photos}) => {
   return (
     <div>
       <div className="mb-4">{caption}</div>
-      <div className="flex">
-        {photos.map(photo => (
-          <div className="h-32 w-24 bg-gray-100 mr-2 rounded-lg"></div>
+      <div className="grid xs:grid-cols-5 grid-cols-4 gap-2">
+        {photos.slice(0,4).map(photo => (
+          <div style={{'backgroundImage': `url(https://picsum.photos/200/300?random={photo})`}} className="image-card relative bg-cover">
+          </div>
         ))}
+        <div className="image-card">
+          <div className="absolute inset-0 flex flex-col justify-center items-center">
+            <FontAwesomeIcon icon={["far", "images"]} size="2x" />
+            <div className="break-all mt-2"><span className="font-semibold">3</span> more</div>
+          </div>
+        </div>
       </div>
     </div>
   )

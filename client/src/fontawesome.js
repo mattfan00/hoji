@@ -16,6 +16,7 @@ import {
 
 import {
   faBookmark as faBookmarkRegular,
+  faImages,
 } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
@@ -30,4 +31,5 @@ library.add(
   faUser,
   faHome,
   faLightbulb,
+  faImages,
 )

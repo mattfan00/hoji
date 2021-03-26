@@ -38,6 +38,7 @@ const NewThought = () => {
         className="mb-10"
         placeholder="ideate your thought here..."
         onChange={handleChange}
+        autofocus
         // initial="hey"
         // tagName="h2"
       />

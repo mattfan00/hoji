@@ -7,7 +7,7 @@ const Button = ({
   onClick,
   className,
   lowercase,
-  wrapper,
+  reference,
   disabled,
   href,
 }) => {
@@ -17,7 +17,7 @@ const Button = ({
     <>
       {!href ? (
         <button
-          ref={wrapper}
+          ref={reference}
           className={style}
           onClick={onClick}
         >
@@ -26,7 +26,7 @@ const Button = ({
       ) : (
         <Link to={href}>
           <button
-            ref={wrapper}
+            ref={reference}
             className={style}
             onClick={onClick}
           >

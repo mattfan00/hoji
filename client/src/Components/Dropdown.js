@@ -41,7 +41,7 @@ const Dropdown = ({
   return (
     <div>
       <Button
-        wrapper={buttonRef}
+        reference={buttonRef}
         className={active ? "active" : ""}
         onClick={toggleDropdown}
       >
