@@ -5,6 +5,7 @@ const Button = ({
   children,
   type,
   onClick,
+  onMouseDown,
   className,
   lowercase,
   reference,
@@ -20,6 +21,7 @@ const Button = ({
           ref={reference}
           className={style}
           onClick={onClick}
+          onMouseDown={onMouseDown}
         >
           {children}
         </button>
@@ -29,6 +31,7 @@ const Button = ({
             ref={reference}
             className={style}
             onClick={onClick}
+            onMouseDown={onMouseDown}
           >
             {children}
           </button>

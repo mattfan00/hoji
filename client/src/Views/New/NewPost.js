@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
 import Button from "../../Components/Button"
+import CustomEditor from "../../Components/CustomEditor"
 import CustomInput from "../../Components/CustomInput"
 
 const NewPost = () => {
@@ -10,7 +11,7 @@ const NewPost = () => {
   const history = useHistory()
 
   const handleDescriptionChange = (value) => {
-    setText(value)
+    setDescription(value)
   }
 
   const handleTextChange = (value) => {
@@ -18,7 +19,7 @@ const NewPost = () => {
   }
 
   const handleTitleChange = (value) => {
-    setText(value)
+    setTitle(value)
   }
 
   const submit = () => {
@@ -55,11 +56,12 @@ const NewPost = () => {
           // initial="hey"
         />
 
-        <CustomInput
+        {/* <CustomInput
           placeholder="start writing your post here..."
           onChange={handleTextChange}
           // initial="hey"
-        />
+        /> */}
+        <CustomEditor />
       </div>
 
       <div className="flex justify-between items-center">
