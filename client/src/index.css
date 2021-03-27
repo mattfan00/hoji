@@ -51,12 +51,24 @@
     @apply bg-primary text-white hover:bg-primary-dark
   }
 
+  .btn-text {
+    @apply bg-white  hover:bg-gray-100 !important
+  }
+
+  .btn-sm {
+    @apply px-2 py-1 !important
+  }
+
   .btn.disabled {
     @apply cursor-default pointer-events-none opacity-50
   }
 
-  .active {
+  .btn.active {
     @apply bg-gray-200;
+  }
+
+  .btn-sm.active {
+    @apply bg-gray-100 !important;
   }
 
   .lowercase {

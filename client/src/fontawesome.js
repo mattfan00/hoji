@@ -13,6 +13,8 @@ import {
   faHome,
   faLightbulb,
   faMinus,
+  faListUl,
+  faListOl,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -34,4 +36,6 @@ library.add(
   faLightbulb,
   faImages,
   faMinus,
+  faListUl,
+  faListOl,
 )

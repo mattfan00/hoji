@@ -1,5 +1,7 @@
 import React from "react"
 import Button from "./Button"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import Dropdown from "./Dropdown"
 
 const EditorToggleBar = ({
   bold,
@@ -10,19 +12,56 @@ const EditorToggleBar = ({
   h3,
   ul,
   ol,
-  codeBlock,
 }) => {
   return (
-    <div className="sticky top-3 z-10 shadow-md bg-gray-100 mb-5 rounded-lg">
-      <Button className="font-semibold" onMouseDown={bold}>Bold</Button>
-      <Button className="italic" onMouseDown={italic}>Italic</Button>
-      <Button className="underline" onMouseDown={underline}>Underline</Button>
-      <Button onMouseDown={h1}>H1</Button>
-      <Button onMouseDown={h2}>H2</Button>
-      <Button onMouseDown={h3}>H3</Button>
-      <Button onMouseDown={ul}>UL</Button>
-      <Button onMouseDown={ol}>OL</Button>
-      <Button onMouseDown={codeBlock}>Code block</Button>
+    <div className="flex sticky top-3 z-10 p-1 bg-white mb-3 border border-solid shadow-sm rounded-lg">
+      <Button
+        type="text"
+        size="sm"
+        className="font-semibold mr-1"
+        onMouseDown={bold}
+      >B</Button>
+      <Button
+        type="text"
+        size="sm"
+        className="italic mr-1"
+        onMouseDown={italic}
+      >I</Button>
+      <Button
+        type="text"
+        size="sm"
+        className="underline mr-1"
+        onMouseDown={underline}
+      >U</Button>
+      <Button
+        type="text"
+        size="sm"
+        className="mr-1"
+        onMouseDown={ul}
+      ><FontAwesomeIcon icon="list-ul" /></Button>
+      <Button
+        type="text"
+        size="sm"
+        className="mr-1"
+        onMouseDown={ol}
+      ><FontAwesomeIcon icon="list-ol" /></Button>
+
+      <Dropdown
+        type="text"
+        size="sm"
+        className="mr-1"
+      >
+        <Dropdown.Button>
+          Text
+          <FontAwesomeIcon className="ml-1.5" icon="chevron-down" size="xs" />
+        </Dropdown.Button>
+
+        <Dropdown.Item>Text</Dropdown.Item>
+        <Dropdown.Item>Heading 1</Dropdown.Item>
+        <Dropdown.Item>Heading 2</Dropdown.Item>
+        <Dropdown.Item>Heading 3</Dropdown.Item>
+      </Dropdown>
+
     </div>
   )
 }

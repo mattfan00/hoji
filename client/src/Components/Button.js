@@ -11,8 +11,10 @@ const Button = ({
   reference,
   disabled,
   href,
+  size,
+  active,
 }) => {
-  const style = `btn${type === "primary" ? " btn-primary" : ""}${lowercase ? " lowercase" : ""}${disabled ? " disabled" : ""}${className ? ` ${className}` : ""}`
+  const style = `btn${type === "primary" ? " btn-primary" : ""}${type === "text" ? " btn-text" : ""}${size === "sm" ? " btn-sm" : ""}${lowercase ? " lowercase" : ""}${disabled ? " disabled" : ""}${active ? " active" : ""}${className ? ` ${className}` : ""}`
 
   return (
     <>

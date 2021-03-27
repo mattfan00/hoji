@@ -5,24 +5,46 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import FadeAnimation from "./FadeAnimation"
 import ClickOutside from "./ClickOutside"
 
+export const DropdownButton = ({
+  children
+}) => {
+  return children
+}
+
+
 export const DropdownItem = ({
   children,
   href,
+  onClick,
 }) => {
+  const style = `block first:rounded-t-lg last:rounded-b-lg px-4 py-1.5 font-semibold text-xs hover:bg-gray-100 cursor-pointer transition-colors`
+
   return (
-    <Link
-      to={href}
-      className="block first:rounded-t-lg last:rounded-b-lg px-4 py-1.5 font-semibold text-xs hover:bg-gray-100 cursor-pointer transition-colors"
-    >
-      {children}
-    </Link>
+    <>
+      {!href ? (
+        <div
+          onClick={onClick}
+          className={style}
+        >
+          {children}
+        </div>
+      ) : (
+        <Link
+          to={href}
+          className={style}
+        >
+          {children}
+        </Link>
+      )}
+    </>
   )
 }
 
 const Dropdown = ({
   children,
-  title,
-  icon
+  type,
+  size,
+  className,
 }) => {
   const [active, setActive] = useState(false)
   const buttonRef = useRef(null)
@@ -38,15 +60,28 @@ const Dropdown = ({
     }
   }
 
+  const button = () => {
+    return children[0]
+  }
+
+  const items = () => {
+    return (
+      children.map((el) => {
+        if (el.type.name === "DropdownItem") return el
+      })
+    )
+  }
+
   return (
-    <div>
+    <div className={className}>
       <Button
         reference={buttonRef}
-        className={active ? "active" : ""}
+        type={type}
+        size={size}
+        active={active}
         onClick={toggleDropdown}
       >
-        {icon ? <FontAwesomeIcon className="mr-1.5" icon={icon} /> : ""}
-        {title}
+        {button()}
       </Button>
 
 
@@ -54,7 +89,7 @@ const Dropdown = ({
         <ClickOutside action={closeDropdown}>
           <div className="relative">
             <div onClick={closeDropdown} className="absolute top-2 w-auto whitespace-nowrap rounded-lg shadow-md bg-white">
-              {children}
+              {items()}
             </div>
           </div>
         </ClickOutside>
@@ -63,6 +98,7 @@ const Dropdown = ({
   )
 }
 
+Dropdown.Button = DropdownButton
 Dropdown.Item = DropdownItem
 
 

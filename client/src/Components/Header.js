@@ -30,10 +30,12 @@ const Header = () => {
           <FontAwesomeIcon className="mr-1.5" icon="plus" />
           New
         </Button> */}
-        <Dropdown
-          title="New"
-          icon="plus"
-        >
+        <Dropdown>
+          <Dropdown.Button>
+            <FontAwesomeIcon className="mr-1.5" icon="plus" />
+            New
+          </Dropdown.Button>
+
           <Dropdown.Item href="/thought/new">
             Thought
           </Dropdown.Item>
