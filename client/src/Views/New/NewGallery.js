@@ -65,6 +65,9 @@ const NewGallery = () => {
         <div className="grid xs:grid-cols-5 grid-cols-4 gap-2">
           {photos.map((photo) => (
             <div style={{'backgroundImage': `url(${photo})`}} className="image-card animate-fade-enter">
+              <Button className="absolute top-1 right-1 opacity-80 rounded-full py-0.5 px-1">
+                <FontAwesomeIcon icon="minus" fixedWidth size="xs" />
+              </Button>
             </div>
           ))}
           <div className="image-card">
