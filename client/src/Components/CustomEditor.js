@@ -25,60 +25,25 @@ const CustomEditor = () => {
 
   const myStyle = (contentBlock) => {
     const type = contentBlock.getType()
-    console.log(type)
+    // console.log(type)
   }
 
-  const _onBoldClick = (e) => {
-    e.preventDefault()
-    setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"))
+  const onInlineToggle = (inlineStyle) => {
+    const newState = RichUtils.toggleInlineStyle(editorState, inlineStyle)
+    setEditorState(newState)
   }
 
-  const _onItalicClick = (e) => {
-    e.preventDefault()
-    setEditorState(RichUtils.toggleInlineStyle(editorState, "ITALIC"))
-  }
-
-  const _onUnderlineClick = (e) => {
-    e.preventDefault()
-    setEditorState(RichUtils.toggleInlineStyle(editorState, "UNDERLINE"))
-  }
-
-  const _onH1Click = (e) => {
-    e.preventDefault()
-    setEditorState(RichUtils.toggleBlockType(editorState, "header-one"))
-  }
-
-  const _onH2Click = (e) => {
-    e.preventDefault()
-    setEditorState(RichUtils.toggleBlockType(editorState, "header-two"))
-  }
-
-  const _onH3Click = (e) => {
-    e.preventDefault()
-    setEditorState(RichUtils.toggleBlockType(editorState, "header-three"))
-  }
-
-  const _onULClick = (e) => {
-    e.preventDefault()
-    setEditorState(RichUtils.toggleBlockType(editorState, "unordered-list-item"))
-  }
-
-  const _onOLClick = (e) => {
-    e.preventDefault()
-    setEditorState(RichUtils.toggleBlockType(editorState, "ordered-list-item"))
+  const onBlockToggle = (blockType) => {
+    const newState = RichUtils.toggleBlockType(editorState, blockType)
+    setEditorState(newState);
   }
 
   return (
     <div className="relative">
       <EditorToggleBar
-        bold={_onBoldClick}
-        italic={_onItalicClick}
-        underline={_onUnderlineClick}
-        h1={_onH1Click}
-        h2={_onH2Click}
-        h3={_onH3Click}
-        ul={_onULClick}
-        ol={_onOLClick}
+        editorState={editorState}
+        onInlineToggle={onInlineToggle}
+        onBlockToggle={onBlockToggle}
       />
       <Editor
         editorState={editorState}
@@ -87,6 +52,7 @@ const CustomEditor = () => {
         customStyleMap={styleMap}
         blockStyleFn={myStyle}
         placeholder="start writing your post here..."
+        spellCheck={true}
       />
     </div>
 

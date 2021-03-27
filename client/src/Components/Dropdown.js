@@ -16,6 +16,7 @@ export const DropdownItem = ({
   children,
   href,
   onClick,
+  onMouseDown,
 }) => {
   const style = `block first:rounded-t-lg last:rounded-b-lg px-4 py-1.5 font-semibold text-xs hover:bg-gray-100 cursor-pointer transition-colors`
 
@@ -24,6 +25,7 @@ export const DropdownItem = ({
       {!href ? (
         <div
           onClick={onClick}
+          onMouseDown={onMouseDown}
           className={style}
         >
           {children}
@@ -66,7 +68,7 @@ const Dropdown = ({
 
   const items = () => {
     return (
-      children.map((el) => {
+      children.flat().map((el) => {
         if (el.type.name === "DropdownItem") return el
       })
     )
