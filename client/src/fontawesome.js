@@ -11,15 +11,17 @@ import {
   faCompass,
   faUser,
   faHome,
-  faLightbulb,
+  // faLightbulb,
   faMinus,
   faListUl,
   faListOl,
+  faPencilAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
   faBookmark as faBookmarkRegular,
   faImages,
+  faLightbulb,
 } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
@@ -38,4 +40,5 @@ library.add(
   faMinus,
   faListUl,
   faListOl,
+  faPencilAlt,
 )

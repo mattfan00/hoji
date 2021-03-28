@@ -9,6 +9,8 @@ import FadeInRoute from "./Components/FadeInRoute"
 
 import Home from "./Views/Home"
 import Profile from "./Views/Profile"
+import Settings from "./Views/Settings"
+import Bookmarks from "./Views/Bookmarks"
 import NewThought from "./Views/New/NewThought"
 import NewPost from "./Views/New/NewPost"
 import NewGallery from "./Views/New/NewGallery"
@@ -38,6 +40,8 @@ const Routes = () => {
       >
         <Switch location={location}>
           <FadeRoute exact path="/" component={Home} />
+          <FadeRoute exact path="/settings" component={Settings} />
+          <FadeRoute exact path="/bookmarks" component={Bookmarks} />
           <FadeRoute exact path="/:user" component={Profile} />
 
           <FadeRoute exact path="/thought/new" component={NewThought} />
