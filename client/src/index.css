@@ -32,6 +32,10 @@
   .public-DraftEditorPlaceholder-root {
     @apply text-gray-300 !important
   }
+
+  .RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+    display: none;
+  }
 }
 
 @layer components {

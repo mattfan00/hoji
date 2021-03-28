@@ -1,21 +1,19 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { useHistory } from "react-router-dom"
+import { EditorState, convertToRaw } from 'draft-js';
 import Button from "../../Components/Button"
 import CustomEditor from "../../Components/CustomEditor"
 import CustomInput from "../../Components/CustomInput"
 
 const NewPost = () => {
-  const [text, setText] = useState("")
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
+  const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+  const editor = useRef(null)
   const history = useHistory()
 
   const handleDescriptionChange = (value) => {
     setDescription(value)
-  }
-
-  const handleTextChange = (value) => {
-    setText(value)
   }
 
   const handleTitleChange = (value) => {
@@ -23,8 +21,8 @@ const NewPost = () => {
   }
 
   const submit = () => {
-    console.log(text)
-    history.push("/matt")
+    console.log(convertToRaw(editorState.getCurrentContent()))
+    // history.push("/matt")
   }
 
   const cancel = () => {
@@ -56,12 +54,11 @@ const NewPost = () => {
           // initial="hey"
         />
 
-        {/* <CustomInput
-          placeholder="start writing your post here..."
-          onChange={handleTextChange}
-          // initial="hey"
-        /> */}
-        <CustomEditor />
+        <CustomEditor
+          editor={editor}
+          editorState={editorState}
+          setEditorState={setEditorState}
+        />
       </div>
 
       <div className="flex justify-between items-center">

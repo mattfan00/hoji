@@ -1,10 +1,14 @@
-import React, { useState } from "react"
-import { Editor, EditorState, RichUtils } from 'draft-js';
+import React from "react"
+import { Editor, RichUtils } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import EditorToggleBar from "./EditorToggleBar";
 
-const CustomEditor = () => {
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+const CustomEditor = ({
+  editor,
+  editorState,
+  setEditorState
+}) => {
+  // const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
 
   const styleMap = {
     "BOLD": {
@@ -38,6 +42,24 @@ const CustomEditor = () => {
     setEditorState(newState);
   }
 
+
+  // If the user changes block type before entering any text, we can
+  // either style the placeholder or hide it. Let's just hide it now.
+  let className = 'RichEditor-editor';
+  let contentState = editorState.getCurrentContent();
+  console.log(contentState)
+  if (!contentState.hasText()) {
+    if (
+      contentState
+        .getBlockMap()
+        .first()
+        .getType() !== 'unstyled'
+    ) {
+      console.log("yes")
+      className += ' RichEditor-hidePlaceholder';
+    }
+  }
+
   return (
     <div className="relative">
       <EditorToggleBar
@@ -45,15 +67,18 @@ const CustomEditor = () => {
         onInlineToggle={onInlineToggle}
         onBlockToggle={onBlockToggle}
       />
-      <Editor
-        editorState={editorState}
-        onChange={editorState => setEditorState(editorState)}
-        handleKeyCommand={handleKeyCommand}
-        customStyleMap={styleMap}
-        blockStyleFn={myStyle}
-        placeholder="start writing your post here..."
-        spellCheck={true}
-      />
+      <div className={className}>
+        <Editor
+          ref={editor}
+          editorState={editorState}
+          onChange={editorState => setEditorState(editorState)}
+          handleKeyCommand={handleKeyCommand}
+          customStyleMap={styleMap}
+          blockStyleFn={myStyle}
+          placeholder="start writing your post here..."
+          spellCheck={true}
+        />
+      </div>
     </div>
 
   )

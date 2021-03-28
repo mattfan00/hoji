@@ -7,6 +7,7 @@ const INLINE_STYLES = [
   { label: 'B', style: 'BOLD', className: "font-semibold" },
   { label: 'I', style: 'ITALIC', className: "italic" },
   { label: 'U', style: 'UNDERLINE', className: "underline" },
+  // { label: <FontAwesomeIcon icon="  " />, style: 'CODE' }
 ]
 
 const InlineStyleControls = ({
@@ -57,7 +58,7 @@ const BlockStyleControls = ({
         <Button
           type="text"
           size="sm"
-          className="mr-1 first:ml-1"
+          className="mr-1"
           onMouseDown={(e) => {
             e.preventDefault()
             onToggle(style)
@@ -106,12 +107,12 @@ const HeadingStyleControls = ({
     //     >{label}</Dropdown.Item>
     //   ))}
     // </Dropdown>
-    <div className="flex mt-2 xs:mt-0">
+    <div className="flex">
       {HEADING_TYPES.map(({ label, style }) => (
         <Button
           type="text"
           size="sm"
-          className="mr-1 xs:first:ml-1"
+          className="mr-1"
           onMouseDown={(e) => {
             e.preventDefault()
             onToggle(style)
@@ -129,19 +130,17 @@ const EditorToggleBar = ({
   onBlockToggle,
 }) => {
   return (
-    <div className="flex flex-col xs:flex-row xs:divide-x sticky top-3 z-10 p-1 bg-white mb-4 border border-solid shadow-sm rounded-lg">
+    <div className="flex flex-wrap sticky top-3 z-10 p-1 bg-white mb-4 border border-solid shadow-sm rounded-lg">
 
-      <div class="flex divide-x">
       <InlineStyleControls
         editorState={editorState}
         onToggle={onInlineToggle}
       />
+
       <BlockStyleControls
         editorState={editorState}
         onToggle={onBlockToggle}
       />
-
-      </div>
 
       <HeadingStyleControls
         editorState={editorState}
