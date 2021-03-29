@@ -15,7 +15,8 @@ module.exports = {
       },
       fontSize: {
         // ['font-size', 'line-height']
-        'xxs': ['0.625rem', '1rem']
+        'xxs': ['0.625rem', '1rem'],
+        'xs': ['0.75rem', '1.625']
       },
       animation: {
         'fade-enter': 'enter .25s forwards',

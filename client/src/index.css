@@ -5,7 +5,7 @@
 
 @layer base {
   body {
-    @apply text-sm leading-6
+    @apply text-sm leading-relaxed;
   }
 
   h1 {

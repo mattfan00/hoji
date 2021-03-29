@@ -36,13 +36,13 @@ const Header = () => {
             <FontAwesomeIcon className="fa-fw mr-1.5" icon="user" />
             Profile
           </Dropdown.Item>
-          <Dropdown.Item href="/settings">
-            <FontAwesomeIcon className="fa-fw mr-1.5" icon="cog" />
-            Settings
-          </Dropdown.Item>
           <Dropdown.Item href="/bookmarks">
             <FontAwesomeIcon className="fa-fw mr-1.5" icon="bookmark" />
             Bookmarks
+          </Dropdown.Item>
+          <Dropdown.Item href="/settings">
+            <FontAwesomeIcon className="fa-fw mr-1.5" icon="cog" />
+            Settings
           </Dropdown.Item>
           <Dropdown.Item>
             <FontAwesomeIcon className="fa-fw mr-1.5" icon="sign-out-alt" />

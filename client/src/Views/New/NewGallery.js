@@ -50,7 +50,7 @@ const NewGallery = () => {
       <SelectNew active="gallery" />
 
       <div className="flex mb-2 items-center">
-        <div className="mr-4 font-medium">@mattfan00</div>
+        <div className="mr-4 text-xs font-medium">@mattfan00</div>
         <div className="mr-4 text-xs tracking-wide uppercase text-gray-400">Mar 21, 2021</div>
         {/* <div className="label">gallery</div> */}
       </div>
