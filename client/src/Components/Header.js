@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <header className="flex items-center pt-6 mb-4">
       <div className="flex items-center">
-        <div className="logo w-10 mr-8">
+        <div className="logo w-8 mr-8">
           <Link to="/"><Logo /></Link>
         </div>
         {/* <div className="nav-items flex">
@@ -50,7 +50,12 @@ const Header = () => {
           </Dropdown.Item>
         </Dropdown>
 
-        <Dropdown>
+        <Button className="mr-3" href="/post/new">
+          <FontAwesomeIcon className="mr-1.5" icon="plus" />
+          New
+        </Button>
+
+        {/* <Dropdown>
           <Dropdown.Button>
             <FontAwesomeIcon className="mr-1.5" icon="plus" />
             New
@@ -68,7 +73,7 @@ const Header = () => {
             <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "images"]} />
             Gallery
           </Dropdown.Item>
-        </Dropdown>
+        </Dropdown> */}
       </div>
     </header>
   )

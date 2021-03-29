@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom"
 import Button from "../../Components/Button"
 import CustomInput from "../../Components/CustomInput"
 import FadeAnimation from "../../Components/FadeAnimation"
+import SelectNew from "../../Components/SelectNew"
 
 const NewThought = () => {
   const [text, setText] = useState("")
@@ -28,10 +29,12 @@ const NewThought = () => {
 
   return (
     <div>
+      <SelectNew active="thought" />
+
       <div className="flex mb-2 items-center">
         <div className="mr-4 font-medium">@mattfan00</div>
         <div className="mr-4 text-xs tracking-wide uppercase text-gray-400">Mar 21, 2021</div>
-        <div className="label">thought</div>
+        {/* <div className="label">thought</div> */}
       </div>
 
       <div className="mb-10">
