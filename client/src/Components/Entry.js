@@ -10,7 +10,7 @@ const Thought = ({ content }) => {
 const Post = ({ title, description }) => {
   return (
     <div>
-      <h2 className="mb-2">{title}</h2>
+      <h2>{title}</h2>
       <div>{description}</div>
     </div>
   )

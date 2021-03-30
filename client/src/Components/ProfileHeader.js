@@ -19,7 +19,7 @@ const ProfileHeader = () => {
         <div className="flex-1 flex justify-between items-center">
           <div className="flex flex-col">
             <div className="flex items-baseline">
-              <h2 className="mr-3">Matthew Fan</h2>
+              <h2 className="mb-0 mr-3">Matthew Fan</h2>
               <div className="text-gray-400">he/him</div>
             </div>
             <div>@mattfan00</div>
