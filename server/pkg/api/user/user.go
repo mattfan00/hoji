@@ -1,19 +1,24 @@
 package user
 
-import "github.com/labstack/echo/v4"
+import (
+	"context"
+	"log"
+	"server/pkg/utl/model"
 
-type User struct {
-	Email    string `json:"email"`
-	Name     string `json:"name"`
-	Username string `json:"username"`
-}
+	"github.com/labstack/echo/v4"
+	"go.mongodb.org/mongo-driver/bson"
+)
 
-func Get(c echo.Context) error {
-	newUser := User{
-		Email:    "test@test.com",
-		Name:     "Matthew Fan",
-		Username: "matt",
+func (u UserService) View(c echo.Context) error {
+	var foundUser model.User
+
+	err := u.db.Collection("users").FindOne(context.TODO(), bson.D{
+		{Key: "username", Value: c.Param("username")},
+	}).Decode(&foundUser)
+
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	return c.JSON(200, newUser)
+	return c.JSON(200, foundUser)
 }
