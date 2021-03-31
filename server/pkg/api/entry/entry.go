@@ -8,6 +8,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type createReq struct {
@@ -33,17 +34,18 @@ func (e EntryService) Create(c echo.Context) error {
 }
 
 func (e EntryService) View(c echo.Context) error {
-	var foundUser model.User
+	var foundEntry model.Entry
 
+	oid, _ := primitive.ObjectIDFromHex(c.Param("id"))
 	err := e.db.Collection("entries").FindOne(context.TODO(), bson.D{
-		{Key: "username", Value: c.Param("username")},
-	}).Decode(&foundUser)
+		{Key: "_id", Value: oid},
+	}).Decode(&foundEntry)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	return c.JSON(200, foundUser)
+	return c.JSON(200, foundEntry)
 }
 
 func (e EntryService) List(c echo.Context) error {
