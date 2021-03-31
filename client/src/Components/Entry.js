@@ -16,7 +16,7 @@ const Post = ({ title, description }) => {
   )
 }
 
-const Gallery = ({ caption, photos}) => {
+const Gallery = ({ content, photos}) => {
   const getDisplayedPhotos = () => {
     if (photos.length > 4) {
       if (photos.length == 5) {
@@ -31,7 +31,7 @@ const Gallery = ({ caption, photos}) => {
 
   return (
     <div>
-      <div className="mb-4">{caption}</div>
+      <div className="mb-4">{content}</div>
       <div className="grid xs:grid-cols-5 grid-cols-4 gap-2">
         {getDisplayedPhotos().map(photo => (
           <div style={{'backgroundImage': `url(https://picsum.photos/200/300?random={photo})`}} className="image-card relative bg-cover">
@@ -54,12 +54,10 @@ const Entry = ({
   username,
   date,
   type,
-  // thought
   content,
-  // post
-  title, description,
-  // gallery
-  caption, photos,
+  title,
+  description,
+  photos,
 }) => {
   return (
     <div className="mb-12">
@@ -81,7 +79,7 @@ const Entry = ({
 
       {/* display gallery */}
       {type === "gallery" ? (
-        <Gallery caption={caption} photos={photos} />
+        <Gallery content={content} photos={photos} />
       ) : ""}
     </div>
   )

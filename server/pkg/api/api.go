@@ -1,9 +1,12 @@
 package api
 
 import (
+	"net/http"
+	"server/pkg/api/entry"
 	"server/pkg/api/user"
 	"server/pkg/utl/mongo"
 
+	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -18,10 +21,25 @@ func Start() {
 		Format: "method=${method}, uri=${uri}, status=${status}\n",
 	}))
 
+	e.Validator = &CustomValidator{validator: validator.New()}
+
 	userService := user.New(db)
+	entryService := entry.New(db)
 
 	user.Routes(e, userService)
+	entry.Routes(e, entryService)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))
+}
+
+type CustomValidator struct {
+	validator *validator.Validate
+}
+
+func (cv *CustomValidator) Validate(i interface{}) error {
+	if err := cv.validator.Struct(i); err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+	return nil
 }

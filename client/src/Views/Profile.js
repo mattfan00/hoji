@@ -58,7 +58,7 @@ const Profile = () => {
           username="mattfan00"
           date="Mar 21, 2021"
           type="gallery"
-          caption="food excursions in nyc"
+          content="food excursions in nyc"
           photos={[1, 2, 3, 4]}
         />
       </div>
