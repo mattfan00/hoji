@@ -21,3 +21,11 @@ type UserDetails struct {
 	Description string `json:"description,omitempty" bson:"description,omitempty"`
 	Website     string `json:"website,omitempty" bson:"website,omitempty"`
 }
+
+// the data stored in the JWT
+type AuthUser struct {
+	Id       primitive.ObjectID `json:"_id" bson:"_id"`
+	Name     string             `json:"name" bson:"name"`
+	Username string             `json:"username" bson:"username"`
+	Email    string             `json:"email" bson:"email"`
+}

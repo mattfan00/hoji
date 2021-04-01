@@ -4,10 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
+	"server/pkg/utl/config"
 	"time"
 
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -16,11 +15,7 @@ import (
 // var Db *mongo.Database
 
 func Init() *mongo.Database {
-	if err := godotenv.Load(); err != nil {
-		panic(err)
-	}
-
-	client, err := mongo.NewClient(options.Client().ApplyURI(os.Getenv("MONGO_URI")))
+	client, err := mongo.NewClient(options.Client().ApplyURI(config.Values.MongoURI))
 	if err != nil {
 		log.Fatal(err)
 	}

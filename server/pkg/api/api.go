@@ -5,6 +5,7 @@ import (
 	"server/pkg/api/auth"
 	"server/pkg/api/entry"
 	"server/pkg/api/user"
+	"server/pkg/utl/config"
 	"server/pkg/utl/mongo"
 
 	"github.com/go-playground/validator"
@@ -13,6 +14,8 @@ import (
 )
 
 func Start() {
+	config.Init()
+
 	db := mongo.Init()
 
 	// Echo instance

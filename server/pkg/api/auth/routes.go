@@ -8,4 +8,5 @@ func Routes(e *echo.Echo, a AuthInterface) {
 	auth := e.Group("/auth")
 
 	auth.POST("/register", a.Register)
+	auth.POST("/login", a.Login)
 }

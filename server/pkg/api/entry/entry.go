@@ -41,8 +41,8 @@ func (e EntryService) View(c echo.Context) error {
 	var foundEntry model.Entry
 
 	oid, _ := primitive.ObjectIDFromHex(c.Param("id"))
-	err := e.db.Collection("entries").FindOne(context.TODO(), bson.D{
-		{Key: "_id", Value: oid},
+	err := e.db.Collection("entries").FindOne(context.TODO(), bson.M{
+		"_id": oid,
 	}).Decode(&foundEntry)
 
 	if err != nil {
