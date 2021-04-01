@@ -11,7 +11,7 @@ const ProfileHeader = () => {
   }
 
   return (
-    <div className="mb-16 p-5 rounded-xl shadow-md">
+    <div className="mb-16 p-5 rounded-md border">
       <div className="flex items-center mb-6">
         <div className="mr-5 w-12 h-12 rounded-full overflow-hidden">
           <DefaultProPic />
@@ -20,9 +20,9 @@ const ProfileHeader = () => {
           <div className="flex flex-col">
             <div className="flex items-baseline">
               <h2 className="mb-0 mr-3">Matthew Fan</h2>
-              <div className="text-gray-400">he/him</div>
+              {/* <div className="text-gray-400">he/him</div> */}
             </div>
-            <div>@mattfan00</div>
+            <div>mattfan00</div>
           </div>
           <Button onClick={toggleBookmark}>
             <FontAwesomeIcon icon={[bookmark ? "fas" : "far", "bookmark"]} size="lg" />

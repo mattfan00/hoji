@@ -29,7 +29,7 @@ const Header = () => {
         <Dropdown className="mr-3" >
           <Dropdown.Button>
             {/* <FontAwesomeIcon icon="user" /> */}
-            @mattfan00
+            mattfan00
           </Dropdown.Button>
 
           <Dropdown.Item href="/mattfan00">

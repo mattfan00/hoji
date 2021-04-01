@@ -18,7 +18,7 @@ const Bookmark = ({
         </div>
         <div className="flex flex-col">
           <div className="font-semibold">{name}</div>
-          <div className="text-xs">@{username}</div>
+          <div className="text-xs">{username}</div>
         </div>
       </div>
 

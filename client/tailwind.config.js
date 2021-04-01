@@ -34,6 +34,7 @@ module.exports = {
       }
     },
     fontFamily: {
+      // 'sans': ['Inter'],
       'sans': ['Avenir Next'],
       // 'sans': ['Helvetica Neue']
     },

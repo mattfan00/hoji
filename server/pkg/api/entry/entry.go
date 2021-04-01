@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"server/pkg/utl/model"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson"
@@ -12,10 +13,11 @@ import (
 )
 
 type createReq struct {
-	Type        string `json:"type" validate:"required" bson:"type,omitempty"`
-	Title       string `json:"title" bson:"title,omitempty"`
-	Description string `json:"description" bson:"description,omitempty"`
-	Content     string `json:"content" bson:"content,omitempty"`
+	Type        string    `json:"type" validate:"required" bson:"type,omitempty"`
+	Title       string    `json:"title" bson:"title,omitempty"`
+	Description string    `json:"description" bson:"description,omitempty"`
+	Content     string    `json:"content" bson:"content,omitempty"`
+	Created     time.Time `json:"created" bson:"created,omitempty"`
 }
 
 func (e EntryService) Create(c echo.Context) error {
@@ -28,9 +30,11 @@ func (e EntryService) Create(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
+	body.Created = time.Now()
+
 	entryResult, _ := e.db.Collection("entries").InsertOne(context.TODO(), body)
 
-	return c.JSON(200, entryResult.InsertedID)
+	return c.JSON(http.StatusOK, entryResult.InsertedID)
 }
 
 func (e EntryService) View(c echo.Context) error {
@@ -45,7 +49,7 @@ func (e EntryService) View(c echo.Context) error {
 		log.Fatal(err)
 	}
 
-	return c.JSON(200, foundEntry)
+	return c.JSON(http.StatusOK, foundEntry)
 }
 
 func (e EntryService) List(c echo.Context) error {
@@ -59,5 +63,5 @@ func (e EntryService) List(c echo.Context) error {
 		log.Fatal(err)
 	}
 
-	return c.JSON(200, entries)
+	return c.JSON(http.StatusOK, entries)
 }

@@ -130,7 +130,7 @@ const EditorToggleBar = ({
   onBlockToggle,
 }) => {
   return (
-    <div className="flex flex-wrap sticky top-3 z-10 p-1 bg-white mb-4 border border-solid shadow-sm rounded-lg">
+    <div className="flex flex-wrap sticky top-3 z-10 p-1 bg-white mb-4 border border-solid shadow-sm rounded-md">
 
       <InlineStyleControls
         editorState={editorState}

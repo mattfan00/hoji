@@ -62,7 +62,7 @@ const Entry = ({
   return (
     <div className="mb-12">
       <div className="flex mb-2 items-center">
-        <div className="mr-4 text-xs font-medium">@{username}</div>
+        <div className="mr-4 text-xs font-medium ">{username}</div>
         <div className="mr-4 text-xs tracking-wide uppercase text-gray-400">{date}</div>
         {/* <div className="label">{type}</div> */}
       </div>

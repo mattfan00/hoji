@@ -44,8 +44,8 @@
       bg-gray-100
         font-semibold
         text-xs
-        px-3 py-2
-        rounded-lg
+        px-2.5 py-1.5
+        rounded-md
         focus:outline-none
         hover:bg-gray-200
         transition-colors
@@ -86,16 +86,16 @@
         font-semibold
         text-xxs
         px-2 py-1
-        rounded-lg
+        rounded-md
         focus:outline-none
   }
 
   .input {
-    @apply border border-solid rounded-lg px-3 py-1.5 focus:outline-none
+    @apply border border-solid rounded-md px-3 py-1.5 focus:outline-none
   }
 
   .image-card {
-    @apply w-full bg-gray-100 mr-2 rounded-lg relative bg-cover bg-center;
+    @apply w-full bg-gray-100 mr-2 rounded-md relative bg-cover bg-center;
     padding-top: 120%;
   }
 

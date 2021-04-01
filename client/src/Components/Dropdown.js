@@ -90,7 +90,7 @@ const Dropdown = ({
       <FadeAnimation show={active}>
         <ClickOutside action={closeDropdown}>
           <div className="relative">
-            <div onClick={closeDropdown} className="absolute top-2 w-auto whitespace-nowrap rounded-lg shadow-md bg-white">
+            <div onClick={closeDropdown} className="absolute top-2 w-auto whitespace-nowrap rounded-md shadow-sm bg-white border">
               {items()}
             </div>
           </div>
