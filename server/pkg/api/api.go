@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"server/pkg/api/auth"
 	"server/pkg/api/entry"
 	"server/pkg/api/user"
 	"server/pkg/utl/mongo"
@@ -24,9 +25,11 @@ func Start() {
 	e.Validator = &CustomValidator{validator: validator.New()}
 
 	userService := user.New(db)
+	authService := auth.New(db)
 	entryService := entry.New(db)
 
 	user.Routes(e, userService)
+	auth.Routes(e, authService)
 	entry.Routes(e, entryService)
 
 	// Start server
