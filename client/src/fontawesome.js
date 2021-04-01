@@ -17,6 +17,7 @@ import {
   faListOl,
   faPencilAlt,
   faChevronRight,
+  faSignInAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -43,4 +44,5 @@ library.add(
   faListOl,
   faPencilAlt,
   faChevronRight,
+  faSignInAlt,
 )

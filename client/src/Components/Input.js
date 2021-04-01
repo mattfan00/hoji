@@ -5,15 +5,30 @@ const Input = ({
   name,
   className,
   autocompleteOff,
+  placeholder,
+  type,
+  required,
+  value,
+  onChange,
 }) => {
 
   return (
     <div className={`flex flex-col ${className ? className : ""}`}>
-      <div className="text-xs">{label}</div>
+      {label ? (
+      <div className="text-xs">
+        {label}
+        {required ? <span className="text-red-500 ml-0.5">*</span> : ""}
+      </div>
+      ) : ""}
       <input
         className="input"
         name={name}
         autoComplete={autocompleteOff ? "off" : ""}
+        placeholder={placeholder}
+        type={type}
+        required={required}
+        value={value}
+        onChange={onChange}
       />
     </div>
   )

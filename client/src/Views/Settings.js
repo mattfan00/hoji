@@ -7,9 +7,9 @@ import TextArea from "../Components/TextArea"
 
 const Settings = () => {
   return (
-    <>
+    <div className="max-w-md m-auto">
       <h2>General</h2>
-      <div class="p-8 rounded-md border mb-10">
+      <div class="card p-8 mb-10">
         <div className="flex items-center mb-6">
           <div className="mr-5 w-12 h-12 rounded-full overflow-hidden">
             <DefaultProPic />
@@ -28,7 +28,7 @@ const Settings = () => {
       <h2>Account</h2>
       <div class="p-8 rounded-md border mb-10">
       </div>
-    </>
+    </div>
   )
 }
 

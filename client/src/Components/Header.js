@@ -12,23 +12,10 @@ const Header = () => {
         <div className="logo w-8 mr-8">
           <Link to="/"><Logo /></Link>
         </div>
-        {/* <div className="nav-items flex">
-          <div className="mx-3 font-semibold">
-            <Link to="/">discover</Link>
-          </div>
-          <div className="mx-3 font-semibold">
-            <Link to="/">about</Link>
-          </div>
-        </div> */}
       </div>
       <div className="flex items-center">
-        {/* <Button className="mr-3" href="/mattfan00">
-          <FontAwesomeIcon icon="user" />
-        </Button> */}
-
-        <Dropdown className="mr-3" >
+        <Dropdown className="mr-3">
           <Dropdown.Button>
-            {/* <FontAwesomeIcon icon="user" /> */}
             mattfan00
           </Dropdown.Button>
 
@@ -55,25 +42,9 @@ const Header = () => {
           New
         </Button>
 
-        {/* <Dropdown>
-          <Dropdown.Button>
-            <FontAwesomeIcon className="mr-1.5" icon="plus" />
-            New
-          </Dropdown.Button>
-
-          <Dropdown.Item href="/thought/new">
-            <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "lightbulb"]} />
-            Thought
-          </Dropdown.Item>
-          <Dropdown.Item href="/post/new">
-            <FontAwesomeIcon className="fa-fw mr-1.5" icon="pencil-alt" />
-            Post
-          </Dropdown.Item>
-          <Dropdown.Item href="/gallery/new">
-            <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "images"]} />
-            Gallery
-          </Dropdown.Item>
-        </Dropdown> */}
+        <Button className="mr-3" href="/login">
+          <FontAwesomeIcon icon="sign-in-alt" />
+        </Button>
       </div>
     </header>
   )
