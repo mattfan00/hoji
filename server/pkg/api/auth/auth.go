@@ -78,3 +78,7 @@ func (a AuthService) Login(c echo.Context) error {
 
 	return c.JSON(200, newJwt)
 }
+
+func (a AuthService) Current(c echo.Context) error {
+	return c.JSON(200, c.Get("user"))
+}
