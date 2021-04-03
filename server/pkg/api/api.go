@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"server/pkg/api/auth"
 	"server/pkg/api/entry"
@@ -26,6 +27,7 @@ func Start() {
 	}))
 
 	e.Validator = &CustomValidator{validator: validator.New()}
+	e.HTTPErrorHandler = customHTTPErrorHandler
 
 	userService := user.New(db)
 	authService := auth.New(db)
@@ -48,4 +50,28 @@ func (cv *CustomValidator) Validate(i interface{}) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 	return nil
+}
+
+func customHTTPErrorHandler(err error, c echo.Context) {
+	fmt.Println(err)
+
+	type Response struct {
+		Message interface{} `json:"message"`
+	}
+
+	var (
+		code     int
+		response Response
+	)
+
+	code = http.StatusInternalServerError
+	response = Response{err.Error()}
+
+	switch customError := err.(type) {
+	case *echo.HTTPError:
+		code = customError.Code
+		response = Response{customError.Message}
+	}
+
+	c.JSON(code, response)
 }

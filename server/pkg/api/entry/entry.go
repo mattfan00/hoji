@@ -2,8 +2,8 @@ package entry
 
 import (
 	"context"
-	"log"
 	"net/http"
+	"server/pkg/utl/errors"
 	"server/pkg/utl/model"
 	"time"
 
@@ -32,7 +32,11 @@ func (e EntryService) Create(c echo.Context) error {
 
 	body.Created = time.Now()
 
-	entryResult, _ := e.db.Collection("entries").InsertOne(context.TODO(), body)
+	entryResult, err := e.db.Collection("entries").InsertOne(context.TODO(), body)
+
+	if err != nil {
+		return err
+	}
 
 	return c.JSON(http.StatusOK, entryResult.InsertedID)
 }
@@ -46,7 +50,7 @@ func (e EntryService) View(c echo.Context) error {
 	}).Decode(&foundEntry)
 
 	if err != nil {
-		log.Fatal(err)
+		return errors.NotFound()
 	}
 
 	return c.JSON(http.StatusOK, foundEntry)
@@ -55,12 +59,12 @@ func (e EntryService) View(c echo.Context) error {
 func (e EntryService) List(c echo.Context) error {
 	cursor, err := e.db.Collection("entries").Find(context.TODO(), bson.M{})
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	var entries []model.Entry
 	if err = cursor.All(context.TODO(), &entries); err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	return c.JSON(http.StatusOK, entries)
