@@ -2,7 +2,7 @@ package auth
 
 import (
 	"context"
-	"log"
+	"server/pkg/utl/errors"
 	"server/pkg/utl/jwt"
 	"server/pkg/utl/model"
 	"time"
@@ -10,6 +10,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type registerReq struct {
@@ -28,6 +29,9 @@ func (a AuthService) Register(c echo.Context) error {
 		return err
 	}
 
+	hashed, _ := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
+	body.Password = string(hashed)
+
 	newUser := model.User{
 		Email:    body.Email,
 		Password: body.Password,
@@ -40,14 +44,22 @@ func (a AuthService) Register(c echo.Context) error {
 		Created: time.Now(),
 	}
 
-	registerResult, _ := a.db.Collection("users").InsertOne(context.TODO(), newUser)
+	registerResult, err := a.db.Collection("users").InsertOne(context.TODO(), newUser)
 
-	newJwt, _ := jwt.GenerateToken(model.AuthUser{
+	if err != nil {
+		return err
+	}
+
+	newJwt, err := jwt.GenerateToken(model.AuthUser{
 		Id:       registerResult.InsertedID.(primitive.ObjectID),
 		Name:     newUser.Name,
 		Username: newUser.Username,
 		Email:    newUser.Email,
 	})
+
+	if err != nil {
+		return err
+	}
 
 	return c.JSON(200, newJwt)
 }
@@ -64,17 +76,30 @@ func (a AuthService) Login(c echo.Context) error {
 		return err
 	}
 
-	var foundUser model.AuthUser
+	var foundUser model.User
 
 	err := a.db.Collection("users").FindOne(context.TODO(), bson.M{
 		"email": body.Email,
 	}).Decode(&foundUser)
 
+	// couldn't find user
 	if err != nil {
-		log.Fatal(err)
+		return errors.Unauthorized("Invalid credentials")
 	}
 
-	newJwt, _ := jwt.GenerateToken(foundUser)
+	// check for password
+	err = bcrypt.CompareHashAndPassword([]byte(foundUser.Password), []byte(body.Password))
+
+	if err != nil {
+		return errors.Unauthorized("Invalid credentials")
+	}
+
+	newJwt, _ := jwt.GenerateToken(model.AuthUser{
+		Id:       foundUser.Id,
+		Name:     foundUser.Name,
+		Username: foundUser.Username,
+		Email:    foundUser.Email,
+	})
 
 	return c.JSON(200, newJwt)
 }

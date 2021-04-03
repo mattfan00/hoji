@@ -1,8 +1,8 @@
 package jwt
 
 import (
-	"errors"
 	"server/pkg/utl/config"
+	"server/pkg/utl/errors"
 	"server/pkg/utl/model"
 	"strings"
 
@@ -12,7 +12,7 @@ import (
 func ParseToken(authHeader string) (*jwt.Token, error) {
 	parts := strings.SplitN(authHeader, " ", 2)
 	if !(len(parts) == 2 && parts[0] == "Bearer") {
-		return nil, errors.New("invalid auth header")
+		return nil, errors.BadRequest("Invalid authorization header")
 	}
 
 	signingKey := []byte(config.Values.JWTSecret)
