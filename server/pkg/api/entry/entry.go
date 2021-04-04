@@ -26,8 +26,9 @@ func (e EntryService) Create(c echo.Context) error {
 	if err := c.Bind(&body); err != nil {
 		return err
 	}
+
 	if err := c.Validate(body); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return err
 	}
 
 	body.Created = time.Now()

@@ -1,31 +1,79 @@
 package errors
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 )
 
-func NotFound() *echo.HTTPError {
-	return echo.NewHTTPError(http.StatusNotFound, "Not found")
+type response struct {
+	Message interface{} `json:"message"`
 }
 
-func BadRequest(msgOpt ...string) *echo.HTTPError {
-	msg := "Bad request"
-
-	if len(msgOpt) > 0 {
-		msg = msgOpt[0]
-	}
-
-	return echo.NewHTTPError(http.StatusBadRequest, msg)
+type validationMessage struct {
+	Field string `json:"field"`
+	Msg   string `json:"msg"`
 }
 
-func Unauthorized(msgOpt ...string) *echo.HTTPError {
-	msg := "Not authorized"
+func getValidationMessage(tag string, param string) string {
+	switch tag {
+	case "required":
+		return "Field is required but was not received"
+	case "email":
+		return "Email must be valid"
+	case "min":
+		return fmt.Sprintf("Must be at minimum %s characters", param)
+	}
+	return ""
+}
 
-	if len(msgOpt) > 0 {
-		msg = msgOpt[0]
+func CustomHTTPErrorHandler(err error, c echo.Context) {
+	var (
+		code int
+		resp response
+	)
+
+	code = http.StatusInternalServerError
+	resp = response{err.Error()}
+
+	switch customError := err.(type) {
+
+	case *echo.HTTPError:
+		code = customError.Code
+		resp.Message = customError.Message
+
+	case validator.ValidationErrors:
+		code = http.StatusBadRequest
+
+		var errMessages []validationMessage
+
+		for _, valError := range customError {
+			newValidationMessage := validationMessage{
+				Field: valError.Field(),
+				Msg:   getValidationMessage(valError.ActualTag(), valError.Param()),
+			}
+
+			errMessages = append(
+				errMessages,
+				newValidationMessage,
+			)
+		}
+
+		resp.Message = errMessages
 	}
 
-	return echo.NewHTTPError(http.StatusUnauthorized, msg)
+	c.JSON(code, resp)
+}
+
+type CustomValidator struct {
+	Validator *validator.Validate
+}
+
+func (cv *CustomValidator) Validate(i interface{}) error {
+	if err := cv.Validator.Struct(i); err != nil {
+		return err
+	}
+	return nil
 }

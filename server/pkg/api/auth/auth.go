@@ -14,10 +14,10 @@ import (
 )
 
 type registerReq struct {
-	Email       string `json:"email" bson:"email"`
-	Password    string `json:"password" bson:"password"`
-	Name        string `json:"name" bson:"name"`
-	Username    string `json:"username" bson:"username"`
+	Email       string `json:"email" bson:"email" validate:"required,email"`
+	Password    string `json:"password" bson:"password" validate:"required,min=4"`
+	Name        string `json:"name" bson:"name" validate:"required"`
+	Username    string `json:"username" bson:"username" validate:"required"`
 	Description string `json:"description,omitempty" bson:"description,omitempty"`
 	Website     string `json:"website,omitempty" bson:"website,omitempty"`
 }
@@ -27,6 +27,24 @@ func (a AuthService) Register(c echo.Context) error {
 
 	if err := c.Bind(&body); err != nil {
 		return err
+	}
+
+	if err := c.Validate(body); err != nil {
+		return err
+	}
+
+	var foundUser model.User
+
+	// check if email exists already
+	err := a.db.Collection("users").FindOne(context.TODO(), bson.M{"email": body.Email}).Decode(&foundUser)
+	if err == nil {
+		return errors.BadRequest("There is an account with this email already")
+	}
+
+	// check if username exists already
+	err = a.db.Collection("users").FindOne(context.TODO(), bson.M{"username": body.Username}).Decode(&foundUser)
+	if err == nil {
+		return errors.BadRequest("This username is in use already")
 	}
 
 	hashed, _ := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
@@ -65,14 +83,18 @@ func (a AuthService) Register(c echo.Context) error {
 }
 
 type loginReq struct {
-	Email    string `json:"email" bson:"email"`
-	Password string `json:"password" bson:"password"`
+	Email    string `json:"email" bson:"email" validate:"required"`
+	Password string `json:"password" bson:"password" validate:"required"`
 }
 
 func (a AuthService) Login(c echo.Context) error {
 	body := new(loginReq)
 
 	if err := c.Bind(&body); err != nil {
+		return err
+	}
+
+	if err := c.Validate(body); err != nil {
 		return err
 	}
 
