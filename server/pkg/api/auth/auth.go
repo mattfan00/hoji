@@ -2,7 +2,6 @@ package auth
 
 import (
 	"context"
-	"net/http"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/jwt"
 	"server/pkg/utl/model"
@@ -69,18 +68,22 @@ func (a AuthService) Register(c echo.Context) error {
 		return err
 	}
 
-	newJwt, err := jwt.GenerateToken(model.AuthUser{
+	newAuthUser := model.AuthUser{
 		Id:       registerResult.InsertedID.(primitive.ObjectID),
 		Name:     newUser.Name,
 		Username: newUser.Username,
 		Email:    newUser.Email,
-	})
+	}
+
+	newJwt, err := jwt.GenerateToken(newAuthUser)
 
 	if err != nil {
 		return err
 	}
 
-	return c.JSON(200, newJwt)
+	jwt.CreateCookie(c, "token", newJwt)
+
+	return c.JSON(200, newAuthUser)
 }
 
 type loginReq struct {
@@ -126,12 +129,7 @@ func (a AuthService) Login(c echo.Context) error {
 
 	newJwt, _ := jwt.GenerateToken(newAuthUser)
 
-	cookie := new(http.Cookie)
-	cookie.Name = "token"
-	cookie.Value = newJwt
-	cookie.Secure = false
-	cookie.HttpOnly = true
-	c.SetCookie(cookie)
+	jwt.CreateCookie(c, "token", newJwt)
 
 	return c.JSON(200, newAuthUser)
 }
