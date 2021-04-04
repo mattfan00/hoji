@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"net/http"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/jwt"
 	"server/pkg/utl/model"
@@ -116,14 +117,23 @@ func (a AuthService) Login(c echo.Context) error {
 		return errors.Unauthorized("Invalid credentials")
 	}
 
-	newJwt, _ := jwt.GenerateToken(model.AuthUser{
+	newAuthUser := model.AuthUser{
 		Id:       foundUser.Id,
 		Name:     foundUser.Name,
 		Username: foundUser.Username,
 		Email:    foundUser.Email,
-	})
+	}
 
-	return c.JSON(200, newJwt)
+	newJwt, _ := jwt.GenerateToken(newAuthUser)
+
+	cookie := new(http.Cookie)
+	cookie.Name = "token"
+	cookie.Value = newJwt
+	cookie.Secure = false
+	cookie.HttpOnly = true
+	c.SetCookie(cookie)
+
+	return c.JSON(200, newAuthUser)
 }
 
 func (a AuthService) Current(c echo.Context) error {

@@ -25,6 +25,10 @@ func Start() {
 		Format: "method=${method}, uri=${uri}, status=${status}\n",
 	}))
 
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowCredentials: true,
+	}))
+
 	e.Validator = &errors.CustomValidator{Validator: validator.New()}
 	e.HTTPErrorHandler = errors.CustomHTTPErrorHandler
 

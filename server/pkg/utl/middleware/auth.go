@@ -12,7 +12,13 @@ import (
 
 func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		token, err := jwt.ParseToken(c.Request().Header.Get("Authorization"))
+		cookie, err := c.Cookie("token")
+		if err != nil {
+			return errors.BadRequest("Invalid cookie")
+		}
+
+		//token, err := jwt.ParseToken(c.Request().Header.Get("Authorization"))
+		token, err := jwt.ParseToken(cookie.Value)
 
 		if err != nil {
 			return err

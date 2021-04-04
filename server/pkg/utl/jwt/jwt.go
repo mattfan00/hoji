@@ -2,22 +2,24 @@ package jwt
 
 import (
 	"server/pkg/utl/config"
-	"server/pkg/utl/errors"
+	//"server/pkg/utl/errors"
 	"server/pkg/utl/model"
-	"strings"
+	//"strings"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
-func ParseToken(authHeader string) (*jwt.Token, error) {
-	parts := strings.SplitN(authHeader, " ", 2)
-	if !(len(parts) == 2 && parts[0] == "Bearer") {
-		return nil, errors.BadRequest("Invalid authorization header")
-	}
+func ParseToken(token string) (*jwt.Token, error) {
+	/*
+		parts := strings.SplitN(authHeader, " ", 2)
+		if !(len(parts) == 2 && parts[0] == "Bearer") {
+			return nil, errors.BadRequest("Invalid authorization header")
+		}
+	*/
 
 	signingKey := []byte(config.Values.JWTSecret)
 
-	return jwt.Parse(parts[1], func(token *jwt.Token) (interface{}, error) {
+	return jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
 		return signingKey, nil
 	})
 }

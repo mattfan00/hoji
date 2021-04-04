@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import './fontawesome'
+import axios from "axios"
+
+axios.defaults.baseURL = "http://localhost:8080"
+axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.withCredentials = true
 
 ReactDOM.render(
   <React.StrictMode>

@@ -1,7 +1,9 @@
 import React, { useState } from "react"
+import { useHistory } from "react-router-dom"
 import Input from "../../Components/Input"
 import Button from "../../Components/Button"
 import { Link } from "react-router-dom"
+import axios from "axios"
 // import GoogleButton from "../../Components/GoogleButton"
 // import GoogleLogin from "react-google-login"
 
@@ -10,12 +12,25 @@ const Login = () => {
     email: "",
     password: "",
   })
+  
+  const history = useHistory()
   // const responseGoogle = (data) => {
   //   console.log(data)
   // }
 
   const isLoginDisabled = () => {
     return fields.email === "" || fields.password === ""
+  }
+
+  const login = async () => {
+    const loginResult = await axios.post("/auth/login", {
+      email: fields.email,
+      password: fields.password
+    })
+
+    console.log(loginResult.data)
+
+    history.push("/")
   }
 
   return (
@@ -51,6 +66,7 @@ const Login = () => {
       <Button
         className="w-full" type="primary"
         disabled={isLoginDisabled()}
+        onClick={login}
        >Login</Button>
       <div className="text-center mt-2 text-xs">Don't have an account? <Link to="/register">Register</Link></div>
     </div>
