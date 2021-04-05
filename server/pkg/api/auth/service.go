@@ -9,6 +9,7 @@ type AuthInterface interface {
 	Register(echo.Context) error
 	Login(echo.Context) error
 	Current(echo.Context) error
+	Logout(echo.Context) error
 }
 
 type AuthService struct {

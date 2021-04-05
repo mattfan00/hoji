@@ -137,3 +137,9 @@ func (a AuthService) Login(c echo.Context) error {
 func (a AuthService) Current(c echo.Context) error {
 	return c.JSON(200, c.Get("user"))
 }
+
+func (a AuthService) Logout(c echo.Context) error {
+	jwt.DeleteCookie(c, "token")
+
+	return c.JSON(200, "Logged out")
+}

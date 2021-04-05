@@ -8,11 +8,15 @@ const Profile = () => {
   const [profile, setProfile] = useState(null)
   const { username } = useParams()
 
-  useEffect(async () => {
-    const profileResult = await axios.get(`/user/${username}`)
-    console.log(profileResult.data)
+  useEffect(() => {
+    const getProfile = async () => {
+      const profileResult = await axios.get(`/user/${username}`)
+      console.log(profileResult.data)
 
-    setProfile(profileResult.data)
+      setProfile(profileResult.data)
+    }
+
+    getProfile()
   }, [])
 
   return (

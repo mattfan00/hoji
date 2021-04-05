@@ -14,3 +14,12 @@ func CreateCookie(c echo.Context, name string, value string) {
 	cookie.HttpOnly = true
 	c.SetCookie(cookie)
 }
+
+func DeleteCookie(c echo.Context, name string) {
+	cookie := new(http.Cookie)
+	cookie.Name = name
+	cookie.MaxAge = -1
+	cookie.Secure = false
+	cookie.HttpOnly = true
+	c.SetCookie(cookie)
+}

@@ -12,4 +12,5 @@ func Routes(e *echo.Echo, a AuthInterface) {
 	auth.POST("/register", a.Register)
 	auth.POST("/login", a.Login)
 	auth.GET("/me", a.Current, middleware.Auth)
+	auth.GET("/logout", a.Logout, middleware.Auth)
 }
