@@ -50,7 +50,7 @@ const Routes = () => {
           <FadeRoute exact path="/login" component={Login} />
           <FadeRoute exact path="/register" component={Register} />
 
-          <FadeRoute exact path="/:user" component={Profile} />
+          <FadeRoute exact path="/:username" component={Profile} />
 
           <FadeRoute exact path="/thought/new" component={NewThought} />
           <FadeRoute exact path="/post/new" component={NewPost} />

@@ -6,6 +6,11 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type UserDetails struct {
+	Description string `json:"description,omitempty" bson:"description,omitempty"`
+	Website     string `json:"website,omitempty" bson:"website,omitempty"`
+}
+
 type User struct {
 	Id       primitive.ObjectID `json:"_id" bson:"_id,omitempty"`
 	Email    string             `json:"email"`
@@ -17,9 +22,13 @@ type User struct {
 	Created  time.Time          `json:"created"`
 }
 
-type UserDetails struct {
-	Description string `json:"description,omitempty" bson:"description,omitempty"`
-	Website     string `json:"website,omitempty" bson:"website,omitempty"`
+type PublicUser struct {
+	Id       primitive.ObjectID `json:"_id" bson:"_id,omitempty"`
+	Email    string             `json:"email"`
+	Name     string             `json:"name"`
+	Username string             `json:"username"`
+	Details  UserDetails        `json:"details"`
+	Entries  []string           `json:"entries"`
 }
 
 // the data stored in the JWT

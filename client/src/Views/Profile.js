@@ -1,11 +1,27 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
 import ProfileHeader from "../Components/ProfileHeader"
 import Entry from "../Components/Entry"
+import axios from "axios"
 
 const Profile = () => {
+  const [profile, setProfile] = useState(null)
+  const { username } = useParams()
+
+  useEffect(async () => {
+    const profileResult = await axios.get(`/user/${username}`)
+    console.log(profileResult.data)
+
+    setProfile(profileResult.data)
+  }, [])
+
   return (
     <div>
-      <ProfileHeader />
+      <ProfileHeader 
+        name={profile?.name}
+        username={profile?.username}
+        description={profile?.details.description}
+      />
 
       <div>
         <Entry

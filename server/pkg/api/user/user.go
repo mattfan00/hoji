@@ -10,7 +10,7 @@ import (
 )
 
 func (u UserService) View(c echo.Context) error {
-	var foundUser model.User
+	var foundUser model.PublicUser
 
 	err := u.db.Collection("users").FindOne(context.TODO(), bson.M{
 		"username": c.Param("username"),

@@ -1,9 +1,10 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { useHistory } from "react-router-dom"
 import Input from "../../Components/Input"
 import Button from "../../Components/Button"
 import { Link } from "react-router-dom"
 import axios from "axios"
+import { AuthContext } from "../../Context/AuthContext"
 // import GoogleButton from "../../Components/GoogleButton"
 // import GoogleLogin from "react-google-login"
 
@@ -14,6 +15,8 @@ const Login = () => {
   })
   
   const history = useHistory()
+  const { setUser } = useContext(AuthContext)
+
   // const responseGoogle = (data) => {
   //   console.log(data)
   // }
@@ -28,9 +31,9 @@ const Login = () => {
       password: fields.password
     })
 
-    console.log(loginResult.data)
+    setUser(loginResult.data)
 
-    history.push("/")
+    history.push(`/${loginResult.data.username}`)
   }
 
   return (
