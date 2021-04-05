@@ -91,7 +91,7 @@ const NewGallery = () => {
             className="mr-2"
             type="primary"
             onClick={submit}
-            disabled={text.length == 0 || charLeft() < 0}
+            disabled={text.length === 0 || charLeft() < 0}
           >Submit</Button>
           <Button onClick={cancel}>Cancel</Button>
         </div>

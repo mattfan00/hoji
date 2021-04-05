@@ -10,7 +10,7 @@ import (
 )
 
 func (u UserService) View(c echo.Context) error {
-	var foundUser model.PublicUser
+	var foundUser model.User
 
 	err := u.db.Collection("users").FindOne(context.TODO(), bson.M{
 		"username": c.Param("username"),
@@ -19,6 +19,18 @@ func (u UserService) View(c echo.Context) error {
 	if err != nil {
 		return errors.NotFound()
 	}
+
+	// populate the entries
+	entriesCursor, err := u.db.Collection("entries").Find(context.TODO(), bson.M{
+		"_id": bson.M{"$in": foundUser.Entries},
+	})
+
+	var entries []model.Entry
+	if err = entriesCursor.All(context.TODO(), &entries); err != nil {
+		return err
+	}
+
+	foundUser.Entries = entries
 
 	return c.JSON(200, foundUser)
 }

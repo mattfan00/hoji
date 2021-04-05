@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react"
 import { Link } from "react-router-dom"
 import Button from "./Button"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import FadeAnimation from "./FadeAnimation"
 import ClickOutside from "./ClickOutside"
 
@@ -51,7 +50,7 @@ const Dropdown = ({
   const [active, setActive] = useState(false)
   const buttonRef = useRef(null)
 
-  const toggleDropdown = (e) => {
+  const toggleDropdown = () => {
     setActive(!active)
   }
 

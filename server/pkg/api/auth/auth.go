@@ -59,6 +59,7 @@ func (a AuthService) Register(c echo.Context) error {
 			Description: body.Description,
 			Website:     body.Website,
 		},
+		Entries: []string{},
 		Created: time.Now(),
 	}
 

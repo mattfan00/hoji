@@ -14,11 +14,11 @@ type UserDetails struct {
 type User struct {
 	Id       primitive.ObjectID `json:"_id" bson:"_id,omitempty"`
 	Email    string             `json:"email"`
-	Password string             `json:"password"`
+	Password string             `json:"-"`
 	Name     string             `json:"name"`
 	Username string             `json:"username"`
 	Details  UserDetails        `json:"details"`
-	Entries  []string           `json:"entries"`
+	Entries  interface{}        `json:"entries"`
 	Created  time.Time          `json:"created"`
 }
 

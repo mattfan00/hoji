@@ -13,11 +13,10 @@ import (
 )
 
 type createReq struct {
-	Type        string    `json:"type" validate:"required" bson:"type,omitempty"`
-	Title       string    `json:"title" bson:"title,omitempty"`
-	Description string    `json:"description" bson:"description,omitempty"`
-	Content     string    `json:"content" bson:"content,omitempty"`
-	Created     time.Time `json:"created" bson:"created,omitempty"`
+	Type        string `json:"type" validate:"required" bson:"type,omitempty"`
+	Title       string `json:"title" bson:"title,omitempty"`
+	Description string `json:"description" bson:"description,omitempty"`
+	Content     string `json:"content" bson:"content,omitempty"`
 }
 
 func (e EntryService) Create(c echo.Context) error {
@@ -31,9 +30,24 @@ func (e EntryService) Create(c echo.Context) error {
 		return err
 	}
 
-	body.Created = time.Now()
+	currUser := c.Get("user").(model.AuthUser)
 
-	entryResult, err := e.db.Collection("entries").InsertOne(context.TODO(), body)
+	newEntry := model.Entry{
+		Author:      currUser.Username,
+		Type:        body.Type,
+		Title:       body.Title,
+		Description: body.Description,
+		Content:     body.Content,
+		Created:     time.Now(),
+	}
+
+	entryResult, err := e.db.Collection("entries").InsertOne(context.TODO(), newEntry)
+
+	_, err = e.db.Collection("users").UpdateOne(
+		context.TODO(),
+		bson.M{"username": currUser.Username},
+		bson.M{"$push": bson.M{"entries": entryResult.InsertedID}},
+	)
 
 	if err != nil {
 		return err

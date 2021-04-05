@@ -27,11 +27,6 @@ const CustomEditor = ({
     return 'not-handled';
   }
 
-  const myStyle = (contentBlock) => {
-    const type = contentBlock.getType()
-    // console.log(type)
-  }
-
   const onInlineToggle = (inlineStyle) => {
     const newState = RichUtils.toggleInlineStyle(editorState, inlineStyle)
     setEditorState(newState)
@@ -55,7 +50,6 @@ const CustomEditor = ({
         .first()
         .getType() !== 'unstyled'
     ) {
-      console.log("yes")
       className += ' RichEditor-hidePlaceholder';
     }
   }
@@ -74,7 +68,6 @@ const CustomEditor = ({
           onChange={editorState => setEditorState(editorState)}
           handleKeyCommand={handleKeyCommand}
           customStyleMap={styleMap}
-          blockStyleFn={myStyle}
           placeholder="start writing your post here..."
           spellCheck={true}
         />
