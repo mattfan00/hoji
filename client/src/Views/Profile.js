@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import ProfileHeader from "../Components/ProfileHeader"
 import Entry from "../Components/Entry"
 import axios from "axios"
@@ -38,16 +38,18 @@ const Profile = () => {
           content,
           photos,
         }) => (
-          <Entry
-            key={_id}
-            author={author}
-            created={created}
-            type={type}
-            title={title}
-            description={description}
-            content={content}
-            photos={photos}
-          />
+          <Link to={`/entry/${_id}`}>
+            <Entry
+              key={_id}
+              author={author}
+              created={created}
+              type={type}
+              title={title}
+              description={description}
+              content={content}
+              photos={photos}
+            />
+          </Link>
         ))}
 
         <Entry

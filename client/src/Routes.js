@@ -11,6 +11,7 @@ import Home from "./Views/Home"
 import Profile from "./Views/Profile"
 import Settings from "./Views/Settings"
 import Bookmarks from "./Views/Bookmarks"
+import Entry from "./Views/Entry"
 
 import Login from "./Views/Auth/Login"
 import Register from "./Views/Auth/Register"
@@ -46,6 +47,7 @@ const Routes = () => {
           <FadeRoute exact path="/" component={Home} />
           <FadeRoute exact path="/settings" component={Settings} />
           <FadeRoute exact path="/bookmarks" component={Bookmarks} />
+          <FadeRoute exact path="/entry/:id" component={Entry} />
 
           <FadeRoute exact path="/login" component={Login} />
           <FadeRoute exact path="/register" component={Register} />

@@ -27,7 +27,7 @@ const ProfileHeader = ({
             <h3 className="mb-0">{name}</h3>
             <div className="leading-3">@{username}</div>
           </div>
-          {user?.username !== username ? (
+          {user && user.username !== username ? (
           <Button onClick={toggleBookmark}>
             <FontAwesomeIcon icon={[bookmark ? "fas" : "far", "bookmark"]} size="lg" />
           </Button>
