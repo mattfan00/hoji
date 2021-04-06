@@ -24,6 +24,7 @@ import {
   faBookmark as faBookmarkRegular,
   faImages,
   faLightbulb,
+  faCommentAlt,
 } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
@@ -45,4 +46,5 @@ library.add(
   faPencilAlt,
   faChevronRight,
   faSignInAlt,
+  faCommentAlt,
 )

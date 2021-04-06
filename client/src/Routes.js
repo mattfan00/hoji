@@ -16,6 +16,7 @@ import Entry from "./Views/Entry"
 import Login from "./Views/Auth/Login"
 import Register from "./Views/Auth/Register"
 
+import NewEntry from "./Views/NewEntry"
 import NewThought from "./Views/New/NewThought"
 import NewPost from "./Views/New/NewPost"
 import NewGallery from "./Views/New/NewGallery"
@@ -51,6 +52,8 @@ const Routes = () => {
 
           <FadeRoute exact path="/login" component={Login} />
           <FadeRoute exact path="/register" component={Register} />
+
+          <FadeRoute exact path="/new" component={NewEntry} />
 
           <FadeRoute exact path="/:username" component={Profile} />
 

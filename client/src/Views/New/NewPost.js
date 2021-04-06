@@ -1,10 +1,13 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useContext } from "react"
 import { useHistory } from "react-router-dom"
 import { EditorState, convertToRaw } from 'draft-js';
 import Button from "../../Components/Button"
 import CustomEditor from "../../Components/CustomEditor"
 import CustomInput from "../../Components/CustomInput"
 import SelectNew from "../../Components/SelectNew"
+import EntryHeader from "../../Components/Entry/EntryHeader"
+import dayjs from "dayjs"
+import { AuthContext } from "../../Context/AuthContext"
 
 const NewPost = () => {
   const [title, setTitle] = useState("")
@@ -12,6 +15,7 @@ const NewPost = () => {
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
   const editor = useRef(null)
   const history = useHistory()
+  const { user } = useContext(AuthContext)
 
   const handleDescriptionChange = (value) => {
     setDescription(value)
@@ -34,13 +38,12 @@ const NewPost = () => {
     <div>
       <SelectNew active="post" />
 
-      <div className="flex mb-2 items-center">
-        <div className="mr-4 text-xs font-medium">@mattfan00</div>
-        <div className="mr-4 text-xs tracking-wide uppercase text-gray-400">Mar 21, 2021</div>
-        {/* <div className="label">post</div> */}
-      </div>
+      <EntryHeader 
+        author={user?.username}
+        created={dayjs().format()}
+      />
 
-      <div className="mb-10">
+      <div className="mb-20">
         <CustomInput
           className="mb-2"
           placeholder="give your post a title..."
