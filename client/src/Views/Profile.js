@@ -19,6 +19,14 @@ const Profile = () => {
     getProfile()
   }, [])
 
+  const sortedEntries = () => {
+    return profile?.entries.sort((a, b) => {
+      const aDate = new Date(a.created)
+      const bDate = new Date(b.created)
+      return bDate - aDate
+    })
+  }
+
   return (
     <div>
       <ProfileHeader 
@@ -28,7 +36,7 @@ const Profile = () => {
       />
 
       <div>
-        {profile?.entries.map(({
+        {sortedEntries()?.map(({
           _id, 
           author, 
           created,

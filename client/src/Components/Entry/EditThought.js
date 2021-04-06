@@ -1,8 +1,22 @@
 import React from "react"
+import CustomInput from "../CustomInput"
 
-const EditThought = () => {
+const EditThought = ({
+  onContentChange,
+}) => {
+  const handleChange = (value) => {
+    onContentChange(value.replace("\n\n", "\n"))
+  }
+   
   return (
-    <div>edit a thought</div>
+    <>
+      <CustomInput
+        placeholder="ideate your thought here..."
+        onChange={handleChange}
+        autofocus
+        // initial="hey"
+      />
+    </>
   )
 }
 
