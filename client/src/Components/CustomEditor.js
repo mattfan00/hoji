@@ -42,7 +42,6 @@ const CustomEditor = ({
   // either style the placeholder or hide it. Let's just hide it now.
   let className = 'RichEditor-editor';
   let contentState = editorState.getCurrentContent();
-  console.log(contentState)
   if (!contentState.hasText()) {
     if (
       contentState

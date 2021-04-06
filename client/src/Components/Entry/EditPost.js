@@ -1,8 +1,45 @@
-import React from "react"
+import React, { useState } from "react"
+import CustomInput from "../CustomInput"
+import CustomEditor from "../CustomEditor"
 
-const EditPost = () => {
+const EditPost = ({
+  editor,
+  editorState,
+  setEditorState,
+  onTitleChange,
+  onDescriptionChange,
+}) => {
+  const handleTitleChange = (value) => {
+    onTitleChange(value)
+  }
+
+  const handleDescriptionChange = (value) => {
+    onDescriptionChange(value)
+  }
   return (
-    <div>edit a post</div>
+    <>
+      <CustomInput
+        className="mb-2"
+        placeholder="give your post a title..."
+        onChange={handleTitleChange}
+        autofocus
+        // initial="hey"
+        tagName="h2"
+      />
+
+      <CustomInput
+        className="mb-10"
+        placeholder="give your post a description..."
+        onChange={handleDescriptionChange}
+        // initial="hey"
+      />
+
+      <CustomEditor
+        editor={editor}
+        editorState={editorState}
+        setEditorState={setEditorState}
+      />
+    </>
   )
 }
 

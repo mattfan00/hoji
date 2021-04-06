@@ -1,7 +1,6 @@
 import React from "react"
 import Button from "./Button"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import Dropdown from "./Dropdown"
 
 const INLINE_STYLES = [
   { label: 'B', style: 'BOLD', className: "font-semibold" },
@@ -20,6 +19,7 @@ const InlineStyleControls = ({
     <div className="flex">
       {INLINE_STYLES.map(({ label, style, className }) => (
         <Button
+          key={className}
           type="text"
           size="sm"
           className={`mr-1 ${className ? className : ""}`}
@@ -56,6 +56,7 @@ const BlockStyleControls = ({
     <div className="flex">
       {BLOCK_TYPES.map(({ label, style }) => (
         <Button
+          key={style}
           type="text"
           size="sm"
           className="mr-1"
@@ -110,6 +111,7 @@ const HeadingStyleControls = ({
     <div className="flex">
       {HEADING_TYPES.map(({ label, style }) => (
         <Button
+          key={style}
           type="text"
           size="sm"
           className="mr-1"
