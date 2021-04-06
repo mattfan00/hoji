@@ -9,6 +9,12 @@ const Post = ({
 }) => {
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
 
+  const styleMap = {
+    "BOLD": {
+      fontWeight: 600
+    }
+  }
+
   useEffect(() => {
     if (expanded) {
       const contentState = convertFromRaw(JSON.parse(content))
@@ -19,10 +25,11 @@ const Post = ({
   return (
     <div>
       <h2>{title}</h2>
-      <div className={`${expanded ? "mb-10" : ""}`}>{description}</div>
+      <div className={`${expanded ? "mb-12" : ""}`}>{description}</div>
       {expanded ? (
         <Editor
           editorState={editorState}
+          customStyleMap={styleMap}
           readOnly={true}
         />
       ) : ""}

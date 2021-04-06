@@ -19,7 +19,6 @@ const EditPost = ({
   return (
     <>
       <CustomInput
-        className="mb-2"
         placeholder="give your post a title..."
         onChange={handleTitleChange}
         autofocus
@@ -28,7 +27,7 @@ const EditPost = ({
       />
 
       <CustomInput
-        className="mb-10"
+        className="mb-12"
         placeholder="give your post a description..."
         onChange={handleDescriptionChange}
         // initial="hey"

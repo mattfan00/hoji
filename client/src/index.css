@@ -36,6 +36,10 @@
   .RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
     display: none;
   }
+
+  div > .public-DraftStyleDefault-block {
+    @apply mb-4;
+  }
 }
 
 @layer components {
