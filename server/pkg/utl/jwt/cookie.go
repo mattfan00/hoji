@@ -6,21 +6,26 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+func BaseCookie() http.Cookie {
+	return http.Cookie{
+		Path:     "/",
+		Secure:   false,
+		HttpOnly: true,
+	}
+}
+
 func CreateCookie(c echo.Context, name string, value string) {
-	cookie := new(http.Cookie)
+	cookie := BaseCookie()
 	cookie.Name = name
 	cookie.Value = value
-	cookie.Path = "/"
-	cookie.Secure = false
-	cookie.HttpOnly = true
-	c.SetCookie(cookie)
+
+	c.SetCookie(&cookie)
 }
 
 func DeleteCookie(c echo.Context, name string) {
-	cookie := new(http.Cookie)
+	cookie := BaseCookie()
 	cookie.Name = name
 	cookie.MaxAge = -1
-	cookie.Secure = false
-	cookie.HttpOnly = true
-	c.SetCookie(cookie)
+
+	c.SetCookie(&cookie)
 }
