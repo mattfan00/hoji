@@ -33,6 +33,7 @@ const Entry = ({
         <Post 
           title={title} 
           description={description} 
+          content={content}
           expanded={expanded} 
         />
       ) : ""}

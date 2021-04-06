@@ -4,7 +4,7 @@ import Entry from "../Components/Entry"
 import axios from "axios"
 
 const EntryView = () => {
-  const [entry, setEntry] = useState(null)
+  const [entry, setEntry] = useState({})
   const { id } = useParams()
 
   useEffect(() => {
