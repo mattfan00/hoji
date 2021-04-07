@@ -10,7 +10,7 @@ const SelectNew = ({
     <div className="flex mb-10">
       <Button 
         size="sm" active={active === "post"} className="mr-3"
-        type="text"
+        variant="text"
         onClick={() => onChange("post")}
       >
         <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "comment-alt"]} />
@@ -18,7 +18,7 @@ const SelectNew = ({
       </Button>
       <Button 
         size="sm" active={active === "thought"} className="mr-3"
-        type="text"
+        variant="text"
         onClick={() => onChange("thought")}
       >
         <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "lightbulb"]} />
@@ -26,7 +26,7 @@ const SelectNew = ({
       </Button>
       <Button 
         size="sm" active={active === "gallery"} className="mr-3"
-        type="text"
+        variant="text"
         onClick={() => onChange("gallery")}
       >
         <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "images"]} />

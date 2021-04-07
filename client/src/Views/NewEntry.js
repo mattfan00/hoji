@@ -107,7 +107,7 @@ const NewEntry = () => {
         <div className="flex">
           <Button
             className="mr-2"
-            type="primary"
+            variant="primary"
             disabled={submitDisabled()}
             onClick={submit}
           >Submit</Button>

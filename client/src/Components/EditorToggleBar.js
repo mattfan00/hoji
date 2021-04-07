@@ -20,7 +20,7 @@ const InlineStyleControls = ({
       {INLINE_STYLES.map(({ label, style, className }) => (
         <Button
           key={className}
-          type="text"
+          variant="text"
           size="sm"
           className={`mr-1 ${className ? className : ""}`}
           onMouseDown={(e) => {
@@ -57,7 +57,7 @@ const BlockStyleControls = ({
       {BLOCK_TYPES.map(({ label, style }) => (
         <Button
           key={style}
-          type="text"
+          variant="text"
           size="sm"
           className="mr-1"
           onMouseDown={(e) => {
@@ -112,7 +112,7 @@ const HeadingStyleControls = ({
       {HEADING_TYPES.map(({ label, style }) => (
         <Button
           key={style}
-          type="text"
+          variant="text"
           size="sm"
           className="mr-1"
           onMouseDown={(e) => {

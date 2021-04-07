@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react"
 import { useHistory } from "react-router-dom"
 import Input from "../../Components/Input"
+import Form from "../../Components/Form"
 import Button from "../../Components/Button"
 import { Link } from "react-router-dom"
 import axios from "axios"
@@ -25,15 +26,19 @@ const Login = () => {
     return fields.email === "" || fields.password === ""
   }
 
-  const login = async () => {
-    const loginResult = await axios.post("/auth/login", {
-      email: fields.email,
-      password: fields.password
-    })
+  const login = async (e) => {
+    e.preventDefault()
 
-    setUser(loginResult.data)
+    if (!isLoginDisabled()) {
+      const loginResult = await axios.post("/auth/login", {
+        email: fields.email,
+        password: fields.password
+      })
 
-    history.push(`/${loginResult.data.username}`)
+      setUser(loginResult.data)
+
+      history.push(`/${loginResult.data.username}`)
+    }
   }
 
   return (
@@ -53,24 +58,29 @@ const Login = () => {
         onFailure={responseGoogle}
         cookiePolicy={'single_host_origin'}
       /> */}
-      <div className="mb-5">
-        <Input
-          className="mb-2" label="Email" placeholdername="email" required
-          value={fields.email}
-          onChange={(e) => setFields({...fields, email: e.target.value})}
-        />
-        <Input
-          className="mb-2" label="Password" type="password" name="password" required
-          value={fields.password}
-          onChange={(e) => setFields({...fields, password: e.target.value})}
-        />
-      </div>
+      <Form onSubmit={login}>
+        <div className="mb-5">
+          <Input
+            className="mb-2" 
+            label="Email" type="email" name="email" required
+            value={fields.email}
+            onChange={(e) => setFields({...fields, email: e.target.value})}
+          />
+          <Input
+            label="Password" type="password" name="password" required
+            value={fields.password}
+            onChange={(e) => setFields({...fields, password: e.target.value})}
+          />
+        </div>
+
+        <Button
+          className="w-full" variant="primary"
+          type="submit"
+          disabled={isLoginDisabled()}
+          //onClick={login}
+         >Login</Button>
+      </Form>
       {/* <div className="mb-4 text-xs">Forgot password?</div> */}
-      <Button
-        className="w-full" type="primary"
-        disabled={isLoginDisabled()}
-        onClick={login}
-       >Login</Button>
       <div className="text-center mt-2 text-xs">Don't have an account? <Link to="/register">Register</Link></div>
     </div>
   )

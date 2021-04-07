@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 const Button = ({
   children,
   type,
+  variant,
   onClick,
   onMouseDown,
   className,
@@ -14,7 +15,7 @@ const Button = ({
   size,
   active,
 }) => {
-  const style = `btn${type === "primary" ? " btn-primary" : ""}${type === "text" ? " btn-text" : ""}${size === "sm" ? " btn-sm" : ""}${lowercase ? " lowercase" : ""}${disabled ? " disabled" : ""}${active ? " active" : ""}${className ? ` ${className}` : ""}`
+  const style = `btn${variant === "primary" ? " btn-primary" : ""}${variant === "text" ? " btn-text" : ""}${size === "sm" ? " btn-sm" : ""}${lowercase ? " lowercase" : ""}${disabled ? " disabled" : ""}${active ? " active" : ""}${className ? ` ${className}` : ""}`
 
   return (
     <>
@@ -23,6 +24,7 @@ const Button = ({
           ref={reference}
           className={style}
           onClick={onClick}
+          type={type}
           onMouseDown={onMouseDown}
         >
           {children}

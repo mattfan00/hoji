@@ -2,9 +2,11 @@ import React from "react"
 
 const Input = ({
   label,
+  reference,
   name,
   className,
   autocompleteOff,
+  autoFocus,
   placeholder,
   type,
   required,
@@ -22,8 +24,10 @@ const Input = ({
       ) : ""}
       <input
         className="input"
+        ref={reference}
         name={name}
         autoComplete={autocompleteOff ? "off" : ""}
+        autoFocus={autoFocus}
         placeholder={placeholder}
         type={type}
         required={required}

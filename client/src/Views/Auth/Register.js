@@ -1,8 +1,113 @@
 import React, { useState } from "react"
 import Input from "../../Components/Input"
+import Form from "../../Components/Form"
 import TextArea from "../../Components/TextArea"
 import Button from "../../Components/Button"
 import { Link } from "react-router-dom"
+
+const FirstPage = ({
+  onSubmit,
+  fields,
+  setFields,
+}) => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (!isSubmitDisabled()) {
+      onSubmit()
+    }
+  }
+
+  const isSubmitDisabled = () => {
+    return fields.email === "" || fields.password === ""
+  }
+
+  return (
+    <Form onSubmit={handleSubmit}>
+      <div className="mb-5">
+        <Input
+          className="mb-2" label="Email" type="email" name="email" autocompleteOff required
+          value={fields.email}
+          onChange={(e) => setFields({...fields, email: e.target.value})}
+        />
+        <Input
+          label="Set Password" type="password" name="password" autocompleteOff required
+          value={fields.password}
+          onChange={(e) => setFields({...fields, password: e.target.value})}
+        />
+      </div>
+
+      <Button
+        className="w-full"
+        disabled={isSubmitDisabled()}
+      >
+        Next
+      </Button>
+    </Form>
+  )
+}
+
+const SubmitPage = ({
+  onSubmit,
+  onPrevious,
+  fields,
+  setFields
+}) => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (!isSubmitDisabled()) {
+      onSubmit()
+    }
+  }
+
+  const handlePrevious = (e) => {
+    e.preventDefault()
+    onPrevious()
+  }
+
+  const isSubmitDisabled = () => {
+    return fields.email === "" || fields.password === "" || fields.name === "" || fields.username === ""
+  }
+
+  return (
+    <Form onSubmit={handleSubmit}>
+      <div className="mb-5">
+        <Input
+          className="mb-2" label="Display Name" name="name" autoFocus={true} autocompleteOff required
+          value={fields.name}
+          onChange={(e) => setFields({...fields, name: e.target.value})}
+        />
+        <Input
+          className="mb-2" label="Username" name="username" autocompleteOff required
+          value={fields.username}
+          onChange={(e) => setFields({...fields, username: e.target.value})}
+        />
+        <TextArea
+          className="mb-2 max-h-28" label="Profile Description" name="description" autocompleteOff
+          value={fields.description}
+          onChange={(e) => setFields({...fields, description: e.target.value})}
+        />
+        <Input
+          label="Website" name="website" autocompleteOff
+          value={fields.website}
+          onChange={(e) => setFields({...fields, website: e.target.value})}
+        />
+      </div>
+
+      <Button 
+        className="mb-2 w-full" type="button"
+        onClick={handlePrevious}
+      >
+        Previous
+      </Button>
+      <Button
+        className="w-full" variant="primary" type="submit"
+        disabled={isSubmitDisabled()}
+      >
+        Register
+      </Button>
+    </Form>
+  )
+}
 
 const Register = () => {
   const [page, setPage] = useState(0)
@@ -15,12 +120,12 @@ const Register = () => {
     website: "",
   })
 
-  const isNextDisabled = () => {
-    return fields.email === "" || fields.password === ""
-  }
+  const next = () => setPage(1)
 
-  const isRegisterDisabled = () => {
-    return fields.email === "" || fields.password === "" || fields.name === "" || fields.username === ""
+  const previous = () => setPage(0)
+  
+  const register = () => {
+    console.log("submit form")
   }
 
   return (
@@ -35,62 +140,18 @@ const Register = () => {
       </div>
 
       {page === 0 ? (
-      <>
-        <div className="mb-5">
-          <Input
-            className="mb-2" label="Email" type="email" name="email" autocompleteOff required
-            value={fields.email}
-            onChange={(e) => setFields({...fields, email: e.target.value})}
-          />
-          <Input
-            label="Set Password" type="password" name="password" autocompleteOff required
-            value={fields.password}
-            onChange={(e) => setFields({...fields, password: e.target.value})}
-          />
-        </div>
-        {/* <Input className="mb-2" label="Confirm Password" type="password" name="confirmPassword" autocompleteOff /> */}
-        <Button
-          className="w-full" onClick={() => setPage(1)}
-          disabled={isNextDisabled()}
-        >
-          Next
-        </Button>
-      </>
+        <FirstPage 
+          onSubmit={next}
+          fields={fields}
+          setFields={setFields}
+        />
       ) : (
-      <>
-        <div className="mb-5">
-          <Input
-            className="mb-2" label="Display Name" name="name" autocompleteOff required
-            value={fields.name}
-            onChange={(e) => setFields({...fields, name: e.target.value})}
-          />
-          <Input
-            className="mb-2" label="Username" name="username" autocompleteOff required
-            value={fields.username}
-            onChange={(e) => setFields({...fields, username: e.target.value})}
-          />
-          <TextArea
-            className="mb-2 max-h-28" label="Profile Description" name="description" autocompleteOff
-            value={fields.description}
-            onChange={(e) => setFields({...fields, description: e.target.value})}
-          />
-          <Input
-            label="Website" name="website" autocompleteOff
-            value={fields.website}
-            onChange={(e) => setFields({...fields, website: e.target.value})}
-          />
-        </div>
-
-        <Button className="mb-2 w-full" onClick={() => setPage(0)}>
-          Previous
-        </Button>
-        <Button
-          className="w-full" type="primary" onClick={() => setPage(1)}
-          disabled={isRegisterDisabled()}
-        >
-          Register
-        </Button>
-      </>
+        <SubmitPage
+          onSubmit={register}
+          onPrevious={previous}
+          fields={fields}
+          setFields={setFields}
+        />
       )}
       <div className="text-center mt-2 text-xs">Already have an account? <Link to="/login">Login</Link></div>
     </div>
