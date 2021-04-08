@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
 import { Link, useParams } from "react-router-dom"
 import ProfileHeader from "../Components/ProfileHeader"
 import Entry from "../Components/Entry"
@@ -7,6 +8,7 @@ import axios from "axios"
 const Profile = () => {
   const [profile, setProfile] = useState(null)
   const { username } = useParams()
+  const history = useHistory()
 
   useEffect(() => {
     const getProfile = async () => {
@@ -18,6 +20,12 @@ const Profile = () => {
 
     getProfile()
   }, [])
+
+  const handleClick = (e, id) => {
+    if (e.target.tagName !== "A") {
+      history.push(`/entry/${id}`)
+    }
+  }
 
   const sortedEntries = () => {
     return profile?.entries.sort((a, b) => {
@@ -46,7 +54,7 @@ const Profile = () => {
           content,
           photos,
         }) => (
-          <Link to={`/entry/${_id}`}>
+          <div className="cursor-pointer" onClick={(e) => handleClick(e, _id)}>
             <Entry
               key={_id}
               author={author}
@@ -57,7 +65,7 @@ const Profile = () => {
               content={content}
               photos={photos}
             />
-          </Link>
+          </div>
         ))}
 
         <Entry
