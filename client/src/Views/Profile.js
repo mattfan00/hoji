@@ -28,7 +28,7 @@ const Profile = () => {
   }
 
   const sortedEntries = () => {
-    return profile?.entries.sort((a, b) => {
+    return profile?.entries?.sort((a, b) => {
       const aDate = new Date(a.created)
       const bDate = new Date(b.created)
       return bDate - aDate

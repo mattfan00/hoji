@@ -38,13 +38,13 @@ func (a AuthService) Register(c echo.Context) error {
 	// check if email exists already
 	err := a.db.Collection("users").FindOne(context.TODO(), bson.M{"email": body.Email}).Decode(&foundUser)
 	if err == nil {
-		return errors.BadRequest("There is an account with this email already")
+		return errors.BadRequest("Email already in use")
 	}
 
 	// check if username exists already
 	err = a.db.Collection("users").FindOne(context.TODO(), bson.M{"username": body.Username}).Decode(&foundUser)
 	if err == nil {
-		return errors.BadRequest("This username is in use already")
+		return errors.BadRequest("Username already in use")
 	}
 
 	hashed, _ := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
@@ -133,6 +133,20 @@ func (a AuthService) Login(c echo.Context) error {
 	jwt.CreateCookie(c, "token", newJwt)
 
 	return c.JSON(200, newAuthUser)
+}
+
+func (a AuthService) Check(c echo.Context) error {
+	var foundUser model.User
+
+	err := a.db.Collection("users").FindOne(context.TODO(), bson.M{
+		"email": c.QueryParam("email"),
+	}).Decode(&foundUser)
+
+	if err != nil {
+		return c.JSON(200, "Email valid")
+	}
+
+	return errors.BadRequest("Email already in use")
 }
 
 func (a AuthService) Current(c echo.Context) error {

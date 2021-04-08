@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom"
 import Input from "../../Components/Input"
 import Form from "../../Components/Form"
 import Button from "../../Components/Button"
+import Error from "../../Components/Error"
 import { Link } from "react-router-dom"
 import axios from "axios"
 import { AuthContext } from "../../Context/AuthContext"
@@ -14,6 +15,7 @@ const Login = () => {
     email: "",
     password: "",
   })
+  const [error, setError] = useState(null)
   
   const history = useHistory()
   const { setUser } = useContext(AuthContext)
@@ -30,14 +32,18 @@ const Login = () => {
     e.preventDefault()
 
     if (!isLoginDisabled()) {
-      const loginResult = await axios.post("/auth/login", {
-        email: fields.email,
-        password: fields.password
-      })
+      try {
+        const loginResult = await axios.post("/auth/login", {
+          email: fields.email,
+          password: fields.password
+        })
 
-      setUser(loginResult.data)
+        setUser(loginResult.data)
 
-      history.push(`/${loginResult.data.username}`)
+        history.push(`/${loginResult.data.username}`)
+      } catch({ response }) {
+        setError(response.data.message)
+      }
     }
   }
 
@@ -58,6 +64,7 @@ const Login = () => {
         onFailure={responseGoogle}
         cookiePolicy={'single_host_origin'}
       /> */}
+      <Error className="mb-4" show={error}>{error}</Error>
       <Form onSubmit={login}>
         <div className="mb-5">
           <Input
