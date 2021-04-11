@@ -46,7 +46,6 @@ const Profile = () => {
       <div>
         {sortedEntries()?.map(({
           _id, 
-          author, 
           created,
           type, 
           title,
@@ -60,7 +59,7 @@ const Profile = () => {
             key={_id}
           >
             <Entry
-              author={author}
+              author={profile?.username}
               created={created}
               type={type}
               title={title}

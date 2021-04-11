@@ -33,7 +33,7 @@ func (e EntryService) Create(c echo.Context) error {
 	currUser := c.Get("user").(model.AuthUser)
 
 	newEntry := model.Entry{
-		Author:      currUser.Username,
+		Author:      currUser.Id,
 		Type:        body.Type,
 		Title:       body.Title,
 		Description: body.Description,
@@ -45,7 +45,7 @@ func (e EntryService) Create(c echo.Context) error {
 
 	_, err = e.db.Collection("users").UpdateOne(
 		context.TODO(),
-		bson.M{"username": currUser.Username},
+		bson.M{"_id": currUser.Id},
 		bson.M{"$push": bson.M{"entries": entryResult.InsertedID}},
 	)
 
@@ -67,6 +67,17 @@ func (e EntryService) View(c echo.Context) error {
 	if err != nil {
 		return errors.NotFound()
 	}
+
+	var foundUser model.User
+	err = e.db.Collection("users").FindOne(context.TODO(), bson.M{
+		"_id": foundEntry.Author,
+	}).Decode(&foundUser)
+
+	if err != nil {
+		return errors.NotFound()
+	}
+
+	foundEntry.Author = foundUser.Username
 
 	return c.JSON(http.StatusOK, foundEntry)
 }
