@@ -7,7 +7,7 @@ import (
 
 type UserInterface interface {
 	View(echo.Context) error
-	// List(echo.Context)
+	Update(echo.Context) error
 }
 
 type UserService struct {

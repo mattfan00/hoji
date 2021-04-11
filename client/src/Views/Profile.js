@@ -54,9 +54,12 @@ const Profile = () => {
           content,
           photos,
         }) => (
-          <div className="cursor-pointer" onClick={(e) => handleClick(e, _id)}>
+          <div 
+            className="cursor-pointer" 
+            onClick={(e) => handleClick(e, _id)} 
+            key={_id}
+          >
             <Entry
-              key={_id}
               author={author}
               created={created}
               type={type}

@@ -3,9 +3,9 @@ import DefaultProPic from "../Icons/DefaultProPic"
 import Button from "../Components/Button"
 import Input from "../Components/Input"
 import Form from "../Components/Form"
+import Error from "../Components/Error"
 import TextArea from "../Components/TextArea"
 import { AuthContext } from "../Context/AuthContext"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
 
 
@@ -17,7 +17,8 @@ const Settings = () => {
     website: "",
   })
   const [edited, setEdited] = useState(false)
-  const { user } = useContext(AuthContext)
+  const [error, setError] = useState(null)
+  const { user, setUser } = useContext(AuthContext)
 
   useEffect(() => {
     const getUser = async () => {
@@ -25,10 +26,10 @@ const Settings = () => {
       const { data } = resultUser
 
       setFields({
-        name: data.name,
-        username: data.username,
-        description: data.details.description,
-        website: data.website,
+        name: data.name || "",
+        username: data.username || "",
+        description: data.details.description || "",
+        website: data.website || "",
       })
     }
 
@@ -42,8 +43,16 @@ const Settings = () => {
     setFields({...fields, [field]: e.target.value})
   }
 
-  const updateProfile = (e) => {
+  const updateProfile = async (e) => {
     e.preventDefault()
+    try {
+      const resultUpdate = await axios.put(`/user/${user.username}`, fields)
+
+      setError(null)
+      setUser(resultUpdate.data)
+    } catch({ response }) {
+      setError(response.data.message)
+    }
     setEdited(false)
   }
 
@@ -58,6 +67,8 @@ const Settings = () => {
           <Button className="mr-2">Upload</Button>
           <Button>Remove</Button>
         </div>
+
+        <Error className="mb-4" show={error}>{error}</Error>
 
         <Form onSubmit={updateProfile}>
           <Input 
