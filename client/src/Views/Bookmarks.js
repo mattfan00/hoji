@@ -1,5 +1,6 @@
 import React from "react"
 import Bookmark from "../Components/Bookmark"
+import ProfileHeader from "../Components/ProfileHeader"
 
 const Bookmarks = () => {
   const bookmarks = [
@@ -17,14 +18,17 @@ const Bookmarks = () => {
       description: "hey this is the best blog in the world"
     }
   ]
+  
   return (
     <>
       {bookmarks.map(({ name, username, description }) => (
-        <Bookmark
+        <div className="mb-4">
+        <ProfileHeader
           name={name}
           username={username}
           description={description}
         />
+        </div>
       ))}
     </>
   )

@@ -18,7 +18,7 @@ const ProfileHeader = ({
   }
 
   return (
-    <div className="card mb-16">
+    <div className="card">
       <div className="flex items-center">
         <div className="mr-4 w-10 h-10 rounded-full overflow-hidden">
           <DefaultProPic />

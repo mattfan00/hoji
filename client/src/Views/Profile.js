@@ -43,7 +43,7 @@ const Profile = () => {
         description={profile?.details.description}
       />
 
-      <div>
+      <div className="mt-16">
         {sortedEntries()?.map(({
           _id, 
           created,
