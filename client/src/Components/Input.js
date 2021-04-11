@@ -12,6 +12,7 @@ const Input = ({
   required,
   value,
   onChange,
+  noEdit,
 }) => {
 
   return (
@@ -22,18 +23,23 @@ const Input = ({
         {required ? <span className="text-red-500 ml-0.5">*</span> : ""}
       </div>
       ) : ""}
-      <input
-        className="input"
-        ref={reference}
-        name={name}
-        autoComplete={autocompleteOff ? "off" : ""}
-        autoFocus={autoFocus}
-        placeholder={placeholder}
-        type={type}
-        required={required}
-        value={value}
-        onChange={onChange}
-      />
+
+      {!noEdit ? (
+        <input
+          className="input"
+          ref={reference}
+          name={name}
+          autoComplete={autocompleteOff ? "off" : ""}
+          autoFocus={autoFocus}
+          placeholder={placeholder}
+          type={type}
+          required={required}
+          value={value}
+          onChange={onChange}
+        />
+      ) : (
+        <div>{value}</div>
+      )}
     </div>
   )
 }

@@ -33,13 +33,6 @@ const ProfileHeader = ({
             <FontAwesomeIcon icon={[bookmark ? "fas" : "far", "bookmark"]} size="lg" />
           </Button>
           ) : ""}
-          {user && user.username === username ? (
-          <Link to="/settings">
-            <Button onClick={toggleBookmark}>
-              <FontAwesomeIcon icon="cog" size="lg" />
-            </Button>
-          </Link>
-          ) : ""}
         </div>
       </div>
       {description ? (
