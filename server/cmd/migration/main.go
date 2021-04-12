@@ -21,6 +21,7 @@ func main() {
 	db := pg.Connect(opt)
 
 	deleteQueries := []string{
+		"DROP TABLE IF EXISTS entries",
 		"DROP TABLE IF EXISTS users",
 	}
 
@@ -43,27 +44,19 @@ func main() {
 		log.Fatal(err)
 	}
 
-	_, err = db.Model(&model.User{
-		Email:       "test@test.com",
-		Password:    "password",
-		Name:        "matt",
-		Username:    "matt",
-		Description: "hello",
-		Website:     "google.com",
-	}).Insert()
-
-	if err != nil {
-		panic(err)
-	}
+	fmt.Println("created schema")
 }
 
 func createSchema(db *pg.DB) error {
 	models := []interface{}{
 		(*model.User)(nil),
+		(*model.Entry)(nil),
 	}
 
 	for _, model := range models {
-		err := db.Model(model).CreateTable(&orm.CreateTableOptions{})
+		err := db.Model(model).CreateTable(&orm.CreateTableOptions{
+			FKConstraints: true,
+		})
 		if err != nil {
 			return err
 		}

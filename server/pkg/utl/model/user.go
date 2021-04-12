@@ -1,8 +1,6 @@
 package model
 
 import (
-	//"time"
-
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -13,13 +11,13 @@ type UserDetails struct {
 
 type User struct {
 	Base
-	Email       string `json:"email"`
-	Password    string `json:"-"`
-	Name        string `json:"name"`
-	Username    string `json:"username"`
-	Description string `json:"description"`
-	Website     string `json:"website"`
-	//Entries  interface{}        `json:"entries"`
+	Email       string   `json:"email"`
+	Password    string   `json:"-"`
+	Name        string   `json:"name"`
+	Username    string   `json:"username"`
+	Description string   `json:"description"`
+	Website     string   `json:"website"`
+	Entries     []*Entry `json:"entries" pg:"rel:has-many"`
 }
 
 type PublicUser struct {
