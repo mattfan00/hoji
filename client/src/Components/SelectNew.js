@@ -24,14 +24,6 @@ const SelectNew = ({
         <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "lightbulb"]} />
         Thought
       </Button>
-      <Button 
-        size="sm" active={active === "gallery"} className="mr-3"
-        variant="text"
-        onClick={() => onChange("gallery")}
-      >
-        <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "images"]} />
-        Gallery
-      </Button>
     </div>
   )
 }

@@ -60,8 +60,6 @@ const NewEntry = () => {
         return <EditThought 
           onContentChange={handleContentChange} 
         />
-      case "gallery":
-        return <EditGallery />
     }
   }
 
