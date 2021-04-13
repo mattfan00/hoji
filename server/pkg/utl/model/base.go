@@ -15,7 +15,7 @@ type Base struct {
 }
 
 func (b *Base) BeforeInsert(ctx context.Context) (context.Context, error) {
-	now := time.Now()
+	now := time.Now().UTC()
 	b.CreatedAt = now
 	b.UpdatedAt = now
 	return ctx, nil
@@ -23,6 +23,6 @@ func (b *Base) BeforeInsert(ctx context.Context) (context.Context, error) {
 
 // BeforeUpdate hooks into update operations, setting updatedAt to current time
 func (b *Base) BeforeUpdate(ctx context.Context) (context.Context, error) {
-	b.UpdatedAt = time.Now()
+	b.UpdatedAt = time.Now().UTC()
 	return ctx, nil
 }

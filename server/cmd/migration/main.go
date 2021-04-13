@@ -20,6 +20,13 @@ func main() {
 
 	db := pg.Connect(opt)
 
+	_, err = db.Exec("SELECT 1")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("connected to db")
+
 	deleteQueries := []string{
 		"DROP TABLE IF EXISTS entries",
 		"DROP TABLE IF EXISTS users",
@@ -31,13 +38,6 @@ func main() {
 			log.Fatal(err)
 		}
 	}
-
-	_, err = db.Exec("SELECT 1")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("connected to db")
 
 	err = createSchema(db)
 	if err != nil {

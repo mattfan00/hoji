@@ -7,7 +7,8 @@ import (
 
 	jwtGo "github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"github.com/satori/go.uuid"
+	//"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func Auth(next echo.HandlerFunc) echo.HandlerFunc {
@@ -30,14 +31,14 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 
 		claims := token.Claims.(jwtGo.MapClaims)
 
-		oid, err := primitive.ObjectIDFromHex(claims["id"].(string))
+		uid, err := uuid.FromString(claims["id"].(string))
 
 		if err != nil {
 			return err
 		}
 
 		currUser := model.AuthUser{
-			Id:       oid,
+			Id:       uid,
 			Name:     claims["name"].(string),
 			Username: claims["username"].(string),
 			Email:    claims["email"].(string),

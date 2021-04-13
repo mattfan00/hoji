@@ -7,6 +7,7 @@ import (
 	"server/pkg/utl/config"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/mongo"
+	"server/pkg/utl/postgres"
 
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
@@ -17,6 +18,7 @@ func Start() {
 	config.Init()
 
 	db := mongo.Init()
+	pg := postgres.Init()
 
 	// Echo instance
 	e := echo.New()
@@ -33,7 +35,7 @@ func Start() {
 	e.HTTPErrorHandler = errors.CustomHTTPErrorHandler
 
 	userService := user.New(db)
-	authService := auth.New(db)
+	authService := auth.New(db, pg)
 	entryService := entry.New(db)
 
 	user.Routes(e, userService)
