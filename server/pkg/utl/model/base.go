@@ -11,7 +11,7 @@ type Base struct {
 	Id        uuid.UUID `json:"id" pg:",pk,type:uuid,default:uuid_generate_v4()"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
-	DeletedAt time.Time `json:"deleted_at,omitempty" pg:",soft_delete"`
+	DeletedAt time.Time `json:"-" pg:",soft_delete"`
 }
 
 func (b *Base) BeforeInsert(ctx context.Context) (context.Context, error) {

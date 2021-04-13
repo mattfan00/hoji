@@ -8,7 +8,6 @@ import (
 	jwtGo "github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 	"github.com/satori/go.uuid"
-	//"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func Auth(next echo.HandlerFunc) echo.HandlerFunc {
@@ -18,7 +17,6 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 			return errors.BadRequest("Invalid cookie")
 		}
 
-		//token, err := jwt.ParseToken(c.Request().Header.Get("Authorization"))
 		token, err := jwt.ParseToken(cookie.Value)
 
 		if err != nil {

@@ -12,13 +12,13 @@ type UserDetails struct {
 
 type User struct {
 	Base
-	Email       string   `json:"email" pg:",unique"`
+	Email       string   `json:"email,omitempty" pg:",unique"`
 	Password    string   `json:"-"`
-	Name        string   `json:"name"`
-	Username    string   `json:"username" pg:",unique"`
-	Description string   `json:"description"`
-	Website     string   `json:"website"`
-	Entries     []*Entry `json:"entries" pg:"rel:has-many"`
+	Name        string   `json:"name,omitempty"`
+	Username    string   `json:"username,omitempty" pg:",unique"`
+	Description string   `json:"description,omitempty"`
+	Website     string   `json:"website,omitempty"`
+	Entries     []*Entry `json:"entries,omitempty" pg:"rel:has-many"`
 }
 
 type PublicUser struct {

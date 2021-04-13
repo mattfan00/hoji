@@ -3,7 +3,6 @@ package auth
 import (
 	"github.com/go-pg/pg/v10"
 	"github.com/labstack/echo/v4"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type AuthInterface interface {
@@ -15,13 +14,11 @@ type AuthInterface interface {
 }
 
 type AuthService struct {
-	db *mongo.Database
-	pg *pg.DB
+	db *pg.DB
 }
 
-func New(db *mongo.Database, pg *pg.DB) *AuthService {
+func New(db *pg.DB) *AuthService {
 	return &AuthService{
 		db: db,
-		pg: pg,
 	}
 }
