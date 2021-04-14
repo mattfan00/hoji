@@ -28,7 +28,7 @@ const Settings = () => {
       setFields({
         name: data.name || "",
         username: data.username || "",
-        description: data.details.description || "",
+        description: data.description || "",
         website: data.website || "",
       })
     }

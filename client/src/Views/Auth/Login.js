@@ -69,7 +69,7 @@ const Login = () => {
         <div className="mb-5">
           <Input
             className="mb-2" 
-            label="Email" type="email" name="email" required
+            label="Email" type="email" name="email" required autoFocus
             value={fields.email}
             onChange={(e) => setFields({...fields, email: e.target.value})}
           />

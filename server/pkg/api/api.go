@@ -6,7 +6,6 @@ import (
 	"server/pkg/api/user"
 	"server/pkg/utl/config"
 	"server/pkg/utl/errors"
-	"server/pkg/utl/mongo"
 	"server/pkg/utl/postgres"
 
 	"github.com/go-pg/pg/extra/pgdebug"
@@ -18,7 +17,6 @@ import (
 func Start() {
 	config.Init()
 
-	db := mongo.Init()
 	pg := postgres.Init()
 
 	pg.AddQueryHook(pgdebug.DebugHook{
@@ -40,7 +38,7 @@ func Start() {
 	e.Validator = &errors.CustomValidator{Validator: validator.New()}
 	e.HTTPErrorHandler = errors.CustomHTTPErrorHandler
 
-	userService := user.New(db, pg)
+	userService := user.New(pg)
 	authService := auth.New(pg)
 	entryService := entry.New(pg)
 

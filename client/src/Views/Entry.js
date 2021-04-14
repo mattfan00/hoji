@@ -10,6 +10,7 @@ const EntryView = () => {
   useEffect(() => {
     const getEntry = async () => {
       const entryResult = await axios.get(`/entry/${id}`)
+      console.log(entryResult.data)
       setEntry(entryResult.data)
     }
 
@@ -18,7 +19,12 @@ const EntryView = () => {
 
   return (
     <Entry
-      {...entry}
+      user={entry?.user?.username}
+      type={entry?.type}
+      created={entry?.created}
+      title={entry?.title}
+      description={entry?.description}
+      content={entry?.content}
       expanded={true}
     />
   )

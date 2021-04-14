@@ -1,54 +1,41 @@
 package user
 
 import (
-	"context"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/jwt"
 	"server/pkg/utl/model"
+	"strings"
 
+	"github.com/fatih/structs"
+	"github.com/go-pg/pg/v10"
 	"github.com/labstack/echo/v4"
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 func (u UserService) View(c echo.Context) error {
-	/*
-		var foundUser model.User
+	foundUser := new(model.User)
 
-		err := u.db.Collection("users").FindOne(context.TODO(), bson.M{
-			"username": c.Param("username"),
-		}).Decode(&foundUser)
+	err := u.db.Model(foundUser).
+		Relation("Entries").
+		Where("lower(username) = ?", strings.ToLower(c.Param("username"))).Select()
 
-		if err != nil {
-			return errors.NotFound()
-		}
+	if err != nil {
+		return errors.NotFound()
+	}
 
-		// populate the entries
-		entriesCursor, err := u.db.Collection("entries").Find(context.TODO(), bson.M{
-			"_id": bson.M{"$in": foundUser.Entries},
-		})
-
-		var entries []model.Entry
-		if err = entriesCursor.All(context.TODO(), &entries); err != nil {
-			return err
-		}
-
-		foundUser.Entries = entries
-
-		return c.JSON(200, foundUser)
-	*/
-	return c.JSON(200, "hey")
+	return c.JSON(200, foundUser)
 }
 
 type updateReq struct {
-	Name        string `json:"name" validate:"required"`
-	Username    string `json:"username" validate:"required"`
-	Description string `json:"description,omitempty"`
-	Website     string `json:"website,omitempty"`
+	Name        string `json:"name" structs:"name" validate:"required"`
+	Username    string `json:"username" structs:"username" validate:"required"`
+	Description string `json:"description,omitempty" structs:"description"`
+	Website     string `json:"website,omitempty" structs:"website"`
 }
 
 func (u UserService) Update(c echo.Context) error {
 	currUser := c.Get("user").(model.AuthUser)
 
+	// don't let people submit request to change username of someone else
 	if currUser.Username != c.Param("username") {
 		return errors.Unauthorized()
 	}
@@ -63,32 +50,19 @@ func (u UserService) Update(c echo.Context) error {
 		return err
 	}
 
-	var foundUser model.AuthUser
-
 	// if the username is being changed, check if it the username is in use already
 	if currUser.Username != body.Username {
-		err := u.db.Collection("users").FindOne(context.TODO(), bson.M{
-			"username": body.Username,
-		}).Decode(&foundUser)
+		err := u.db.Model((*model.User)(nil)).Where("lower(username) = ?", strings.ToLower(body.Username)).Select()
 
 		// if found a user with that username
-		if err == nil {
+		if err == nil || err != pg.ErrNoRows {
 			return errors.BadRequest("Username already in use")
 		}
 	}
 
-	_, err := u.db.Collection("users").UpdateOne(
-		context.TODO(),
-		bson.M{"username": c.Param("username")},
-		bson.M{
-			"$set": bson.M{
-				"name":                body.Name,
-				"username":            body.Username,
-				"details.description": body.Description,
-				"details.website":     body.Website,
-			},
-		},
-	)
+	// update the appropriate user
+	newValues := structs.Map(body)
+	_, err := u.db.Model(&newValues).TableExpr("users").Where("lower(username) = ?", currUser.Username).Update()
 
 	if err != nil {
 		return err
