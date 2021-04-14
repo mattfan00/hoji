@@ -1,8 +1,7 @@
 package model
 
 import (
-	"time"
-
+	"github.com/satori/go.uuid"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -12,18 +11,18 @@ type UserDetails struct {
 }
 
 type User struct {
-	Id       primitive.ObjectID `json:"_id" bson:"_id,omitempty"`
-	Email    string             `json:"email"`
-	Password string             `json:"-"`
-	Name     string             `json:"name"`
-	Username string             `json:"username"`
-	Details  UserDetails        `json:"details"`
-	Entries  interface{}        `json:"entries"`
-	Created  time.Time          `json:"created"`
+	Base
+	Email       string   `json:"email,omitempty" pg:",unique"`
+	Password    string   `json:"-"`
+	Name        string   `json:"name,omitempty"`
+	Username    string   `json:"username,omitempty" pg:",unique"`
+	Description string   `json:"description,omitempty"`
+	Website     string   `json:"website,omitempty"`
+	Entries     []*Entry `json:"entries,omitempty" pg:"rel:has-many"`
 }
 
 type PublicUser struct {
-	Id       primitive.ObjectID `json:"_id" bson:"_id,omitempty"`
+	Id       primitive.ObjectID `json:"id" bson:"_id,omitempty"`
 	Email    string             `json:"email"`
 	Name     string             `json:"name"`
 	Username string             `json:"username"`
@@ -33,8 +32,8 @@ type PublicUser struct {
 
 // the data stored in the JWT
 type AuthUser struct {
-	Id       primitive.ObjectID `json:"_id" bson:"_id"`
-	Name     string             `json:"name" bson:"name"`
-	Username string             `json:"username" bson:"username"`
-	Email    string             `json:"email" bson:"email"`
+	Id       uuid.UUID `json:"id"`
+	Name     string    `json:"name"`
+	Username string    `json:"username"`
+	Email    string    `json:"email"`
 }

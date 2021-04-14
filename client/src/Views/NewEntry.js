@@ -60,8 +60,6 @@ const NewEntry = () => {
         return <EditThought 
           onContentChange={handleContentChange} 
         />
-      case "gallery":
-        return <EditGallery />
     }
   }
 
@@ -95,7 +93,7 @@ const NewEntry = () => {
       />
 
       <EntryHeader 
-        author={user?.username}
+        user={user?.username}
         created={dayjs().format()}
       />
       

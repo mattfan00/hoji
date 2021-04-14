@@ -1,15 +1,13 @@
 package auth
 
 import (
-	"context"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/jwt"
 	"server/pkg/utl/model"
-	"time"
+	"strings"
 
+	"github.com/go-pg/pg/v10"
 	"github.com/labstack/echo/v4"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -33,17 +31,17 @@ func (a AuthService) Register(c echo.Context) error {
 		return err
 	}
 
-	var foundUser model.User
+	foundUser := new(model.User)
 
 	// check if email exists already
-	err := a.db.Collection("users").FindOne(context.TODO(), bson.M{"email": body.Email}).Decode(&foundUser)
-	if err == nil {
+	err := a.db.Model(foundUser).Where("lower(email) = ?", strings.ToLower(body.Email)).Select()
+	if err == nil || err != pg.ErrNoRows {
 		return errors.BadRequest("Email already in use")
 	}
 
 	// check if username exists already
-	err = a.db.Collection("users").FindOne(context.TODO(), bson.M{"username": body.Username}).Decode(&foundUser)
-	if err == nil {
+	err = a.db.Model(foundUser).Where("lower(username) = ?", strings.ToLower(body.Username)).Select()
+	if err == nil || err != pg.ErrNoRows {
 		return errors.BadRequest("Username already in use")
 	}
 
@@ -51,26 +49,22 @@ func (a AuthService) Register(c echo.Context) error {
 	body.Password = string(hashed)
 
 	newUser := model.User{
-		Email:    body.Email,
-		Password: body.Password,
-		Name:     body.Name,
-		Username: body.Username,
-		Details: model.UserDetails{
-			Description: body.Description,
-			Website:     body.Website,
-		},
-		Entries: []string{},
-		Created: time.Now(),
+		Email:       body.Email,
+		Password:    body.Password,
+		Name:        body.Name,
+		Username:    body.Username,
+		Description: body.Description,
+		Website:     body.Website,
 	}
 
-	registerResult, err := a.db.Collection("users").InsertOne(context.TODO(), newUser)
+	_, err = a.db.Model(&newUser).Insert()
 
 	if err != nil {
 		return err
 	}
 
 	newAuthUser := model.AuthUser{
-		Id:       registerResult.InsertedID.(primitive.ObjectID),
+		Id:       newUser.Id,
 		Name:     newUser.Name,
 		Username: newUser.Username,
 		Email:    newUser.Email,
@@ -103,11 +97,9 @@ func (a AuthService) Login(c echo.Context) error {
 		return err
 	}
 
-	var foundUser model.User
+	foundUser := new(model.User)
 
-	err := a.db.Collection("users").FindOne(context.TODO(), bson.M{
-		"email": body.Email,
-	}).Decode(&foundUser)
+	err := a.db.Model(foundUser).Where("lower(email) = ?", strings.ToLower(body.Email)).Select()
 
 	// couldn't find user
 	if err != nil {
@@ -136,11 +128,9 @@ func (a AuthService) Login(c echo.Context) error {
 }
 
 func (a AuthService) Check(c echo.Context) error {
-	var foundUser model.User
+	foundUser := new(model.User)
 
-	err := a.db.Collection("users").FindOne(context.TODO(), bson.M{
-		"email": c.QueryParam("email"),
-	}).Decode(&foundUser)
+	err := a.db.Model(foundUser).Where("lower(email) = ?", strings.ToLower(c.QueryParam("email"))).Select()
 
 	if err != nil {
 		return c.JSON(200, "Email valid")

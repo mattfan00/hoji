@@ -7,7 +7,7 @@ import (
 
 	jwtGo "github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"github.com/satori/go.uuid"
 )
 
 func Auth(next echo.HandlerFunc) echo.HandlerFunc {
@@ -17,7 +17,6 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 			return errors.BadRequest("Invalid cookie")
 		}
 
-		//token, err := jwt.ParseToken(c.Request().Header.Get("Authorization"))
 		token, err := jwt.ParseToken(cookie.Value)
 
 		if err != nil {
@@ -30,14 +29,14 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 
 		claims := token.Claims.(jwtGo.MapClaims)
 
-		oid, err := primitive.ObjectIDFromHex(claims["id"].(string))
+		uid, err := uuid.FromString(claims["id"].(string))
 
 		if err != nil {
 			return err
 		}
 
 		currUser := model.AuthUser{
-			Id:       oid,
+			Id:       uid,
 			Name:     claims["name"].(string),
 			Username: claims["username"].(string),
 			Email:    claims["email"].(string),

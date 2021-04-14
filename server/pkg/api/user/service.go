@@ -1,8 +1,8 @@
 package user
 
 import (
+	"github.com/go-pg/pg/v10"
 	"github.com/labstack/echo/v4"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type UserInterface interface {
@@ -11,10 +11,10 @@ type UserInterface interface {
 }
 
 type UserService struct {
-	db *mongo.Database
+	db *pg.DB
 }
 
-func New(db *mongo.Database) *UserService {
+func New(db *pg.DB) *UserService {
 	return &UserService{
 		db: db,
 	}

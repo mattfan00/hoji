@@ -1,8 +1,8 @@
 package entry
 
 import (
+	"github.com/go-pg/pg/v10"
 	"github.com/labstack/echo/v4"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type EntryInterface interface {
@@ -12,10 +12,10 @@ type EntryInterface interface {
 }
 
 type EntryService struct {
-	db *mongo.Database
+	db *pg.DB
 }
 
-func New(db *mongo.Database) *EntryService {
+func New(db *pg.DB) *EntryService {
 	return &EntryService{
 		db: db,
 	}

@@ -5,7 +5,7 @@ import Post from "./Entry/Post"
 import Gallery from "./Entry/Gallery"
 
 const Entry = ({
-  author,
+  user,
   created,
   type,
   content,
@@ -17,7 +17,7 @@ const Entry = ({
   return (
     <div className="mb-12">
       <EntryHeader
-        author={author}
+        user={user}
         created={created}
       />
 

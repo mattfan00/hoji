@@ -29,8 +29,8 @@ const Profile = () => {
 
   const sortedEntries = () => {
     return profile?.entries?.sort((a, b) => {
-      const aDate = new Date(a.created)
-      const bDate = new Date(b.created)
+      const aDate = new Date(a.created_at)
+      const bDate = new Date(b.created_at)
       return bDate - aDate
     })
   }
@@ -40,12 +40,12 @@ const Profile = () => {
       <ProfileHeader 
         name={profile?.name}
         username={profile?.username}
-        description={profile?.details.description}
+        description={profile?.description}
       />
 
       <div className="mt-16">
         {sortedEntries()?.map(({
-          _id, 
+          id, 
           created,
           type, 
           title,
@@ -55,11 +55,11 @@ const Profile = () => {
         }) => (
           <div 
             className="cursor-pointer" 
-            onClick={(e) => handleClick(e, _id)} 
-            key={_id}
+            onClick={(e) => handleClick(e, id)} 
+            key={id}
           >
             <Entry
-              author={profile?.username}
+              user={profile?.username}
               created={created}
               type={type}
               title={title}

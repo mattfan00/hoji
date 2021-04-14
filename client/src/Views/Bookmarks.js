@@ -23,11 +23,11 @@ const Bookmarks = () => {
     <>
       {bookmarks.map(({ name, username, description }) => (
         <div className="mb-4">
-        <ProfileHeader
-          name={name}
-          username={username}
-          description={description}
-        />
+          <ProfileHeader
+            name={name}
+            username={username}
+            description={description}
+          />
         </div>
       ))}
     </>

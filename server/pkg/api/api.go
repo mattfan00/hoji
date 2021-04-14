@@ -6,8 +6,9 @@ import (
 	"server/pkg/api/user"
 	"server/pkg/utl/config"
 	"server/pkg/utl/errors"
-	"server/pkg/utl/mongo"
+	"server/pkg/utl/postgres"
 
+	"github.com/go-pg/pg/extra/pgdebug"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -16,7 +17,12 @@ import (
 func Start() {
 	config.Init()
 
-	db := mongo.Init()
+	pg := postgres.Init()
+
+	pg.AddQueryHook(pgdebug.DebugHook{
+		// Print all queries.
+		Verbose: true,
+	})
 
 	// Echo instance
 	e := echo.New()
@@ -32,9 +38,9 @@ func Start() {
 	e.Validator = &errors.CustomValidator{Validator: validator.New()}
 	e.HTTPErrorHandler = errors.CustomHTTPErrorHandler
 
-	userService := user.New(db)
-	authService := auth.New(db)
-	entryService := entry.New(db)
+	userService := user.New(pg)
+	authService := auth.New(pg)
+	entryService := entry.New(pg)
 
 	user.Routes(e, userService)
 	auth.Routes(e, authService)

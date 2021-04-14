@@ -1,15 +1,11 @@
 package entry
 
 import (
-	"context"
 	"net/http"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/model"
-	"time"
 
 	"github.com/labstack/echo/v4"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type createReq struct {
@@ -33,63 +29,53 @@ func (e EntryService) Create(c echo.Context) error {
 	currUser := c.Get("user").(model.AuthUser)
 
 	newEntry := model.Entry{
-		Author:      currUser.Id,
+		UserId:      currUser.Id,
 		Type:        body.Type,
 		Title:       body.Title,
 		Description: body.Description,
 		Content:     body.Content,
-		Created:     time.Now(),
 	}
 
-	entryResult, err := e.db.Collection("entries").InsertOne(context.TODO(), newEntry)
-
-	_, err = e.db.Collection("users").UpdateOne(
-		context.TODO(),
-		bson.M{"_id": currUser.Id},
-		bson.M{"$push": bson.M{"entries": entryResult.InsertedID}},
-	)
+	_, err := e.db.Model(&newEntry).Insert()
 
 	if err != nil {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, entryResult.InsertedID)
+	return c.JSON(http.StatusOK, newEntry)
 }
 
 func (e EntryService) View(c echo.Context) error {
-	var foundEntry model.Entry
+	foundEntry := new(model.Entry)
 
-	oid, _ := primitive.ObjectIDFromHex(c.Param("id"))
-	err := e.db.Collection("entries").FindOne(context.TODO(), bson.M{
-		"_id": oid,
-	}).Decode(&foundEntry)
+	/*
+		err := e.db.Model(foundEntry).
+			Relation("User").Where("entry.id = ?", c.Param("id")).
+			Column("entry.*").
+			Select()
+	*/
 
-	if err != nil {
-		return errors.NotFound()
-	}
+	sql := `SELECT "entry".*, "user"."id" AS "user__id",  "user"."username" AS "user__username" FROM "entries" AS "entry" LEFT JOIN "users" AS "user" ON 
+	("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE ((entry.id = ?)) AND "entry"."deleted_at" IS NULL`
 
-	var foundUser model.User
-	err = e.db.Collection("users").FindOne(context.TODO(), bson.M{
-		"_id": foundEntry.Author,
-	}).Decode(&foundUser)
+	_, err := e.db.QueryOne(foundEntry, sql, c.Param("id"))
 
 	if err != nil {
 		return errors.NotFound()
 	}
-
-	foundEntry.Author = foundUser.Username
 
 	return c.JSON(http.StatusOK, foundEntry)
 }
 
 func (e EntryService) List(c echo.Context) error {
-	cursor, err := e.db.Collection("entries").Find(context.TODO(), bson.M{})
-	if err != nil {
-		return err
-	}
-
 	var entries []model.Entry
-	if err = cursor.All(context.TODO(), &entries); err != nil {
+
+	sql := `SELECT "entry".*, "user"."id" AS "user__id",  "user"."username" AS "user__username" FROM "entries" AS "entry" LEFT JOIN "users" AS "user" ON 
+	("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE "entry"."deleted_at" IS NULL`
+
+	_, err := e.db.Query(&entries, sql)
+
+	if err != nil {
 		return err
 	}
 

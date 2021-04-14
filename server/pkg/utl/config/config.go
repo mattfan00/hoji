@@ -9,6 +9,7 @@ import (
 type Config struct {
 	MongoURI  string
 	JWTSecret string
+	PgURI     string
 }
 
 var Values *Config
@@ -21,5 +22,6 @@ func Init() {
 	Values = &Config{
 		MongoURI:  os.Getenv("MONGO_URI"),
 		JWTSecret: os.Getenv("JWT_SECRET"),
+		PgURI:     os.Getenv("PG_URI"),
 	}
 }
