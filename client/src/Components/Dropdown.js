@@ -17,7 +17,7 @@ export const DropdownItem = ({
   onClick,
   onMouseDown,
 }) => {
-  const style = `block first:rounded-t-lg last:rounded-b-lg px-4 py-1.5 font-semibold text-xs hover:bg-gray-100 cursor-pointer transition-colors`
+  const style = `dropdownItem block first:rounded-t-md last:rounded-b-md px-3 py-1 font-semibold text-xs hover:bg-gray-100 cursor-pointer transition-colors`
 
   return (
     <>
@@ -43,9 +43,10 @@ export const DropdownItem = ({
 
 const Dropdown = ({
   children,
-  type,
+  variant,
   size,
   className,
+  direction,
 }) => {
   const [active, setActive] = useState(false)
   const buttonRef = useRef(null)
@@ -55,6 +56,7 @@ const Dropdown = ({
   }
 
   const closeDropdown = (e) => {
+    e.stopPropagation()
     // only close it if the target does not contain the button
     if (!buttonRef.current.contains(e.target)) {
       setActive(false)
@@ -77,7 +79,7 @@ const Dropdown = ({
     <div className={className}>
       <Button
         reference={buttonRef}
-        type={type}
+        variant={variant}
         size={size}
         active={active}
         onClick={toggleDropdown}
@@ -89,7 +91,10 @@ const Dropdown = ({
       <FadeAnimation show={active}>
         <ClickOutside action={closeDropdown}>
           <div className="relative">
-            <div onClick={closeDropdown} className="absolute top-2 w-auto whitespace-nowrap rounded-md shadow-sm bg-white border">
+            <div 
+              onClick={closeDropdown} 
+              className={`absolute ${size === "sm" ? "top-1" : "top-2"} ${direction === "left" ? "right-0" : "left-0"} w-auto whitespace-nowrap rounded-md shadow-sm bg-white border`}
+            >
               {items()}
             </div>
           </div>

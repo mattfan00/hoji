@@ -19,9 +19,10 @@ const EntryView = () => {
 
   return (
     <Entry
+      id={entry?.id}
       user={entry?.user?.username}
       type={entry?.type}
-      created={entry?.created}
+      createdAt={entry?.created_at}
       title={entry?.title}
       description={entry?.description}
       content={entry?.content}

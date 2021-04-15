@@ -94,7 +94,6 @@ const NewEntry = () => {
 
       <EntryHeader 
         user={user?.username}
-        created={dayjs().format()}
       />
       
       <div className="mb-16">

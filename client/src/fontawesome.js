@@ -18,6 +18,7 @@ import {
   faPencilAlt,
   faChevronRight,
   faSignInAlt,
+  faEllipsisH,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -25,6 +26,8 @@ import {
   faImages,
   faLightbulb,
   faCommentAlt,
+  faEdit,
+  faTrashAlt,
 } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
@@ -47,4 +50,7 @@ library.add(
   faChevronRight,
   faSignInAlt,
   faCommentAlt,
+  faEdit,
+  faTrashAlt,
+  faEllipsisH,
 )

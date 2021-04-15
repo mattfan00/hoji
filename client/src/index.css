@@ -63,6 +63,10 @@
     @apply bg-white  hover:bg-gray-100 !important
   }
 
+  .btn-plain {
+    @apply bg-white hover:bg-white !important
+  }
+
   .btn-sm {
     @apply px-2 py-1 !important
   }

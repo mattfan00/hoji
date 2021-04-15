@@ -52,7 +52,8 @@ func (u UserService) Update(c echo.Context) error {
 
 	// if the username is being changed, check if it the username is in use already
 	if currUser.Username != body.Username {
-		err := u.db.Model((*model.User)(nil)).Where("lower(username) = ?", strings.ToLower(body.Username)).Select()
+		foundUser := new(model.User)
+		err := u.db.Model(foundUser).Where("lower(username) = ?", strings.ToLower(body.Username)).Select()
 
 		// if found a user with that username
 		if err == nil || err != pg.ErrNoRows {

@@ -21,6 +21,11 @@ const Profile = () => {
     getProfile()
   }, [])
 
+  const handleDelete = (entryId) => {
+    const newEntries = profile.entries.filter((entry) => entry.id != entryId)
+    setProfile({...profile, entries: newEntries})
+  }
+
   const handleClick = (e, id) => {
     if (e.target.tagName !== "A") {
       history.push(`/entry/${id}`)
@@ -46,7 +51,7 @@ const Profile = () => {
       <div className="mt-16">
         {sortedEntries()?.map(({
           id, 
-          created,
+          created_at,
           type, 
           title,
           description,
@@ -59,13 +64,15 @@ const Profile = () => {
             key={id}
           >
             <Entry
+              id={id}
               user={profile?.username}
-              created={created}
+              createdAt={created_at}
               type={type}
               title={title}
               description={description}
               content={content}
               photos={photos}
+              onDelete={handleDelete}
             />
           </div>
         ))}

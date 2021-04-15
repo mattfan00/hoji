@@ -16,6 +16,7 @@ type User struct {
 	Password    string   `json:"-"`
 	Name        string   `json:"name,omitempty"`
 	Username    string   `json:"username,omitempty" pg:",unique"`
+	Avatar      string   `json:"avatar,omitempty"`
 	Description string   `json:"description,omitempty"`
 	Website     string   `json:"website,omitempty"`
 	Entries     []*Entry `json:"entries,omitempty" pg:"rel:has-many"`

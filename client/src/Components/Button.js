@@ -15,7 +15,14 @@ const Button = ({
   size,
   active,
 }) => {
-  const style = `btn${variant === "primary" ? " btn-primary" : ""}${variant === "text" ? " btn-text" : ""}${size === "sm" ? " btn-sm" : ""}${lowercase ? " lowercase" : ""}${disabled ? " disabled" : ""}${active ? " active" : ""}${className ? ` ${className}` : ""}`
+  const style = `btn${variant ? ` btn-${variant}` : ""}${size === "sm" ? " btn-sm" : ""}${lowercase ? " lowercase" : ""}${disabled ? " disabled" : ""}${active ? " active" : ""}${className ? ` ${className}` : ""}`
+
+  const handleClick = (e) => {
+    if (onClick) {
+      e.stopPropagation()
+      onClick()
+    }
+  }
 
   return (
     <>
@@ -23,7 +30,7 @@ const Button = ({
         <button
           ref={reference}
           className={style}
-          onClick={onClick}
+          onClick={handleClick}
           type={type}
           onMouseDown={onMouseDown}
         >
@@ -34,7 +41,7 @@ const Button = ({
           <button
             ref={reference}
             className={style}
-            onClick={onClick}
+            //onClick={handleClick}
             onMouseDown={onMouseDown}
           >
             {children}

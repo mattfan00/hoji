@@ -81,3 +81,24 @@ func (e EntryService) List(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, entries)
 }
+
+func (e EntryService) Delete(c echo.Context) error {
+	currUser := c.Get("user").(model.AuthUser)
+
+	// check if entry belongs to the current user
+	foundEntry := new(model.Entry)
+	err := e.db.Model(foundEntry).
+		Where("id = ? AND user_id = ?", c.Param("id"), currUser.Id).Select()
+
+	if err != nil {
+		return errors.Unauthorized()
+	}
+
+	_, err = e.db.Model(foundEntry).Where("id = ?id").Delete()
+
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, "Successfully deleted")
+}

@@ -9,6 +9,7 @@ type EntryInterface interface {
 	View(echo.Context) error
 	Create(echo.Context) error
 	List(echo.Context) error
+	Delete(echo.Context) error
 }
 
 type EntryService struct {
