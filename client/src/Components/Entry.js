@@ -59,7 +59,7 @@ const Entry = ({
           <FontAwesomeIcon className="text-gray-400" size="lg" icon="ellipsis-h" />
         </Dropdown.Button>
 
-        <Dropdown.Item href={`/${'hello'}`}>
+        <Dropdown.Item href={`/entry/${id}/edit`}>
           <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "edit"]} />
           Edit
         </Dropdown.Item>
