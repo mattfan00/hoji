@@ -8,6 +8,8 @@ const EditPost = ({
   setEditorState,
   onTitleChange,
   onDescriptionChange,
+  initialTitle, 
+  initialDescription, 
 }) => {
   const handleTitleChange = (value) => {
     onTitleChange(value)
@@ -22,7 +24,7 @@ const EditPost = ({
         placeholder="give your post a title..."
         onChange={handleTitleChange}
         autofocus
-        // initial="hey"
+        initial={initialTitle}
         tagName="h2"
       />
 
@@ -30,7 +32,7 @@ const EditPost = ({
         className="mb-12"
         placeholder="give your post a description..."
         onChange={handleDescriptionChange}
-        // initial="hey"
+        initial={initialDescription}
       />
 
       <CustomEditor

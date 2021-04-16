@@ -3,8 +3,10 @@ import CustomInput from "../CustomInput"
 
 const EditThought = ({
   onContentChange,
+  initial,
 }) => {
   const handleChange = (value) => {
+    console.log(value)
     onContentChange(value.replace("\n\n", "\n"))
   }
    
@@ -14,7 +16,7 @@ const EditThought = ({
         placeholder="ideate your thought here..."
         onChange={handleChange}
         autofocus
-        // initial="hey"
+        initial={initial}
       />
     </>
   )

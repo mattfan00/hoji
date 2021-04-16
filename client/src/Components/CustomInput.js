@@ -9,6 +9,7 @@ const CustomInput = ({
   autofocus,
 }) => {
   const textInput = useRef(null)
+  const defaultValue = useRef(initial)
   const CustomTag = tagName ? tagName : "div"
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const CustomInput = ({
         placeholder={placeholder}
         contentEditable="true"
         ref={textInput}
-        dangerouslySetInnerHTML={{__html: initial}}
+        dangerouslySetInnerHTML={{__html: defaultValue.current}}
         onInput={emitChange}
         onPaste={removeFormatting}
       ></CustomTag>

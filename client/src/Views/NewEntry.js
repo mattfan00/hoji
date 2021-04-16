@@ -2,13 +2,11 @@ import React, { useState, useContext, useRef } from "react"
 import { useHistory } from "react-router-dom"
 import { EditorState, convertToRaw } from 'draft-js';
 import { AuthContext } from "../Context/AuthContext"
-import dayjs from "dayjs"
 import EntryHeader from "../Components/Entry/EntryHeader"
 import SelectNew from "../Components/SelectNew"
 import Button from "../Components/Button"
 import EditPost from "../Components/Entry/EditPost"
 import EditThought from "../Components/Entry/EditThought"
-import EditGallery from "../Components/Entry/EditGallery"
 import FadeAnimation from "../Components/FadeAnimation"
 import axios from "axios"
 
