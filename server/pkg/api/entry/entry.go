@@ -1,18 +1,21 @@
 package entry
 
 import (
+	//"fmt"
 	"net/http"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/model"
 
+	//"github.com/fatih/structs"
+	"github.com/jinzhu/copier"
 	"github.com/labstack/echo/v4"
 )
 
 type createReq struct {
-	Type        string `json:"type" validate:"required" bson:"type,omitempty"`
-	Title       string `json:"title" bson:"title,omitempty"`
-	Description string `json:"description" bson:"description,omitempty"`
-	Content     string `json:"content" bson:"content,omitempty"`
+	Type        string `json:"type" validate:"required"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Content     string `json:"content"`
 }
 
 func (e EntryService) Create(c echo.Context) error {
@@ -80,6 +83,44 @@ func (e EntryService) List(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, entries)
+}
+
+type updateReq struct {
+	Title       string `json:"title" structs:"title"`
+	Description string `json:"description" structs:"description"`
+	Content     string `json:"content" structs:"content"`
+}
+
+func (e EntryService) Update(c echo.Context) error {
+	body := new(updateReq)
+
+	if err := c.Bind(body); err != nil {
+		return err
+	}
+
+	currUser := c.Get("user").(model.AuthUser)
+
+	// check if entry belongs to the current user
+	foundEntry := new(model.Entry)
+	err := e.db.Model(foundEntry).
+		Where("id = ? AND user_id = ?", c.Param("id"), currUser.Id).Select()
+
+	if err != nil {
+		return errors.Unauthorized()
+	}
+
+	// update the appropriate entry
+	updatedEntry := new(model.Entry)
+	copier.Copy(updatedEntry, &body)
+
+	_, err = e.db.Model(updatedEntry).
+		Where("id = ?", c.Param("id")).UpdateNotZero()
+
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, "Successfully updated")
 }
 
 func (e EntryService) Delete(c echo.Context) error {

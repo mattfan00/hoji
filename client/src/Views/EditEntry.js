@@ -84,9 +84,8 @@ const EditEntry = () => {
     }
   }
 
-  const submit = async () => {
-    await axios.put("/entry/${id}", {
-      type,
+  const update = async () => {
+    await axios.put(`/entry/${id}`, {
       title,
       description,
       content: type === "post" ? (
@@ -113,8 +112,8 @@ const EditEntry = () => {
             className="mr-2"
             variant="primary"
             disabled={submitDisabled()}
-            onClick={submit}
-          >Submit</Button>
+            onClick={update}
+          >Update</Button>
           <Button onClick={cancel}>Cancel</Button>
         </div>
 

@@ -6,8 +6,9 @@ import (
 	"server/pkg/utl/model"
 	"strings"
 
-	"github.com/fatih/structs"
+	//"github.com/fatih/structs"
 	"github.com/go-pg/pg/v10"
+	"github.com/jinzhu/copier"
 	"github.com/labstack/echo/v4"
 )
 
@@ -62,8 +63,11 @@ func (u UserService) Update(c echo.Context) error {
 	}
 
 	// update the appropriate user
-	newValues := structs.Map(body)
-	_, err := u.db.Model(&newValues).TableExpr("users").Where("lower(username) = ?", currUser.Username).Update()
+	updatedUser := new(model.User)
+	copier.Copy(updatedUser, &body)
+
+	_, err := u.db.Model(updatedUser).
+		Where("lower(username) = ?", currUser.Username).UpdateNotZero()
 
 	if err != nil {
 		return err
