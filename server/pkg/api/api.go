@@ -4,11 +4,11 @@ import (
 	"server/pkg/api/auth"
 	"server/pkg/api/entry"
 	"server/pkg/api/user"
+	"server/pkg/utl/aws"
 	"server/pkg/utl/config"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/postgres"
 
-	"github.com/go-pg/pg/extra/pgdebug"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -16,13 +16,8 @@ import (
 
 func Start() {
 	config.Init()
-
 	pg := postgres.Init()
-
-	pg.AddQueryHook(pgdebug.DebugHook{
-		// Print all queries.
-		Verbose: true,
-	})
+	aws := aws.Init()
 
 	// Echo instance
 	e := echo.New()
@@ -38,7 +33,7 @@ func Start() {
 	e.Validator = &errors.CustomValidator{Validator: validator.New()}
 	e.HTTPErrorHandler = errors.CustomHTTPErrorHandler
 
-	userService := user.New(pg)
+	userService := user.New(pg, aws)
 	authService := auth.New(pg)
 	entryService := entry.New(pg)
 

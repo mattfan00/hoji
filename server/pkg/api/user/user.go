@@ -1,6 +1,7 @@
 package user
 
 import (
+	"fmt"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/jwt"
 	"server/pkg/utl/model"
@@ -94,4 +95,37 @@ func (u UserService) Update(c echo.Context) error {
 	jwt.CreateCookie(c, "token", newJwt)
 
 	return c.JSON(200, newAuthUser)
+}
+
+func (u UserService) UpdateAvatar(c echo.Context) error {
+	currUser := c.Get("user").(model.AuthUser)
+
+	// don't let people submit request to change username of someone else
+	if currUser.Username != c.Param("username") {
+		return errors.Unauthorized()
+	}
+
+	form, err := c.MultipartForm()
+	if err != nil {
+		return err
+	}
+
+	file := form.File["file"][0]
+
+	fileLocation, err := u.aws.AddObject(file, "hoji", "/avatar")
+
+	if err != nil {
+		return err
+	}
+
+	updatedUser := model.User{Avatar: fileLocation}
+	_, err = u.db.Model(&updatedUser).
+		Where("lower(username) = ?", currUser.Username).UpdateNotZero()
+
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	return c.JSON(200, fileLocation)
 }

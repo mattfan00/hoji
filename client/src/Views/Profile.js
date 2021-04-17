@@ -44,6 +44,7 @@ const Profile = () => {
     <div>
       <ProfileHeader 
         name={profile?.name}
+        avatar={profile?.avatar}
         username={profile?.username}
         description={profile?.description}
       />

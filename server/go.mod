@@ -3,6 +3,7 @@ module server
 go 1.15
 
 require (
+	github.com/aws/aws-sdk-go v1.38.21
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-pg/pg/extra/pgdebug v0.2.0
 	github.com/go-pg/pg/v10 v10.9.0

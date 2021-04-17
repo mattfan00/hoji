@@ -8,6 +8,7 @@ import { AuthContext } from "../Context/AuthContext"
 const ProfileHeader = ({
   name, 
   username,
+  avatar,
   description,
 }) => {
   const [bookmark, setBookmark] = useState(false)
@@ -20,8 +21,12 @@ const ProfileHeader = ({
   return (
     <div className="card">
       <div className="flex items-center">
-        <div className="mr-4 w-10 h-10 rounded-full overflow-hidden">
-          <DefaultProPic />
+        <div className="mr-4 w-12 h-12 rounded-full overflow-hidden">
+          {avatar ? (
+            <img className="object-cover w-full h-full" src={avatar} />
+          ) : (
+            <DefaultProPic />
+          )}
         </div>
         <div className="flex-1 flex justify-between items-center">
           <div className="flex flex-col">

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useContext, useEffect, useRef } from "react"
 import DefaultProPic from "../Icons/DefaultProPic"
 import Button from "../Components/Button"
 import Input from "../Components/Input"
@@ -11,6 +11,7 @@ import axios from "axios"
 
 const Settings = () => {
   const [fields, setFields] = useState({
+    avatar: "",
     name: "",
     username: "",
     description: "",
@@ -19,6 +20,7 @@ const Settings = () => {
   const [edited, setEdited] = useState(false)
   const [error, setError] = useState(null)
   const { user, setUser } = useContext(AuthContext)
+  const inputFile = useRef(null)
 
   useEffect(() => {
     const getUser = async () => {
@@ -26,6 +28,7 @@ const Settings = () => {
       const { data } = resultUser
 
       setFields({
+        avatar: data.avatar || "",
         name: data.name || "",
         username: data.username || "",
         description: data.description || "",
@@ -56,16 +59,37 @@ const Settings = () => {
     setEdited(false)
   }
 
+  const showFileBrowser = () => inputFile.current.click()
+
+  const handleImageUpload = async (e) => {
+    const [file] = e.target.files;
+    const formData = new FormData()
+    formData.append("file", file)
+
+    const uploadResult = await axios.put(`/user/${user.username}/avatar`, formData, {
+      headers: {
+        "content-type": "multipart/form-data"
+      }
+    })
+
+    setFields({...fields, avatar: uploadResult.data})
+  }
+
   return (
     <div className="max-w-md m-auto">
       <h2 className="mb-6">General</h2>
       <div className="mb-10">
         <div className="flex items-center mb-6">
           <div className="mr-5 w-12 h-12 rounded-full overflow-hidden">
-            <DefaultProPic />
+            {fields.avatar ? (
+              <img className="object-cover w-full h-full" src={fields.avatar} />
+            ) : (
+              <DefaultProPic />
+            )}
           </div>
-          <Button className="mr-2">Upload</Button>
+          <Button className="mr-2" onClick={showFileBrowser}>Upload</Button>
           <Button>Remove</Button>
+          <input ref={inputFile} className="hidden" type="file" accept="image/*" onChange={handleImageUpload} />
         </div>
 
         <Error className="mb-4" show={error}>{error}</Error>

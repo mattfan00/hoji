@@ -5,6 +5,7 @@ import (
 	"log"
 	"server/pkg/utl/config"
 
+	"github.com/go-pg/pg/extra/pgdebug"
 	"github.com/go-pg/pg/v10"
 )
 
@@ -22,6 +23,11 @@ func Init() *pg.DB {
 	}
 
 	fmt.Println("connected to db")
+
+	db.AddQueryHook(pgdebug.DebugHook{
+		// Print all queries.
+		Verbose: true,
+	})
 
 	return db
 }
