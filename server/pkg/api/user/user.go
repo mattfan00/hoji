@@ -1,11 +1,11 @@
 package user
 
 import (
-	"fmt"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/jwt"
 	"server/pkg/utl/model"
 	"strings"
+	"time"
 
 	//"github.com/fatih/structs"
 	"github.com/go-pg/pg/v10"
@@ -106,6 +106,7 @@ func (u UserService) UpdateAvatar(c echo.Context) error {
 	}
 
 	form, err := c.MultipartForm()
+
 	if err != nil {
 		return err
 	}
@@ -123,9 +124,30 @@ func (u UserService) UpdateAvatar(c echo.Context) error {
 		Where("lower(username) = ?", currUser.Username).UpdateNotZero()
 
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
 	return c.JSON(200, fileLocation)
+}
+
+func (u UserService) RemoveAvatar(c echo.Context) error {
+	currUser := c.Get("user").(model.AuthUser)
+
+	// don't let people submit request to change username of someone else
+	if currUser.Username != c.Param("username") {
+		return errors.Unauthorized()
+	}
+
+	newValues := map[string]interface{}{
+		"avatar":     nil,
+		"updated_at": time.Now().UTC(),
+	}
+	_, err := u.db.Model(&newValues).TableExpr("users").
+		Where("lower(username) = ?", currUser.Username).Update()
+
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(200, "Succesfully removed avatar")
 }

@@ -75,6 +75,16 @@ const Settings = () => {
     setFields({...fields, avatar: uploadResult.data})
   }
 
+  const removeImage = async () => {
+    try {
+      await axios.delete(`/user/${user.username}/avatar`)
+
+      setFields({...fields, avatar: ""})
+    } catch(err) {
+      console.log(err.response.data)
+    }
+  }
+
   return (
     <div className="max-w-md m-auto">
       <h2 className="mb-6">General</h2>
@@ -88,7 +98,7 @@ const Settings = () => {
             )}
           </div>
           <Button className="mr-2" onClick={showFileBrowser}>Upload</Button>
-          <Button>Remove</Button>
+          <Button onClick={removeImage}>Remove</Button>
           <input ref={inputFile} className="hidden" type="file" accept="image/*" onChange={handleImageUpload} />
         </div>
 

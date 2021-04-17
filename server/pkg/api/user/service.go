@@ -11,6 +11,7 @@ type UserInterface interface {
 	View(echo.Context) error
 	Update(echo.Context) error
 	UpdateAvatar(echo.Context) error
+	RemoveAvatar(echo.Context) error
 }
 
 type UserService struct {
