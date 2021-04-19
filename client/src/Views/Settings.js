@@ -1,4 +1,6 @@
-import React, { useState, useContext, useEffect, useRef } from "react"
+import React, { useState, useContext, useRef } from "react"
+import { useQuery, useMutation } from "react-query"
+import { queryClient } from "../Util/queryClient"
 import DefaultProPic from "../Icons/DefaultProPic"
 import Button from "../Components/Button"
 import Input from "../Components/Input"
@@ -10,6 +12,21 @@ import axios from "axios"
 
 
 const Settings = () => {
+  const updateMutation = useMutation(fields => axios.put(`/user/${user.username}`, fields), {
+    onSuccess: ({ data }) => {
+      setUser(data)
+      setEdited(false)
+    },
+  })
+
+  const uploadMutation = useMutation(formData => axios.put(`/user/${user.username}/avatar`, formData), {
+    onSuccess: ({ data }) => setFields({...fields, avatar: data})
+  })
+
+  const removeMutation = useMutation(() => axios.delete(`/user/${user.username}/avatar`), {
+    onSuccess: () => setFields({...fields, avatar: ""})
+  })
+
   const [fields, setFields] = useState({
     avatar: "",
     name: "",
@@ -18,15 +35,12 @@ const Settings = () => {
     website: "",
   })
   const [edited, setEdited] = useState(false)
-  const [error, setError] = useState(null)
   const { user, setUser } = useContext(AuthContext)
   const inputFile = useRef(null)
 
-  useEffect(() => {
-    const getUser = async () => {
-      const resultUser = await axios.get(`/user/${user.username}`)
-      const { data } = resultUser
-
+  useQuery(`/user/${user?.username}`, {
+    enabled: user ? true : false,
+    onSuccess: (data) => {
       setFields({
         avatar: data.avatar || "",
         name: data.name || "",
@@ -35,11 +49,7 @@ const Settings = () => {
         website: data.website || "",
       })
     }
-
-    if (user) {
-      getUser()
-    }
-  }, [user])
+  })
 
   const handleChange = (e, field) => {
     setEdited(true)
@@ -48,15 +58,8 @@ const Settings = () => {
 
   const updateProfile = async (e) => {
     e.preventDefault()
-    try {
-      const resultUpdate = await axios.put(`/user/${user.username}`, fields)
 
-      setError(null)
-      setUser(resultUpdate.data)
-    } catch({ response }) {
-      setError(response.data.message)
-    }
-    setEdited(false)
+    updateMutation.mutate(fields)
   }
 
   const showFileBrowser = () => inputFile.current.click()
@@ -66,23 +69,11 @@ const Settings = () => {
     const formData = new FormData()
     formData.append("file", file)
 
-    const uploadResult = await axios.put(`/user/${user.username}/avatar`, formData, {
-      headers: {
-        "content-type": "multipart/form-data"
-      }
-    })
-
-    setFields({...fields, avatar: uploadResult.data})
+    uploadMutation.mutate(formData)
   }
 
   const removeImage = async () => {
-    try {
-      await axios.delete(`/user/${user.username}/avatar`)
-
-      setFields({...fields, avatar: ""})
-    } catch(err) {
-      console.log(err.response.data)
-    }
+    removeMutation.mutate()
   }
 
   return (
@@ -102,7 +93,7 @@ const Settings = () => {
           <input ref={inputFile} className="hidden" type="file" accept="image/*" onChange={handleImageUpload} />
         </div>
 
-        <Error className="mb-4" show={error}>{error}</Error>
+        <Error className="mb-4" error={updateMutation.error} />
 
         <Form onSubmit={updateProfile}>
           <Input 

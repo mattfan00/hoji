@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react"
 import { useHistory } from "react-router-dom"
 import Input from "../../Components/Input"
 import Form from "../../Components/Form"
+import { useMutation } from "react-query"
 import Button from "../../Components/Button"
 import Error from "../../Components/Error"
 import { Link } from "react-router-dom"
@@ -11,11 +12,17 @@ import { AuthContext } from "../../Context/AuthContext"
 // import GoogleLogin from "react-google-login"
 
 const Login = () => {
+  const loginMutation = useMutation((fields) => axios.post("/auth/login", fields), {
+    onSuccess: ({ data }) => {
+      setUser(data)
+      history.push(`/${data.username}`)
+    }
+  })
+
   const [fields, setFields] = useState({
     email: "",
     password: "",
   })
-  const [error, setError] = useState(null)
   
   const history = useHistory()
   const { setUser } = useContext(AuthContext)
@@ -32,18 +39,7 @@ const Login = () => {
     e.preventDefault()
 
     if (!isLoginDisabled()) {
-      try {
-        const loginResult = await axios.post("/auth/login", {
-          email: fields.email,
-          password: fields.password
-        })
-
-        setUser(loginResult.data)
-
-        history.push(`/${loginResult.data.username}`)
-      } catch({ response }) {
-        setError(response.data.message)
-      }
+      loginMutation.mutate(fields)
     }
   }
 
@@ -64,7 +60,7 @@ const Login = () => {
         onFailure={responseGoogle}
         cookiePolicy={'single_host_origin'}
       /> */}
-      <Error className="mb-4" show={error}>{error}</Error>
+      <Error className="mb-4" error={loginMutation.error} />
       <Form onSubmit={login}>
         <div className="mb-5">
           <Input

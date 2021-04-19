@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react"
+import { useMutation } from "react-query"
 import { useHistory } from "react-router-dom"
 import { AuthContext } from "../../Context/AuthContext"
 import Input from "../../Components/Input"
@@ -14,17 +15,14 @@ const FirstPage = ({
   fields,
   setFields,
 }) => {
-  const [error, setError] = useState(null)
+  const checkMutation = useMutation(() => axios.post(`/auth/check?email=${fields.email}`), {
+    onSuccess: () => onSubmit()
+  })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!isSubmitDisabled()) {
-      try {
-        await axios.get(`/auth/check?email=${fields.email}`)
-        onSubmit()
-      } catch({ response }) {
-        setError(response.data.message)
-      }
+      checkMutation.mutate()
     }
   }
 
@@ -34,11 +32,11 @@ const FirstPage = ({
 
   return (
     <>
-      <Error className="mb-4" show={error}>{error}</Error>
+      <Error className="mb-4" error={checkMutation.error} />
       <Form onSubmit={handleSubmit}>
         <div className="mb-5">
           <Input
-            className="mb-2" label="Email" type="email" name="email" autocompleteOff required
+            className="mb-2" label="Email" type="email" name="email" autocompleteOff autoFocus required 
             value={fields.email}
             onChange={(e) => setFields({...fields, email: e.target.value})}
           />
@@ -65,22 +63,19 @@ const SubmitPage = ({
   fields,
   setFields
 }) => {
-  const [error, setError] = useState(null)
+  const registerMutation = useMutation((fields) => axios.post(`/auth/register`, fields), {
+    onSuccess: ({ data }) => {
+      setUser(data)
+      history.push(`/${data.username}`)
+    }
+  })
+
   const { setUser } = useContext(AuthContext)
   const history = useHistory()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!isSubmitDisabled()) {
-      try {
-        const registerResult = await axios.post(`/auth/register`, fields)
-
-        setUser(registerResult.data)
-        history.push(`/${registerResult.data.username}`)
-      } catch({ response }) {
-        setError(response.data.message)
-      }
-    }
+    registerMutation.mutate(fields)
   }
 
   const handlePrevious = (e) => {
@@ -94,7 +89,7 @@ const SubmitPage = ({
 
   return (
     <>
-      <Error className="mb-4" show={error}>{error}</Error>
+      <Error className="mb-4" error={registerMutation.error} />
       <Form onSubmit={handleSubmit}>
         <div className="mb-5">
           <Input

@@ -6,7 +6,6 @@ const EditThought = ({
   initial,
 }) => {
   const handleChange = (value) => {
-    console.log(value)
     onContentChange(value.replace("\n\n", "\n"))
   }
    

@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from "react"
+import { useQuery, useMutation } from "react-query"
+import { queryClient } from "../Util/queryClient"
 import { AuthContext } from "../Context/AuthContext"
 import { useParams, useHistory } from "react-router-dom"
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
@@ -10,7 +12,12 @@ import FadeAnimation from "../Components/FadeAnimation"
 import axios from "axios"
 
 const EditEntry = () => {
-  const [loading, setLoading] = useState(true)
+  const entryMutation = useMutation(updatedEntry => axios.put(`/entry/${id}`, updatedEntry), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(`/user/${user.username}`)
+    }
+  })
+
   const [type, setType] = useState("post")
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
@@ -25,11 +32,8 @@ const EditEntry = () => {
 
   const { id } = useParams()
 
-  useEffect(() => {
-    const getEntry = async () => {
-      const entryResult = await axios.get(`/entry/${id}`)
-      const { data } = entryResult
-
+  const { isLoading } = useQuery(`/entry/${id}`, {
+    onSuccess: (data) => {
       setType(data.type)
       setTitle(data.title || "")
       setDescription(data.description || "")
@@ -38,11 +42,8 @@ const EditEntry = () => {
         const contentState = convertFromRaw(JSON.parse(data.content))
         setEditorState(EditorState.createWithContent(contentState))
       }
-      setLoading(false)
     }
-
-    getEntry()
-  }, [])
+  }) 
 
   const cancel = () => history.push(`/${user.username}`)
 
@@ -84,7 +85,7 @@ const EditEntry = () => {
   }
 
   const update = async () => {
-    await axios.put(`/entry/${id}`, {
+    entryMutation.mutate({
       title,
       description,
       content: type === "post" ? (
@@ -102,7 +103,7 @@ const EditEntry = () => {
       />
 
       <div className="mb-16">
-        {!loading ? renderType() : ""}
+        {!isLoading ? renderType() : ""}
       </div>
 
       <div className="flex justify-between items-center">

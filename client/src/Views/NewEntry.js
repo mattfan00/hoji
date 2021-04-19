@@ -1,4 +1,6 @@
 import React, { useState, useContext, useRef } from "react"
+import { useMutation } from "react-query"
+import { queryClient } from "../Util/queryClient"
 import { useHistory } from "react-router-dom"
 import { EditorState, convertToRaw } from 'draft-js';
 import { AuthContext } from "../Context/AuthContext"
@@ -11,6 +13,12 @@ import FadeAnimation from "../Components/FadeAnimation"
 import axios from "axios"
 
 const NewEntry = () => {
+  const entryMutation = useMutation(newEntry => axios.post("/entry", newEntry), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(`/user/${user.username}`)
+    }
+  })
+
   const [type, setType] = useState("post")
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
@@ -71,7 +79,7 @@ const NewEntry = () => {
   }
 
   const submit = async () => {
-    await axios.post("/entry", {
+    entryMutation.mutate({
       type,
       title,
       description,
@@ -91,7 +99,7 @@ const NewEntry = () => {
       />
 
       <EntryHeader 
-        user={user?.username}
+        username={user?.username}
       />
       
       <div className="mb-16">
