@@ -1,30 +1,14 @@
-import React, { useState, useEffect } from "react"
-import { useHistory } from "react-router-dom"
-import { Link, useParams } from "react-router-dom"
+import React from "react"
+import { useQuery } from "react-query"
+import { useParams, useHistory } from "react-router-dom"
 import ProfileHeader from "../Components/ProfileHeader"
 import Entry from "../Components/Entry"
-import axios from "axios"
 
 const Profile = () => {
-  const [profile, setProfile] = useState(null)
   const { username } = useParams()
   const history = useHistory()
 
-  useEffect(() => {
-    const getProfile = async () => {
-      const profileResult = await axios.get(`/user/${username}`)
-      console.log(profileResult.data)
-
-      setProfile(profileResult.data)
-    }
-
-    getProfile()
-  }, [])
-
-  const handleDelete = (entryId) => {
-    const newEntries = profile.entries.filter((entry) => entry.id != entryId)
-    setProfile({...profile, entries: newEntries})
-  }
+  const { data: profile } = useQuery(`/user/${username}`)
 
   const handleClick = (e, id) => {
     if (e.target.tagName !== "A") {
@@ -66,14 +50,13 @@ const Profile = () => {
           >
             <Entry
               id={id}
-              user={profile?.username}
+              username={profile?.username}
               createdAt={created_at}
               type={type}
               title={title}
               description={description}
               content={content}
               photos={photos}
-              onDelete={handleDelete}
             />
           </div>
         ))}

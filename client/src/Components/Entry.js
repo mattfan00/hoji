@@ -1,4 +1,5 @@
 import React, { useContext } from "react"
+import { queryClient } from "../Util/queryClient"
 import { useHistory } from "react-router-dom"
 import EntryHeader from "./Entry/EntryHeader"
 import Thought from "./Entry/Thought"
@@ -12,7 +13,7 @@ import axios from "axios"
 
 const Entry = ({
   id,
-  user,
+  username,
   createdAt,
   type,
   content,
@@ -20,21 +21,20 @@ const Entry = ({
   description,
   photos,
   expanded,
-  onDelete,
 }) => {
-  const { user: currUser } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
   const history = useHistory()
    
   const deleteEntry = async () => {
     try {
       await axios.delete(`/entry/${id}`)
 
-      if (onDelete) {
-        // used when viewing entry from profile page
-        onDelete(id)
+      if (expanded) {
+        // go back to user profile if delete
+        history.push(`/${username}`)
       } else {
-        // used when viewing entry from entry view
-        history.push(`/${user}`)
+        // invalidate the query so that the profile page is reloaded
+        queryClient.invalidateQueries(`/user/${user}`)
       }
     } catch(err) {}
   }
@@ -43,12 +43,11 @@ const Entry = ({
     <div className="mb-12 relative">
       <EntryHeader
         id={id}
-        user={user}
+        username={username}
         createdAt={createdAt}
-        onDelete={onDelete}
       />
 
-      {currUser?.username === user ? (
+      {user?.username === username ? (
       <Dropdown 
         className="absolute -top-1 right-0"
         variant="text"

@@ -29,7 +29,6 @@ const EditEntry = () => {
     const getEntry = async () => {
       const entryResult = await axios.get(`/entry/${id}`)
       const { data } = entryResult
-      console.log(data)
 
       setType(data.type)
       setTitle(data.title || "")
@@ -99,7 +98,7 @@ const EditEntry = () => {
   return (
     <>
       <EntryHeader 
-        user={user?.username}
+        username={user?.username}
       />
 
       <div className="mb-16">
