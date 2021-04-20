@@ -2,6 +2,7 @@ package api
 
 import (
 	"server/pkg/api/auth"
+	"server/pkg/api/bookmark"
 	"server/pkg/api/entry"
 	"server/pkg/api/user"
 	"server/pkg/utl/aws"
@@ -36,10 +37,12 @@ func Start() {
 	userService := user.New(pg, aws)
 	authService := auth.New(pg)
 	entryService := entry.New(pg)
+	bookmarkService := bookmark.New(pg)
 
 	user.Routes(e, userService)
 	auth.Routes(e, authService)
 	entry.Routes(e, entryService)
+	bookmark.Routes(e, bookmarkService)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))
