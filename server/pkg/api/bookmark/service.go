@@ -8,6 +8,7 @@ import (
 type BookmarkInterface interface {
 	Create(echo.Context) error
 	List(echo.Context) error
+	Delete(echo.Context) error
 }
 
 type BookmarkService struct {

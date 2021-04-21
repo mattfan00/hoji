@@ -11,4 +11,5 @@ func Routes(e *echo.Echo, b BookmarkInterface) {
 
 	entry.POST("", b.Create, middleware.Auth)
 	entry.GET("", b.List, middleware.Auth)
+	entry.DELETE("/:bookmark_user_id", b.Delete, middleware.Auth)
 }

@@ -8,7 +8,8 @@ const Profile = () => {
   const { username } = useParams()
   const history = useHistory()
 
-  const { data: profile } = useQuery(`/user/${username}`)
+  const { data: profile, isLoading: isProfileLoading } = useQuery(`/user/${username}`)
+  const { data: bookmarks, isLoading: isBookmarksLoading} = useQuery(`/bookmark`)
 
   const handleClick = (e, id) => {
     if (e.target.tagName !== "A") {
@@ -24,17 +25,25 @@ const Profile = () => {
     })
   }
 
+  if (isProfileLoading || isBookmarksLoading) {
+    return ""
+  }
+
   return (
     <div>
       <ProfileHeader 
-        name={profile?.name}
-        avatar={profile?.avatar}
-        username={profile?.username}
-        description={profile?.description}
+        id={profile.id}
+        name={profile.name}
+        avatar={profile.avatar}
+        username={profile.username}
+        description={profile.description}
+        isBookmark={bookmarks.find((bookmark) => (
+          profile.id === bookmark.bookmark_user.id)
+        ) ? true : false}
       />
 
       <div className="mt-16">
-        {sortedEntries()?.map(({
+        {sortedEntries().map(({
           id, 
           created_at,
           type, 
@@ -50,7 +59,7 @@ const Profile = () => {
           >
             <Entry
               id={id}
-              username={profile?.username}
+              username={profile.username}
               createdAt={created_at}
               type={type}
               title={title}

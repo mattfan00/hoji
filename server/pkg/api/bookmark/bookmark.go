@@ -43,9 +43,9 @@ func (b BookmarkService) Create(c echo.Context) error {
 func (b BookmarkService) List(c echo.Context) error {
 	currUser := c.Get("user").(model.AuthUser)
 
-	var foundBookmarks []model.Bookmark
+	foundBookmarks := []model.Bookmark{}
 	err := b.db.Model(&foundBookmarks).
-		Where("user_id = ?", currUser.Id).
+		Where("user_id = ? AND active = ?", currUser.Id, true).
 		Relation("BookmarkUser").
 		Select()
 
@@ -54,4 +54,16 @@ func (b BookmarkService) List(c echo.Context) error {
 	}
 
 	return c.JSON(200, foundBookmarks)
+}
+
+func (b BookmarkService) Delete(c echo.Context) error {
+	_, err := b.db.Model((*model.Bookmark)(nil)).
+		Where("bookmark_user_id = ?", c.Param("bookmark_user_id")).
+		Delete()
+
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(200, "Successfully deleted")
 }

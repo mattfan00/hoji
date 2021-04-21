@@ -1,35 +1,33 @@
 import React from "react"
-import Bookmark from "../Components/Bookmark"
+import { useQuery } from "react-query"
 import ProfileHeader from "../Components/ProfileHeader"
 
 const Bookmarks = () => {
-  const bookmarks = [
-    {
-      name: "Matthew Fan",
-      username: "mattfan00",
-      description: "hey this is the best blog in the world"
-    }, {
-      name: "John Smith",
-      username: "johnsmith",
-      description: "Senior at New York University studying Computer Science. I love to play video games, build apps, and eat food. Enjoy my content!"
-    }, {
-      name: "Matthew Fan",
-      username: "mattfan00",
-      description: "hey this is the best blog in the world"
-    }
-  ]
+  const { data: bookmarks, isLoading } = useQuery(`/bookmark`)
   
+  if (isLoading) {
+    return ""
+  }
+
   return (
     <>
-      {bookmarks.map(({ name, username, description }) => (
-        <div className="mb-4">
-          <ProfileHeader
-            name={name}
-            username={username}
-            description={description}
-          />
-        </div>
-      ))}
+      <h2 className="mb-4">Bookmarks</h2>
+      {bookmarks.length !== 0 ? (
+        bookmarks.map(({ bookmark_user: user }) => (
+          <div className="mb-4" key={user.id}>
+            <ProfileHeader
+              id={user.id}
+              name={user.name}
+              username={user.username}
+              description={user.description}
+              isBookmark={true}
+            />
+          </div>
+        ))
+      ) : (
+        <div>You haven't bookmarked any profiles yet!</div>
+      )}
+
     </>
   )
 }

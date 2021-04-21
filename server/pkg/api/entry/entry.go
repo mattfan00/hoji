@@ -71,7 +71,7 @@ func (e EntryService) View(c echo.Context) error {
 }
 
 func (e EntryService) List(c echo.Context) error {
-	var entries []model.Entry
+	entries := []model.Entry{}
 
 	sql := `SELECT "entry".*, "user"."id" AS "user__id",  "user"."username" AS "user__username" FROM "entries" AS "entry" LEFT JOIN "users" AS "user" ON 
 	("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE "entry"."deleted_at" IS NULL`

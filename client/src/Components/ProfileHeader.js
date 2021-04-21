@@ -1,21 +1,34 @@
 import React, { useState, useContext } from "react"
+import { useMutation } from "react-query"
 import { Link } from "react-router-dom"
 import Button from "../Components/Button"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import DefaultProPic from "../Icons/DefaultProPic"
 import { AuthContext } from "../Context/AuthContext"
+import axios from "axios"
 
 const ProfileHeader = ({
+  id,
   name, 
   username,
   avatar,
   description,
+  isBookmark
 }) => {
-  const [bookmark, setBookmark] = useState(false)
+  const createMutation = useMutation((body) => axios.post(`/bookmark`, body))
+  const deleteMutation = useMutation(() => axios.delete(`/bookmark/${id}`))
+
+  const [bookmark, setBookmark] = useState(isBookmark)
   const { user } = useContext(AuthContext)
 
   const toggleBookmark = () => {
     setBookmark(!bookmark)
+
+    if (!bookmark) { // if not already a bookmark
+      createMutation.mutate({ bookmark_user_id: id })
+    } else {
+      deleteMutation.mutate()
+    }
   }
 
   return (
@@ -35,7 +48,7 @@ const ProfileHeader = ({
           </div>
           {user && user.username !== username ? (
           <Button onClick={toggleBookmark}>
-            <FontAwesomeIcon icon={[bookmark ? "fas" : "far", "bookmark"]} size="lg" />
+            <FontAwesomeIcon icon={[bookmark ? "fas" : "far", "bookmark"]} />
           </Button>
           ) : ""}
         </div>
@@ -43,6 +56,7 @@ const ProfileHeader = ({
       {description ? (
       <div className="mt-4">{description}</div>
       ): ""}
+      {isBookmark}
     </div>
   )
 }
