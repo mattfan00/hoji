@@ -43,7 +43,7 @@ const Profile = () => {
       />
 
       <div className="mt-16">
-        {sortedEntries().map(({
+        {sortedEntries()?.map(({
           id, 
           created_at,
           type, 
