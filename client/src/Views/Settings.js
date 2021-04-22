@@ -38,7 +38,11 @@ const Settings = () => {
   const { user, setUser } = useContext(AuthContext)
   const inputFile = useRef(null)
 
-  useQuery(`/user/${user?.username}`, {
+  useQuery([`/user/${user?.username}`, { page: "settings" }], {
+    queryFn: async ({ queryKey }) => {
+      const { data } = await axios.get(queryKey[0])
+      return data
+    },
     enabled: user ? true : false,
     onSuccess: (data) => {
       setFields({
