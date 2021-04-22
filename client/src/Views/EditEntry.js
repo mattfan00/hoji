@@ -32,8 +32,9 @@ const EditEntry = () => {
 
   const { id } = useParams()
 
-  const { isLoading } = useQuery(`/entry/${id}`, {
+  const { isFetching } = useQuery(`/entry/${id}`, {
     onSuccess: (data) => {
+      console.log(data)
       setType(data.type)
       setTitle(data.title || "")
       setDescription(data.description || "")
@@ -103,7 +104,7 @@ const EditEntry = () => {
       />
 
       <div className="mb-16">
-        {!isLoading ? renderType() : ""}
+        {!isFetching ? renderType() : ""}
       </div>
 
       <div className="flex justify-between items-center">
