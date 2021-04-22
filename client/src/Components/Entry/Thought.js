@@ -2,7 +2,9 @@ import React from "react"
 
 const Thought = ({ content }) => {
   return (
-    <div>{content}</div>
+    <div className="break-words">
+      {content}
+    </div>
   )
 }
 

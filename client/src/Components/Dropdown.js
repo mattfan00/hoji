@@ -93,7 +93,7 @@ const Dropdown = ({
           <div className="relative">
             <div 
               onClick={closeDropdown} 
-              className={`absolute ${size === "sm" ? "top-1" : "top-2"} ${direction === "left" ? "right-0" : "left-0"} w-auto whitespace-nowrap rounded-md shadow-sm bg-white border`}
+              className={`absolute ${size === "sm" ? "top-1" : "top-2"} ${direction === "left" ? "right-0" : "left-0"} w-auto whitespace-nowrap rounded-md shadow-md bg-white`}
             >
               {items()}
             </div>

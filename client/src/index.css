@@ -48,7 +48,7 @@
       bg-gray-100
         font-semibold
         text-xs
-        px-2.5 py-1.5
+        px-2 py-1
         rounded-md
         focus:outline-none
         hover:bg-gray-200
@@ -68,7 +68,7 @@
   }
 
   .btn-sm {
-    @apply px-2 py-1 !important
+    @apply px-1.5 py-0.5 !important
   }
 
   .btn.disabled {

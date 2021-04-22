@@ -1,7 +1,6 @@
 package bookmark
 
 import (
-	//"fmt"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/model"
 
@@ -45,7 +44,7 @@ func (b BookmarkService) List(c echo.Context) error {
 
 	foundBookmarks := []model.Bookmark{}
 	err := b.db.Model(&foundBookmarks).
-		Where("user_id = ? AND active = ?", currUser.Id, true).
+		Where("user_id = ?", currUser.Id).
 		Relation("BookmarkUser").
 		Select()
 
