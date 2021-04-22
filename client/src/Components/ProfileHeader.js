@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react"
 import { useMutation } from "react-query"
-import { Link } from "react-router-dom"
 import Button from "../Components/Button"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import DefaultProPic from "../Icons/DefaultProPic"
@@ -21,7 +20,7 @@ const ProfileHeader = ({
   const [bookmark, setBookmark] = useState(isBookmark)
   const { user } = useContext(AuthContext)
 
-  const toggleBookmark = () => {
+  const toggleBookmark = async () => {
     setBookmark(!bookmark)
 
     if (!bookmark) { // if not already a bookmark

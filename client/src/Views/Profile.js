@@ -8,8 +8,8 @@ const Profile = () => {
   const { username } = useParams()
   const history = useHistory()
 
-  const { data: profile, isLoading: isProfileLoading } = useQuery(`/user/${username}`)
-  const { data: bookmarks, isLoading: isBookmarksLoading} = useQuery(`/bookmark`)
+  const { data: profile, isFetching: isProfileFetching } = useQuery(`/user/${username}`)
+  const { data: bookmarks, isFetching: isBookmarksFetching } = useQuery(`/bookmark`)
 
   const handleClick = (e, id) => {
     if (e.target.tagName !== "A") {
@@ -25,7 +25,13 @@ const Profile = () => {
     })
   }
 
-  if (isProfileLoading || isBookmarksLoading) {
+  const checkBookmark = () => {
+    return bookmarks.find((bookmark) => (
+      profile.id === bookmark.bookmark_user.id
+    )) ? true : false
+  } 
+
+  if (isProfileFetching || isBookmarksFetching) {
     return ""
   }
 
@@ -37,9 +43,7 @@ const Profile = () => {
         avatar={profile.avatar}
         username={profile.username}
         description={profile.description}
-        isBookmark={bookmarks.find((bookmark) => (
-          profile.id === bookmark.bookmark_user.id)
-        ) ? true : false}
+        isBookmark={checkBookmark()}
       />
 
       <div className="mt-16">

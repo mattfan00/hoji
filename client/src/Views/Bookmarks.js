@@ -21,6 +21,14 @@ const Bookmarks = () => {
     history.push(`/${username}`)
   }
 
+  const sortedBookmarks = () => {
+    return bookmarks?.sort((a, b) => {
+      const aDate = new Date(a.created_at)
+      const bDate = new Date(b.created_at)
+      return bDate - aDate
+    })
+  }
+
   if (isLoading) {
     return ""
   }
@@ -29,7 +37,7 @@ const Bookmarks = () => {
     <>
       <h2 className="mb-4">Bookmarks</h2>
       {bookmarks.length !== 0 ? (
-        bookmarks.map(({ bookmark_user: user }) => (
+        sortedBookmarks().map(({ bookmark_user: user }) => (
           <div className="mb-4 cursor-pointer" onClick={() => handleClick(user.username)} key={user.id}>
             <ProfileHeader
               id={user.id}

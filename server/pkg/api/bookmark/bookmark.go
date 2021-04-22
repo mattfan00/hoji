@@ -1,6 +1,7 @@
 package bookmark
 
 import (
+	"fmt"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/model"
 
@@ -30,9 +31,14 @@ func (b BookmarkService) Create(c echo.Context) error {
 		BookmarkUserId: body.BookmarkUserId,
 	}
 
-	_, err := b.db.Model(&newBookmark).Insert()
+	// update active to be true if the bookmark exists already
+	_, err := b.db.Model(&newBookmark).
+		OnConflict("(user_id, bookmark_user_id) DO UPDATE").
+		Set("active = EXCLUDED.active").
+		Insert()
 
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
 
@@ -44,7 +50,7 @@ func (b BookmarkService) List(c echo.Context) error {
 
 	foundBookmarks := []model.Bookmark{}
 	err := b.db.Model(&foundBookmarks).
-		Where("user_id = ?", currUser.Id).
+		Where("user_id = ? AND active = ?", currUser.Id, true).
 		Relation("BookmarkUser").
 		Select()
 
@@ -56,9 +62,14 @@ func (b BookmarkService) List(c echo.Context) error {
 }
 
 func (b BookmarkService) Delete(c echo.Context) error {
-	_, err := b.db.Model((*model.Bookmark)(nil)).
+	values := map[string]interface{}{
+		"active": false,
+	}
+
+	_, err := b.db.Model(&values).
+		TableExpr("bookmarks").
 		Where("bookmark_user_id = ?", c.Param("bookmark_user_id")).
-		Delete()
+		Update()
 
 	if err != nil {
 		return err
