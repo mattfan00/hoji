@@ -119,6 +119,31 @@
     position: absolute;
   }
 
+  .entry {
+    @apply mb-12 relative
+  }
+
+  .entry-content {
+    @apply relative -z-10
+  }
+
+  .entry-content.collapsed {
+    @apply overflow-hidden;
+    content: "";
+    max-height: 150px;
+  }
+
+  .entry-content.collapsed:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    background:linear-gradient(transparent 60%, white);
+  }
+
   .routeFadeIn {
     animation: routeFadeIn 0.3s ease-in-out 0.25s;
     animation-fill-mode: both;

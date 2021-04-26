@@ -16,24 +16,26 @@ const Post = ({
   }
 
   useEffect(() => {
-    if (expanded) {
+    if (true) {
       const contentState = convertFromRaw(JSON.parse(content))
       setEditorState(EditorState.createWithContent(contentState))
     }
   }, [])
 
   return (
-    <div>
-      <h2>{title}</h2>
-      <div className={`${expanded ? "mb-12" : ""}`}>{description}</div>
-      {expanded ? (
-        <Editor
-          editorState={editorState}
-          customStyleMap={styleMap}
-          readOnly={true}
-        />
+    <>
+      <h2 className="mb-4">{title}</h2>
+      {/*<div className={`${expanded ? "mb-12" : ""}`}>{description}</div>*/}
+      {true ? (
+        <div className={`entry-content ${!expanded ? "collapsed" : ""}`}>
+          <Editor
+            editorState={editorState}
+            customStyleMap={styleMap}
+            readOnly={true}
+          />
+        </div>
       ) : ""}
-    </div>
+    </>
   )
 }
 

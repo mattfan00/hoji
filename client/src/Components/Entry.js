@@ -42,7 +42,7 @@ const Entry = ({
   }
 
   return (
-    <div className="mb-12 relative">
+    <div className="entry">
       <EntryHeader
         id={id}
         username={username}
@@ -73,31 +73,38 @@ const Entry = ({
       </Dropdown>
       ) : ""}
 
-      {/* display thought */}
-      {type === "thought" ? (
-        <Thought 
-          content={content} 
-        />
-      ) : ""}
+      <div 
+        //style={{
+          //backgroundImage: "linear-gradient(180deg,#000 60%,transparent)"
+          //backgroundImage: "linear-gradient(to bottom, transparent, black)"
+        //}}
+      >
+        {/* display thought */}
+        {type === "thought" ? (
+          <Thought 
+            content={content} 
+          />
+        ) : ""}
 
-      {/* display post */}
-      {type === "post" ? (
-        <Post 
-          title={title} 
-          description={description} 
-          content={content}
-          expanded={expanded} 
-        />
-      ) : ""}
+        {/* display post */}
+        {type === "post" ? (
+          <Post 
+            title={title} 
+            description={description} 
+            content={content}
+            expanded={expanded} 
+          />
+        ) : ""}
 
-      {/* display gallery */}
-      {type === "gallery" ? (
-        <Gallery 
-          content={content} 
-          photos={photos} 
-          expanded={expanded}
-        />
-      ) : ""}
+        {/* display gallery */}
+        {type === "gallery" ? (
+          <Gallery 
+            content={content} 
+            photos={photos} 
+            expanded={expanded}
+          />
+        ) : ""}
+      </div>
     </div>
   )
 }

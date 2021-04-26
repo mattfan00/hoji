@@ -31,7 +31,10 @@ module.exports = {
           'from': { opacity: 1, transform: 'translateY(0px)' },
           'to': { opacity: 0, transform: 'translateY(-10px)' },
         }
-      }
+      },
+      zIndex: {
+        '-10': '-10'
+      },
     },
     fontFamily: {
       // 'sans': ['Inter'],
