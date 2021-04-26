@@ -1,4 +1,5 @@
 import React, { useContext } from "react"
+import { useMutation } from "react-query"
 import { queryClient } from "../Utils/queryClient"
 import { useHistory } from "react-router-dom"
 import EntryHeader from "./Entry/EntryHeader"
@@ -22,21 +23,22 @@ const Entry = ({
   photos,
   expanded,
 }) => {
+  const deleteMutation = useMutation(() => axios.delete(`/entry/${id}`))
   const { user } = useContext(AuthContext)
   const history = useHistory()
    
   const deleteEntry = async () => {
-    try {
-      await axios.delete(`/entry/${id}`)
-
-      if (expanded) {
-        // go back to user profile if delete
-        history.push(`/${username}`)
-      } else {
-        // invalidate the query so that the profile page is reloaded
-        queryClient.invalidateQueries(`/user/${user}`)
+    deleteMutation.mutate(null, {
+      onSuccess: () => {
+        if (expanded) {
+          // go back to user profile if delete
+          history.push(`/${username}`)
+        } else {
+          // invalidate the query so that the profile page is reloaded
+          queryClient.invalidateQueries(`/user/${user.username}`)
+        }
       }
-    } catch(err) {}
+    })
   }
 
   return (

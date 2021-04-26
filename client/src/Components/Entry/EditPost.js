@@ -21,19 +21,22 @@ const EditPost = ({
   return (
     <>
       <CustomInput
+        className="mb-8"
         placeholder="give your post a title..."
         onChange={handleTitleChange}
-        autofocus
+        //autofocus
         initial={initialTitle}
         tagName="h2"
       />
 
+      {/*
       <CustomInput
         className="mb-12"
         placeholder="give your post a description..."
         onChange={handleDescriptionChange}
         initial={initialDescription}
       />
+      */}
 
       <CustomEditor
         editor={editor}

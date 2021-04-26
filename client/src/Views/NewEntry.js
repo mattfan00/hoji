@@ -93,10 +93,12 @@ const NewEntry = () => {
 
   return (
     <>
+      {/*
       <SelectNew 
         active={type} 
         onChange={handleTypeChange}
       />
+      */}
 
       <EntryHeader 
         username={user?.username}
@@ -106,15 +108,17 @@ const NewEntry = () => {
         {renderType()}
       </div>
 
-      <div className="flex justify-between items-center">
+      <div className="flex justify-end items-center">
         <div className="flex">
-          <Button
+          <Button 
             className="mr-2"
+            onClick={cancel}
+          >Cancel</Button>
+          <Button
             variant="primary"
             disabled={submitDisabled()}
             onClick={submit}
           >Submit</Button>
-          <Button onClick={cancel}>Cancel</Button>
         </div>
 
         {type === "thought" ? (
