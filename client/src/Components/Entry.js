@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { queryClient } from "../Util/queryClient"
+import { queryClient } from "../Utils/queryClient"
 import { useHistory } from "react-router-dom"
 import EntryHeader from "./Entry/EntryHeader"
 import Thought from "./Entry/Thought"

@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom"
 import Routes from "./Routes"
 import PageWrapper from "./Components/PageWrapper"
 import { AuthProvider }from "./Context/AuthContext"
-import { queryClient } from "./Util/queryClient"
+import { queryClient } from "./Utils/queryClient"
 import { QueryClientProvider } from "react-query"
 
 const App = () => {

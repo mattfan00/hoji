@@ -1,6 +1,6 @@
 import React, { useState, useContext, useRef } from "react"
 import { useMutation } from "react-query"
-import { queryClient } from "../Util/queryClient"
+import { queryClient } from "../Utils/queryClient"
 import { useHistory } from "react-router-dom"
 import { EditorState, convertToRaw } from 'draft-js';
 import { AuthContext } from "../Context/AuthContext"
@@ -15,7 +15,7 @@ import axios from "axios"
 const NewEntry = () => {
   const entryMutation = useMutation(newEntry => axios.post("/entry", newEntry), {
     onSuccess: () => {
-      queryClient.invalidateQueries(`/user/${user.username}`)
+      queryClient.invalidateQueries(`user/${user.username}`)
     }
   })
 

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useRef } from "react"
 import { useQuery, useMutation } from "react-query"
-import { queryClient } from "../Util/queryClient"
+import { queryClient } from "../Utils/queryClient"
 import DefaultProPic from "../Icons/DefaultProPic"
 import Button from "../Components/Button"
 import Input from "../Components/Input"

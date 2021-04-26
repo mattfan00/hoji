@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from "react"
 import { useQuery, useMutation } from "react-query"
-import { queryClient } from "../Util/queryClient"
+import { queryClient } from "../Utils/queryClient"
 import { AuthContext } from "../Context/AuthContext"
 import { useParams, useHistory } from "react-router-dom"
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
