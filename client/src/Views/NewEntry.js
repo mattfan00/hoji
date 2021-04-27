@@ -72,7 +72,7 @@ const NewEntry = () => {
   const submitDisabled = () => {
     switch(type) {
       case "post":
-        return title.length === 0
+        return true
       case "thought":
         return content.length === 0 || content.length > charLimit
     }

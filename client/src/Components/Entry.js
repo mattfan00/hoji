@@ -73,38 +73,31 @@ const Entry = ({
       </Dropdown>
       ) : ""}
 
-      <div 
-        //style={{
-          //backgroundImage: "linear-gradient(180deg,#000 60%,transparent)"
-          //backgroundImage: "linear-gradient(to bottom, transparent, black)"
-        //}}
-      >
-        {/* display thought */}
-        {type === "thought" ? (
-          <Thought 
-            content={content} 
-          />
-        ) : ""}
+      {/* display thought */}
+      {type === "thought" ? (
+        <Thought 
+          content={content} 
+        />
+      ) : ""}
 
-        {/* display post */}
-        {type === "post" ? (
-          <Post 
-            title={title} 
-            description={description} 
-            content={content}
-            expanded={expanded} 
-          />
-        ) : ""}
+      {/* display post */}
+      {type === "post" ? (
+        <Post 
+          title={title} 
+          description={description} 
+          content={content}
+          expanded={expanded} 
+        />
+      ) : ""}
 
-        {/* display gallery */}
-        {type === "gallery" ? (
-          <Gallery 
-            content={content} 
-            photos={photos} 
-            expanded={expanded}
-          />
-        ) : ""}
-      </div>
+      {/* display gallery */}
+      {type === "gallery" ? (
+        <Gallery 
+          content={content} 
+          photos={photos} 
+          expanded={expanded}
+        />
+      ) : ""}
     </div>
   )
 }

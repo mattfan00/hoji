@@ -9,7 +9,7 @@ const CustomInput = ({
   autofocus,
 }) => {
   const textInput = useRef(null)
-  const defaultValue = useRef(initial)
+  //const defaultValue = useRef(initial)
   const CustomTag = tagName ? tagName : "div"
 
   useEffect(() => {
@@ -17,6 +17,12 @@ const CustomInput = ({
       textInput.current.focus()
     }
   }, [])
+
+  useEffect(() => {
+    if (initial) {
+      textInput.current.innerHTML = initial
+    }
+  }, [initial]) 
 
   const emitChange = () => {
     onChange(textInput.current.innerText)
@@ -36,7 +42,7 @@ const CustomInput = ({
         placeholder={placeholder}
         contentEditable="true"
         ref={textInput}
-        dangerouslySetInnerHTML={{__html: defaultValue.current}}
+        //dangerouslySetInnerHTML={{__html: defaultValue.current}}
         onInput={emitChange}
         onPaste={removeFormatting}
       ></CustomTag>

@@ -22,7 +22,7 @@ const EditPost = ({
     <>
       <CustomInput
         className="mb-8"
-        placeholder="give your post a title..."
+        placeholder="give your entry a title..."
         onChange={handleTitleChange}
         //autofocus
         initial={initialTitle}

@@ -15,6 +15,7 @@ const EditEntry = () => {
   const entryMutation = useMutation(updatedEntry => axios.put(`/entry/${id}`, updatedEntry), {
     onSuccess: () => {
       queryClient.invalidateQueries(`/user/${user.username}`)
+      queryClient.invalidateQueries(`/entry/${id}`)
     }
   })
 
@@ -32,7 +33,7 @@ const EditEntry = () => {
 
   const { id } = useParams()
 
-  const { isFetching } = useQuery(`/entry/${id}`, {
+  const { isLoading } = useQuery(`/entry/${id}`, {
     onSuccess: (data) => {
       console.log(data)
       setType(data.type)
@@ -79,7 +80,7 @@ const EditEntry = () => {
   const submitDisabled = () => {
     switch(type) {
       case "post":
-        return title.length === 0
+        return false
       case "thought":
         return content.length === 0 || content.length > charLimit
     }
@@ -104,18 +105,20 @@ const EditEntry = () => {
       />
 
       <div className="mb-16">
-        {!isFetching ? renderType() : ""}
+        {!isLoading ? renderType() : ""}
       </div>
 
-      <div className="flex justify-between items-center">
+      <div className="flex justify-end items-center">
         <div className="flex">
-          <Button
+          <Button 
             className="mr-2"
+            onClick={cancel}
+          >Cancel</Button>
+          <Button
             variant="primary"
             disabled={submitDisabled()}
             onClick={update}
           >Update</Button>
-          <Button onClick={cancel}>Cancel</Button>
         </div>
 
         {type === "thought" ? (
