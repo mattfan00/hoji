@@ -8,8 +8,8 @@ const Profile = () => {
   const { username } = useParams()
   const history = useHistory()
 
-  const { data: profile, isFetching: isProfileFetching } = useQuery(`/user/${username}`)
-  const { data: bookmarks, isFetching: isBookmarksFetching } = useQuery(`/bookmark`)
+  const { data: profile, isLoading: isProfileLoading } = useQuery(`/user/${username}`)
+  const { data: bookmarks, isLoading: isBookmarksLoading } = useQuery(`/bookmark`)
 
   const handleClick = (e, id) => {
     if (e.target.tagName !== "A") {
@@ -31,7 +31,7 @@ const Profile = () => {
     )) ? true : false
   } 
 
-  if (isProfileFetching || isBookmarksFetching) {
+  if (isProfileLoading || isBookmarksLoading) {
     return ""
   }
 
