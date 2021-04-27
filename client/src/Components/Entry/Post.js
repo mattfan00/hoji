@@ -16,11 +16,11 @@ const Post = ({
   }
 
   useEffect(() => {
-    if (true) {
+    if (content) {
       const contentState = convertFromRaw(JSON.parse(content))
       setEditorState(EditorState.createWithContent(contentState))
     }
-  }, [])
+  }, [content])
 
   return (
     <>

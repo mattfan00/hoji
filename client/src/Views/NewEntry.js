@@ -15,7 +15,8 @@ import axios from "axios"
 const NewEntry = () => {
   const entryMutation = useMutation(newEntry => axios.post("/entry", newEntry), {
     onSuccess: () => {
-      queryClient.invalidateQueries(`user/${user.username}`)
+      queryClient.invalidateQueries(`/user/${user.username}`)
+      history.push(`/${user.username}`)
     }
   })
 
@@ -72,7 +73,7 @@ const NewEntry = () => {
   const submitDisabled = () => {
     switch(type) {
       case "post":
-        return true
+        return !editorState.getCurrentContent().hasText()
       case "thought":
         return content.length === 0 || content.length > charLimit
     }
@@ -87,8 +88,6 @@ const NewEntry = () => {
         JSON.stringify(convertToRaw(editorState.getCurrentContent()))
       ) : content
     })
-
-    history.push(`/${user.username}`)
   }
 
   return (

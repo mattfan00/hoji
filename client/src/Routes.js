@@ -49,13 +49,13 @@ const Routes = () => {
           <FadeRoute exact path="/" component={Home} />
           <FadeRoute exact path="/settings" component={Settings} />
           <FadeRoute exact path="/bookmarks" component={Bookmarks} />
+          <FadeRoute exact path="/entry/new" component={NewEntry} />
           <FadeRoute exact path="/entry/:id" component={Entry} />
           <FadeRoute exact path="/entry/:id/edit" component={EditEntry} />
 
           <FadeRoute exact path="/login" component={Login} />
           <FadeRoute exact path="/register" component={Register} />
 
-          <FadeRoute exact path="/new" component={NewEntry} />
 
           <FadeRoute exact path="/:username" component={Profile} />
 

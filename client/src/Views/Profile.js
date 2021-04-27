@@ -8,7 +8,11 @@ const Profile = () => {
   const { username } = useParams()
   const history = useHistory()
 
-  const { data: profile, isLoading: isProfileLoading } = useQuery(`/user/${username}`)
+  const { data: profile, isLoading: isProfileLoading } = useQuery(`/user/${username}`, {
+    onSuccess: (res) => {
+      console.log(res)
+    }
+  })
   const { data: bookmarks, isLoading: isBookmarksLoading } = useQuery(`/bookmark`)
 
   const handleClick = (e, id) => {

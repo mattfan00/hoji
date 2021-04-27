@@ -120,7 +120,7 @@
   }
 
   .entry {
-    @apply mb-12 relative
+    @apply mb-8 relative
   }
 
   .entry-content {

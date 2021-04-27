@@ -16,6 +16,8 @@ const EditEntry = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(`/user/${user.username}`)
       queryClient.invalidateQueries(`/entry/${id}`)
+        
+      history.push(`/${user.username}`)
     }
   })
 
@@ -33,9 +35,8 @@ const EditEntry = () => {
 
   const { id } = useParams()
 
-  const { isLoading } = useQuery(`/entry/${id}`, {
+  const { data: entry, isLoading } = useQuery(`/entry/${id}`, {
     onSuccess: (data) => {
-      console.log(data)
       setType(data.type)
       setTitle(data.title || "")
       setDescription(data.description || "")
@@ -80,7 +81,7 @@ const EditEntry = () => {
   const submitDisabled = () => {
     switch(type) {
       case "post":
-        return false
+        return !editorState.getCurrentContent().hasText()
       case "thought":
         return content.length === 0 || content.length > charLimit
     }
@@ -94,14 +95,13 @@ const EditEntry = () => {
         JSON.stringify(convertToRaw(editorState.getCurrentContent()))
       ) : content
     })
-
-    history.push(`/${user.username}`)
   }
 
   return (
     <>
       <EntryHeader 
-        username={user?.username}
+        username={entry?.user.username}
+        createdAt={entry?.created_at}
       />
 
       <div className="mb-16">
