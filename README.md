@@ -1,5 +1,7 @@
 # hoji
 
+[![Build Status](https://travis-ci.com/mattfan00/hoji.svg?branch=master)](https://travis-ci.com/mattfan00/hoji)
+
 A small platform I am trying to make
 
 ## Setup / Instructions
