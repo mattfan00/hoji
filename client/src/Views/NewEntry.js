@@ -91,7 +91,7 @@ const NewEntry = () => {
   }
 
   return (
-    <>
+    <div className="h-full">
       {/*
       <SelectNew 
         active={type} 
@@ -127,7 +127,7 @@ const NewEntry = () => {
         </FadeAnimation>
         ) : ""}
       </div>
-    </>
+    </div>
   )
 }
 

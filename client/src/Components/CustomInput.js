@@ -20,11 +20,16 @@ const CustomInput = ({
 
   useEffect(() => {
     if (initial) {
+      console.log(initial)
+      console.log("setting initial")
       textInput.current.innerHTML = initial
     }
   }, [initial]) 
 
-  const emitChange = () => {
+  const handleChange = () => {
+    if (textInput.current.innerText.trim().length == 0) {
+      textInput.current.innerText = ""
+    }
     onChange(textInput.current.innerText)
   }
 
@@ -32,7 +37,7 @@ const CustomInput = ({
     e.preventDefault()
     const text = e.clipboardData.getData("text/plain")
     document.execCommand("insertHTML", false, text);
-    emitChange()
+    handleChange()
   }
 
   return (
@@ -43,7 +48,7 @@ const CustomInput = ({
         contentEditable="true"
         ref={textInput}
         //dangerouslySetInnerHTML={{__html: defaultValue.current}}
-        onInput={emitChange}
+        onInput={handleChange}
         onPaste={removeFormatting}
       ></CustomTag>
       {/* {textInput.current &&

@@ -25,6 +25,7 @@ const EditEntry = () => {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [content, setContent] = useState("")
+  const initialTitle = useRef(null)
 
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
   const editor = useRef(null)
@@ -39,6 +40,13 @@ const EditEntry = () => {
     onSuccess: (data) => {
       setType(data.type)
       setTitle(data.title || "")
+      if (!data.title) {
+        console.log("go to second case")
+      } else {
+        console.log(data.title.length)
+        console.log("use first case")
+      }
+      initialTitle.current = data.title || ""
       setDescription(data.description || "")
       setContent(data.content || "")
       if (data.type === "post") {
@@ -67,7 +75,7 @@ const EditEntry = () => {
           setEditorState={setEditorState}
           onTitleChange={handleTitleChange} 
           onDescriptionChange={handleDescriptionChange} 
-          initialTitle={title}
+          initialTitle={initialTitle.current}
           initialDescription={description}
         />
       case "thought":

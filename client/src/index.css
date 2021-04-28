@@ -152,7 +152,7 @@
   @keyframes routeFadeIn {
     0% {
       opacity: 0;
-      transform: translateY(5px);
+      /* transform: translateY(5px); */
       height: 0;
       overflow: hidden;
     }
@@ -162,7 +162,7 @@
     }
     100% {
       opacity: 1;
-      transform: translateY(0);
+      /* transform: translateY(0); */
     }
   }
 
