@@ -5,9 +5,10 @@ import (
 	"net/http"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/model"
+	"time"
 
 	//"github.com/fatih/structs"
-	"github.com/jinzhu/copier"
+	//"github.com/jinzhu/copier"
 	"github.com/labstack/echo/v4"
 )
 
@@ -110,10 +111,13 @@ func (e EntryService) Update(c echo.Context) error {
 	}
 
 	// update the appropriate entry
-	updatedEntry := new(model.Entry)
-	copier.Copy(updatedEntry, &body)
-
-	_, err = e.db.Model(updatedEntry).
+	newValues := map[string]interface{}{
+		"title":       body.Title,
+		"description": body.Description,
+		"content":     body.Content,
+		"updated_at":  time.Now().UTC(),
+	}
+	_, err = e.db.Model(&newValues).TableExpr("entries").
 		Where("id = ?", c.Param("id")).UpdateNotZero()
 
 	if err != nil {

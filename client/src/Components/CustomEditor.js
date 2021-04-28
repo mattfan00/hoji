@@ -8,8 +8,6 @@ const CustomEditor = ({
   editorState,
   setEditorState
 }) => {
-  // const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
-
   const styleMap = {
     "BOLD": {
       fontWeight: 600
@@ -67,7 +65,7 @@ const CustomEditor = ({
           onChange={editorState => setEditorState(editorState)}
           handleKeyCommand={handleKeyCommand}
           customStyleMap={styleMap}
-          placeholder="start writing your post here..."
+          placeholder="start writing your entry here..."
           spellCheck={true}
         />
       </div>

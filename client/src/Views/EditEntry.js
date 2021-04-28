@@ -15,6 +15,9 @@ const EditEntry = () => {
   const entryMutation = useMutation(updatedEntry => axios.put(`/entry/${id}`, updatedEntry), {
     onSuccess: () => {
       queryClient.invalidateQueries(`/user/${user.username}`)
+      queryClient.invalidateQueries(`/entry/${id}`)
+        
+      history.push(`/${user.username}`)
     }
   })
 
@@ -22,6 +25,7 @@ const EditEntry = () => {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [content, setContent] = useState("")
+  const initialTitle = useRef(null)
 
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
   const editor = useRef(null)
@@ -32,11 +36,17 @@ const EditEntry = () => {
 
   const { id } = useParams()
 
-  const { isFetching } = useQuery(`/entry/${id}`, {
+  const { data: entry, isLoading } = useQuery(`/entry/${id}`, {
     onSuccess: (data) => {
-      console.log(data)
       setType(data.type)
       setTitle(data.title || "")
+      if (!data.title) {
+        console.log("go to second case")
+      } else {
+        console.log(data.title.length)
+        console.log("use first case")
+      }
+      initialTitle.current = data.title || ""
       setDescription(data.description || "")
       setContent(data.content || "")
       if (data.type === "post") {
@@ -65,7 +75,7 @@ const EditEntry = () => {
           setEditorState={setEditorState}
           onTitleChange={handleTitleChange} 
           onDescriptionChange={handleDescriptionChange} 
-          initialTitle={title}
+          initialTitle={initialTitle.current}
           initialDescription={description}
         />
       case "thought":
@@ -79,7 +89,7 @@ const EditEntry = () => {
   const submitDisabled = () => {
     switch(type) {
       case "post":
-        return title.length === 0
+        return !editorState.getCurrentContent().hasText()
       case "thought":
         return content.length === 0 || content.length > charLimit
     }
@@ -93,29 +103,30 @@ const EditEntry = () => {
         JSON.stringify(convertToRaw(editorState.getCurrentContent()))
       ) : content
     })
-
-    history.push(`/${user.username}`)
   }
 
   return (
     <>
       <EntryHeader 
-        username={user?.username}
+        username={entry?.user.username}
+        createdAt={entry?.created_at}
       />
 
       <div className="mb-16">
-        {!isFetching ? renderType() : ""}
+        {!isLoading ? renderType() : ""}
       </div>
 
-      <div className="flex justify-between items-center">
+      <div className="flex justify-end items-center">
         <div className="flex">
-          <Button
+          <Button 
             className="mr-2"
+            onClick={cancel}
+          >Cancel</Button>
+          <Button
             variant="primary"
             disabled={submitDisabled()}
             onClick={update}
           >Update</Button>
-          <Button onClick={cancel}>Cancel</Button>
         </div>
 
         {type === "thought" ? (

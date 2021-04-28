@@ -61,7 +61,7 @@ const Header = () => {
               </Dropdown.Item>
             </Dropdown>
 
-            <Button href="/new">
+            <Button href="/entry/new">
               <FontAwesomeIcon className="mr-1.5" icon="plus" />
               New
             </Button>

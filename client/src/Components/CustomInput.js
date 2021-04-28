@@ -9,7 +9,7 @@ const CustomInput = ({
   autofocus,
 }) => {
   const textInput = useRef(null)
-  const defaultValue = useRef(initial)
+  //const defaultValue = useRef(initial)
   const CustomTag = tagName ? tagName : "div"
 
   useEffect(() => {
@@ -18,7 +18,18 @@ const CustomInput = ({
     }
   }, [])
 
-  const emitChange = () => {
+  useEffect(() => {
+    if (initial) {
+      console.log(initial)
+      console.log("setting initial")
+      textInput.current.innerHTML = initial
+    }
+  }, [initial]) 
+
+  const handleChange = () => {
+    if (textInput.current.innerText.trim().length == 0) {
+      textInput.current.innerText = ""
+    }
     onChange(textInput.current.innerText)
   }
 
@@ -26,7 +37,7 @@ const CustomInput = ({
     e.preventDefault()
     const text = e.clipboardData.getData("text/plain")
     document.execCommand("insertHTML", false, text);
-    emitChange()
+    handleChange()
   }
 
   return (
@@ -36,8 +47,8 @@ const CustomInput = ({
         placeholder={placeholder}
         contentEditable="true"
         ref={textInput}
-        dangerouslySetInnerHTML={{__html: defaultValue.current}}
-        onInput={emitChange}
+        //dangerouslySetInnerHTML={{__html: defaultValue.current}}
+        onInput={handleChange}
         onPaste={removeFormatting}
       ></CustomTag>
       {/* {textInput.current &&

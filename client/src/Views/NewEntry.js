@@ -15,7 +15,8 @@ import axios from "axios"
 const NewEntry = () => {
   const entryMutation = useMutation(newEntry => axios.post("/entry", newEntry), {
     onSuccess: () => {
-      queryClient.invalidateQueries(`user/${user.username}`)
+      queryClient.invalidateQueries(`/user/${user.username}`)
+      history.push(`/${user.username}`)
     }
   })
 
@@ -72,7 +73,7 @@ const NewEntry = () => {
   const submitDisabled = () => {
     switch(type) {
       case "post":
-        return title.length === 0
+        return !editorState.getCurrentContent().hasText()
       case "thought":
         return content.length === 0 || content.length > charLimit
     }
@@ -87,16 +88,16 @@ const NewEntry = () => {
         JSON.stringify(convertToRaw(editorState.getCurrentContent()))
       ) : content
     })
-
-    history.push(`/${user.username}`)
   }
 
   return (
-    <>
+    <div className="h-full">
+      {/*
       <SelectNew 
         active={type} 
         onChange={handleTypeChange}
       />
+      */}
 
       <EntryHeader 
         username={user?.username}
@@ -106,15 +107,17 @@ const NewEntry = () => {
         {renderType()}
       </div>
 
-      <div className="flex justify-between items-center">
+      <div className="flex justify-end items-center">
         <div className="flex">
-          <Button
+          <Button 
             className="mr-2"
+            onClick={cancel}
+          >Cancel</Button>
+          <Button
             variant="primary"
             disabled={submitDisabled()}
             onClick={submit}
           >Submit</Button>
-          <Button onClick={cancel}>Cancel</Button>
         </div>
 
         {type === "thought" ? (
@@ -124,7 +127,7 @@ const NewEntry = () => {
         </FadeAnimation>
         ) : ""}
       </div>
-    </>
+    </div>
   )
 }
 

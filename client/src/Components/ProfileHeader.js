@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import { useMutation } from "react-query"
 import Button from "../Components/Button"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -17,8 +17,14 @@ const ProfileHeader = ({
   const createMutation = useMutation((body) => axios.post(`/bookmark`, body))
   const deleteMutation = useMutation(() => axios.delete(`/bookmark/${id}`))
 
-  const [bookmark, setBookmark] = useState(isBookmark)
+  const [bookmark, setBookmark] = useState(null)
   const { user } = useContext(AuthContext)
+
+  useEffect(() => {
+    if (isBookmark != null) {
+      setBookmark(isBookmark)
+    }
+  }, [isBookmark])
 
   const toggleBookmark = async () => {
     setBookmark(!bookmark)
