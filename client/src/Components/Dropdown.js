@@ -77,29 +77,29 @@ const Dropdown = ({
 
   return (
     <div className={className}>
-      <Button
-        reference={buttonRef}
-        variant={variant}
-        size={size}
-        active={active}
-        onClick={toggleDropdown}
-      >
-        {button()}
-      </Button>
+      <div className="relative">
 
+        <Button
+          reference={buttonRef}
+          variant={variant}
+          size={size}
+          active={active}
+          onClick={toggleDropdown}
+        >
+          {button()}
+        </Button>
 
-      <FadeAnimation show={active}>
-        <ClickOutside action={closeDropdown}>
-          <div className="relative">
-            <div 
-              onClick={closeDropdown} 
-              className={`absolute ${size === "sm" ? "top-1" : "top-2"} ${direction === "left" ? "right-0" : "left-0"} w-auto whitespace-nowrap rounded-md shadow-md bg-white z-20`}
-            >
-              {items()}
-            </div>
-          </div>
-        </ClickOutside>
-      </FadeAnimation>
+        <FadeAnimation show={active}>
+          <ClickOutside action={closeDropdown}>
+              <div 
+                onClick={closeDropdown} 
+                className={`absolute ${size === "sm" ? "top-1" : "top-2"} ${direction === "left" ? "right-0" : "left-0"} w-auto whitespace-nowrap rounded-md shadow-md bg-white z-20`}
+              >
+                {items()}
+              </div>
+          </ClickOutside>
+        </FadeAnimation>
+      </div>
     </div>
   )
 }

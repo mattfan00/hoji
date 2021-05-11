@@ -17,7 +17,7 @@ const FadeAnimation = ({
   return (
     shouldRender && (
       <div
-        className={show ? "animate-fade-enter" : "animate-fade-exit" }
+        className={`absolute z-10 w-full ${show ? "animate-fade-enter" : "animate-fade-exit" }`}
         // style={{ animation: `${show ? "fade-enter" : ""} 1s` }}
         onAnimationEnd={onAnimationEnd}
       >

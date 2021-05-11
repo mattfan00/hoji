@@ -40,7 +40,7 @@ const Profile = () => {
   }
 
   return (
-    <div>
+    <>
       <ProfileHeader 
         id={profile.id}
         name={profile.name}
@@ -78,7 +78,7 @@ const Profile = () => {
           </div>
         ))}
       </div>
-    </div>
+    </>
   )
 }
 
