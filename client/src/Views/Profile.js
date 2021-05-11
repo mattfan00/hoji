@@ -1,19 +1,19 @@
-import React from "react"
+import React, { useContext } from "react"
 import { useQuery } from "react-query"
 import { useParams, useHistory } from "react-router-dom"
 import ProfileHeader from "../Components/ProfileHeader"
 import Entry from "../Components/Entry"
+import { AuthContext } from "../Context/AuthContext"
 
 const Profile = () => {
   const { username } = useParams()
+  const { loading, user } = useContext(AuthContext)
   const history = useHistory()
 
-  const { data: profile, isLoading: isProfileLoading } = useQuery(`/user/${username}`, {
-    onSuccess: (res) => {
-      console.log(res)
-    }
+  const { data: profile, isLoading: isProfileLoading } = useQuery(`/user/${username}`)
+  const { data: bookmarks, isLoading: isBookmarksLoading } = useQuery(`/bookmark`, {
+    enabled: (!loading && user) ? true : false
   })
-  const { data: bookmarks, isLoading: isBookmarksLoading } = useQuery(`/bookmark`)
 
   const handleClick = (e, id) => {
     if (e.target.tagName !== "A") {
@@ -30,7 +30,7 @@ const Profile = () => {
   }
 
   const checkBookmark = () => {
-    return bookmarks.find((bookmark) => (
+    return bookmarks?.find((bookmark) => (
       profile.id === bookmark.bookmark_user.id
     )) ? true : false
   } 

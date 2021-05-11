@@ -14,7 +14,8 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		cookie, err := c.Cookie("token")
 		if err != nil {
-			return errors.BadRequest("Invalid cookie")
+			//return errors.BadRequest("Invalid cookie")
+			return c.JSON(200, nil)
 		}
 
 		token, err := jwt.ParseToken(cookie.Value)
