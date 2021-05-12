@@ -2,7 +2,7 @@ import React, { useState, useRef, useContext } from "react"
 import { useHistory } from "react-router-dom"
 import { EditorState, convertToRaw } from 'draft-js';
 import Button from "../../Components/Button"
-import CustomEditor from "../../Components/CustomEditor"
+import CustomEditor from "../../Components/CustomEditor/CustomEditor"
 import CustomInput from "../../Components/CustomInput"
 import SelectNew from "../../Components/SelectNew"
 import EntryHeader from "../../Components/Entry/EntryHeader"

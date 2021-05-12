@@ -1,6 +1,6 @@
 import React from "react"
 import CustomInput from "../CustomInput"
-import CustomEditor from "../CustomEditor"
+import CustomEditor from "../CustomEditor/CustomEditor"
 
 const EditPost = ({
   editor,

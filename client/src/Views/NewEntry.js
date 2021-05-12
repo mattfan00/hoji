@@ -10,6 +10,7 @@ import Button from "../Components/Button"
 import EditPost from "../Components/Entry/EditPost"
 import EditThought from "../Components/Entry/EditThought"
 import FadeAnimation from "../Components/FadeAnimation"
+import decorator from "../Components/CustomEditor/decorator"
 import axios from "axios"
 
 const NewEntry = () => {
@@ -25,7 +26,7 @@ const NewEntry = () => {
   const [description, setDescription] = useState("")
   const [content, setContent] = useState("")
 
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+  const [editorState, setEditorState] = useState(() => EditorState.createEmpty(decorator))
   const editor = useRef(null)
 
   const { user } = useContext(AuthContext)

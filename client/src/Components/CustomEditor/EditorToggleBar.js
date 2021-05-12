@@ -1,5 +1,6 @@
 import React from "react"
-import Button from "./Button"
+import Button from "../Button"
+import Link from "./Link"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const INLINE_STYLES = [
@@ -12,8 +13,10 @@ const INLINE_STYLES = [
 const InlineStyleControls = ({
   editorState,
   onToggle,
+  onLinkToggle
 }) => {
   const currentStyle = editorState.getCurrentInlineStyle()
+
 
   return (
     <div className="flex">
@@ -30,6 +33,10 @@ const InlineStyleControls = ({
           active={currentStyle.has(style)}
         >{label}</Button>
       ))}
+      <Link 
+        editorState={editorState} 
+        onLinkToggle={onLinkToggle}
+      />
     </div>
   )
 }
@@ -37,9 +44,6 @@ const InlineStyleControls = ({
 const BLOCK_TYPES = [
   { label: <FontAwesomeIcon icon="list-ul" />, style: 'unordered-list-item' },
   { label: <FontAwesomeIcon icon="list-ol" />, style: 'ordered-list-item' },
-  // { label: "H1", style: 'header-one' },
-  // { label: "H2", style: 'header-two' },
-  // { label: "H3", style: 'header-three' },
 ]
 
 const BlockStyleControls = ({
@@ -88,26 +92,6 @@ const HeadingStyleControls = ({
     .getType();
 
   return (
-    // <Dropdown
-    //   type="text"
-    //   size="sm"
-    //   className="mr-1"
-    // >
-    //   <Dropdown.Button>
-    //     Text
-    //     <FontAwesomeIcon className="ml-1.5" icon="chevron-down" size="xs" />
-    //   </Dropdown.Button>
-
-    //   <Dropdown.Item>Text</Dropdown.Item>
-    //   {HEADING_TYPES.map(({ label, style }) => (
-    //     <Dropdown.Item
-    //       onMouseDown={(e) => {
-    //         e.preventDefault()
-    //         onToggle(style)
-    //       }}
-    //     >{label}</Dropdown.Item>
-    //   ))}
-    // </Dropdown>
     <div className="flex">
       {HEADING_TYPES.map(({ label, style }) => (
         <Button
@@ -130,6 +114,7 @@ const EditorToggleBar = ({
   editorState,
   onInlineToggle,
   onBlockToggle,
+  onLinkToggle
 }) => {
   return (
     <div className="flex flex-wrap sticky top-3 z-10 p-1 bg-white mb-4 border border-solid shadow-sm rounded-md">
@@ -137,6 +122,7 @@ const EditorToggleBar = ({
       <InlineStyleControls
         editorState={editorState}
         onToggle={onInlineToggle}
+        onLinkToggle={onLinkToggle}
       />
 
       <BlockStyleControls

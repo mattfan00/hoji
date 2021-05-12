@@ -35,6 +35,11 @@ const CustomEditor = ({
     setEditorState(newState);
   }
 
+  const onLinkToggle = (newEditorState, entityKey) => {
+    setEditorState(RichUtils.toggleLink(
+      newEditorState, newEditorState.getSelection(), entityKey
+    ))
+  }
 
   // If the user changes block type before entering any text, we can
   // either style the placeholder or hide it. Let's just hide it now.
@@ -57,6 +62,7 @@ const CustomEditor = ({
         editorState={editorState}
         onInlineToggle={onInlineToggle}
         onBlockToggle={onBlockToggle}
+        onLinkToggle={onLinkToggle}
       />
       <div className={className}>
         <Editor
@@ -72,7 +78,6 @@ const CustomEditor = ({
     </div>
 
   )
-
 }
 
 export default CustomEditor
