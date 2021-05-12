@@ -9,6 +9,7 @@ import Button from "../Components/Button"
 import EditPost from "../Components/Entry/EditPost"
 import EditThought from "../Components/Entry/EditThought"
 import FadeAnimation from "../Components/FadeAnimation"
+import decorator from "../Components/CustomEditor/decorator"
 import axios from "axios"
 
 const EditEntry = () => {
@@ -27,7 +28,7 @@ const EditEntry = () => {
   const [content, setContent] = useState("")
   const initialTitle = useRef(null)
 
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+  const [editorState, setEditorState] = useState(() => EditorState.createEmpty(decorator))
   const editor = useRef(null)
 
   const { user } = useContext(AuthContext)
@@ -44,14 +45,13 @@ const EditEntry = () => {
         console.log("go to second case")
       } else {
         console.log(data.title.length)
-        console.log("use first case")
       }
       initialTitle.current = data.title || ""
       setDescription(data.description || "")
       setContent(data.content || "")
       if (data.type === "post") {
         const contentState = convertFromRaw(JSON.parse(data.content))
-        setEditorState(EditorState.createWithContent(contentState))
+        setEditorState(EditorState.createWithContent(contentState, decorator))
       }
     }
   }) 

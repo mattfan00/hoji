@@ -24,6 +24,10 @@
     @apply my-4
   }
 
+  a.color {
+    @apply hover:underline text-blue-400
+  }
+
   .custom-input[placeholder]:empty:before {
     content: attr(placeholder);
     @apply text-gray-300

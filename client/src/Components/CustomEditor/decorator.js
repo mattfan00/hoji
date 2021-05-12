@@ -17,7 +17,12 @@ const LinkEntity = ({ contentState, entityKey, children }) => {
   const { url } = contentState.getEntity(entityKey).getData()
 
   return (
-    <a href={url} target="_blank" onClick={(e) => e.stopPropagation()}>
+    <a 
+      className="color"
+      href={url} 
+      target="_blank" 
+      onClick={(e) => e.stopPropagation()}
+    >
       {children}
     </a>
   )

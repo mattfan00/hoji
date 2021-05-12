@@ -16,7 +16,6 @@ const Profile = () => {
   })
 
   const handleClick = (e, id) => {
-    console.log("hist ifads;l")
     history.push(`/entry/${id}`)
   }
 

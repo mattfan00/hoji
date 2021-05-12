@@ -38,9 +38,8 @@ const Link = ({
     const contentStateWithEntity = contentState.createEntity(
       'LINK',
       'MUTABLE',
-      {url: linkUrl}
+      { url: linkUrl }
     );
-    console.log(contentStateWithEntity)
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
     const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity })
 

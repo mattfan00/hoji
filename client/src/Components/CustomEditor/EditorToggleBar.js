@@ -17,7 +17,6 @@ const InlineStyleControls = ({
 }) => {
   const currentStyle = editorState.getCurrentInlineStyle()
 
-
   return (
     <div className="flex">
       {INLINE_STYLES.map(({ label, style, className }) => (

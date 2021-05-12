@@ -10,7 +10,7 @@ const EntryHeader = ({
     <div className="flex mb-2 items-center">
       <Link 
         to={`/${username}`} 
-        className="mr-3 text-xs font-medium"
+        className="mr-3 text-xs font-medium hover:underline"
         onClick={(e) => e.stopPropagation()}
       >{username}</Link>
       <div className="mr-3 text-xs text-gray-400">{dayjs(createdAt).format("MMM D, YYYY")}</div>
