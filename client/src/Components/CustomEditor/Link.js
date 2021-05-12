@@ -42,10 +42,10 @@ const Link = ({
   const confirmLink = () => {
     const contentState = editorState.getCurrentContent()
     const contentStateWithEntity = contentState.createEntity(
-      'LINK',
-      'MUTABLE',
+      "LINK",
+      "MUTABLE",
       { url: urlValue }
-    );
+    )
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
     const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity })
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
 import decorator from "../CustomEditor/decorator"
+import blockRenderer from "../CustomEditor/blockRenderer"
 
 const Post = ({ 
   title,
@@ -31,6 +32,7 @@ const Post = ({
         <div className={`entry-content ${!expanded ? "collapsed" : ""}`}>
           <Editor
             editorState={editorState}
+            blockRendererFn={blockRenderer}
             customStyleMap={styleMap}
             readOnly={true}
           />

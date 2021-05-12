@@ -1,7 +1,8 @@
 import React from "react"
-import { Editor, RichUtils } from 'draft-js';
-import 'draft-js/dist/Draft.css';
-import EditorToggleBar from "./EditorToggleBar";
+import { Editor, RichUtils, AtomicBlockUtils } from 'draft-js'
+import 'draft-js/dist/Draft.css'
+import EditorToggleBar from "./EditorToggleBar"
+import blockRenderer from "./blockRenderer"
 
 const CustomEditor = ({
   editor,
@@ -43,6 +44,14 @@ const CustomEditor = ({
     setTimeout(() => editor.current.focus(), 0)
   }
 
+  const onMediaUpload = (newEditorState, entityKey) => {
+    setEditorState(AtomicBlockUtils.insertAtomicBlock(
+      newEditorState,
+      entityKey,
+      ' '
+    ))
+  }
+
   // If the user changes block type before entering any text, we can
   // either style the placeholder or hide it. Let's just hide it now.
   let className = 'RichEditor-editor';
@@ -66,6 +75,7 @@ const CustomEditor = ({
         onInlineToggle={onInlineToggle}
         onBlockToggle={onBlockToggle}
         onLinkToggle={onLinkToggle}
+        onMediaUpload={onMediaUpload}
       />
       <div className={className}>
         <Editor
@@ -73,13 +83,13 @@ const CustomEditor = ({
           editorState={editorState}
           onChange={editorState => setEditorState(editorState)}
           handleKeyCommand={handleKeyCommand}
+          blockRendererFn={blockRenderer}
           customStyleMap={styleMap}
           placeholder="start writing your entry here..."
           spellCheck={true}
         />
       </div>
     </div>
-
   )
 }
 

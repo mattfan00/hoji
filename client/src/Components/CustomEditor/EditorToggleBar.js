@@ -15,7 +15,8 @@ const InlineStyleControls = ({
   editor,
   editorState,
   onToggle,
-  onLinkToggle
+  onLinkToggle,
+  onMediaUpload,
 }) => {
   const currentStyle = editorState.getCurrentInlineStyle()
 
@@ -40,6 +41,8 @@ const InlineStyleControls = ({
         onLinkToggle={onLinkToggle}
       />
       <Media
+        editorState={editorState} 
+        onMediaUpload={onMediaUpload}
       />
     </div>
   )
@@ -119,7 +122,8 @@ const EditorToggleBar = ({
   editorState,
   onInlineToggle,
   onBlockToggle,
-  onLinkToggle
+  onLinkToggle,
+  onMediaUpload,
 }) => {
   return (
     <div className="flex flex-wrap sticky top-3 z-10 p-1 bg-white mb-4 border border-solid shadow-sm rounded-md">
@@ -129,6 +133,7 @@ const EditorToggleBar = ({
         editorState={editorState}
         onToggle={onInlineToggle}
         onLinkToggle={onLinkToggle}
+        onMediaUpload={onMediaUpload}
       />
 
       <BlockStyleControls
