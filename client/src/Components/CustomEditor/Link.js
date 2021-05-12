@@ -1,7 +1,9 @@
 import React, { useState } from "react"
 import { EditorState } from 'draft-js';
 import Button from "../Button"
+import Input from "../Input"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import Modal from "react-modal"
 
 const Link = ({
   editorState,
@@ -27,35 +29,71 @@ const Link = ({
 
       setShowURLInput(true)
       setUrlValue(url)
-
-      confirmLink()
+      //confirmLink()
     }
   }
 
   const confirmLink = () => {
-    let linkUrl = window.prompt("Add link http:// ")
     const contentState = editorState.getCurrentContent()
     const contentStateWithEntity = contentState.createEntity(
       'LINK',
       'MUTABLE',
-      { url: linkUrl }
+      { url: urlValue }
     );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
     const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity })
 
     onLinkToggle(newEditorState, entityKey)
+
+    setShowURLInput(false)
+    setUrlValue("")
+  }
+
+  const checkValidLink = () => {
+    try {
+      new URL(urlValue)
+      return true
+    } catch (_) {
+      return false
+    }
   }
 
   return (
-    <Button
-      variant="text"
-      size="sm"
-      className={`mr-1`}
-      onMouseDown={(e) => {
-        e.preventDefault()
-        previewLink()
-      }}
-    >Link</Button>
+    <>
+      <Button
+        variant="text"
+        size="sm"
+        className={`mr-1`}
+        onMouseDown={(e) => {
+          e.preventDefault()
+          previewLink()
+        }}
+      ><FontAwesomeIcon icon="link" /></Button>
+
+      <Modal
+        closeTimeoutMS={250}
+        isOpen={showURLInput}
+        className="modal link"
+      >
+        <Input 
+          value={urlValue}
+          onChange={(e) => setUrlValue(e.target.value)}
+          autoFocus 
+        />
+        <div className="flex justify-end mt-2">
+          <Button 
+            className="mr-2" 
+            onClick={() => setShowURLInput(false)}
+          >Cancel</Button>
+          <Button 
+            variant="primary" 
+            onClick={confirmLink}
+            disabled={!checkValidLink()}
+          >Submit</Button>
+        </div>
+      </Modal>
+
+    </>
   )
 }
 

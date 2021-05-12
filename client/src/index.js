@@ -4,10 +4,13 @@ import './index.css';
 import App from './App';
 import './fontawesome'
 import axios from "axios"
+import Modal from "react-modal"
 
 axios.defaults.baseURL = "http://localhost:8080"
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.withCredentials = true
+
+Modal.setAppElement("#root")
 
 ReactDOM.render(
   <React.StrictMode>

@@ -149,6 +149,35 @@
     pointer-events: none;
   }
 
+  .ReactModal__Overlay {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 250ms ease-in-out;
+  }
+
+  .ReactModal__Overlay--after-open{
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
+  .ReactModal__Overlay--before-close{
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  .modal {
+    @apply p-5 rounded-md bg-white shadow-md;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .modal.link {
+    min-width: 400px;
+  }
+
   .routeFadeIn {
     animation: routeFadeIn 0.3s ease-in-out 0.25s;
     animation-fill-mode: both;
