@@ -16,9 +16,8 @@ const Profile = () => {
   })
 
   const handleClick = (e, id) => {
-    if (e.target.tagName !== "A") {
-      history.push(`/entry/${id}`)
-    }
+    console.log("hist ifads;l")
+    history.push(`/entry/${id}`)
   }
 
   const sortedEntries = () => {

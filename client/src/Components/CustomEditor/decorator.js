@@ -1,5 +1,4 @@
 import { CompositeDecorator } from "draft-js"
-import { Link } from "react-router-dom"
 
 const findLinkEntities = (contentBlock, callback, contentState) => {
   contentBlock.findEntityRanges(
@@ -16,10 +15,11 @@ const findLinkEntities = (contentBlock, callback, contentState) => {
 
 const LinkEntity = ({ contentState, entityKey, children }) => {
   const { url } = contentState.getEntity(entityKey).getData()
+
   return (
-    <Link to={url}>
+    <a href={url} target="_blank" onClick={(e) => e.stopPropagation()}>
       {children}
-    </Link>
+    </a>
   )
 }
 

@@ -124,7 +124,7 @@
   }
 
   .entry-content {
-    @apply relative -z-10
+    @apply relative
   }
 
   .entry-content.collapsed {
@@ -142,6 +142,7 @@
     top: 0;
     z-index: 10;
     background:linear-gradient(transparent 70%, white);
+    pointer-events: none;
   }
 
   .routeFadeIn {

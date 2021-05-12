@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
+import decorator from "../CustomEditor/decorator"
 
 const Post = ({ 
   title,
@@ -7,7 +8,7 @@ const Post = ({
   content,
   expanded,
 }) => {
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+  const [editorState, setEditorState] = useState(() => EditorState.createEmpty(decorator))
 
   const styleMap = {
     "BOLD": {
@@ -18,7 +19,7 @@ const Post = ({
   useEffect(() => {
     if (content) {
       const contentState = convertFromRaw(JSON.parse(content))
-      setEditorState(EditorState.createWithContent(contentState))
+      setEditorState(EditorState.createWithContent(contentState, decorator))
     }
   }, [content])
 
