@@ -1,6 +1,6 @@
 import { CompositeDecorator } from "draft-js"
 
-const findLinkEntities = (contentBlock, callback, contentState) => {
+export const findLinkEntities = (contentBlock, callback, contentState) => {
   contentBlock.findEntityRanges(
     (character) => {
       const entityKey = character.getEntity();
@@ -13,7 +13,7 @@ const findLinkEntities = (contentBlock, callback, contentState) => {
   )
 }
 
-const LinkEntity = ({ contentState, entityKey, children }) => {
+export const LinkEntity = ({ contentState, entityKey, children }) => {
   const { url } = contentState.getEntity(entityKey).getData()
 
   return (

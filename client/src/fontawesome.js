@@ -20,6 +20,7 @@ import {
   faSignInAlt,
   faEllipsisH,
   faLink,
+  faImage,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -55,4 +56,5 @@ library.add(
   faTrashAlt,
   faEllipsisH,
   faLink,
+  faImage,
 )

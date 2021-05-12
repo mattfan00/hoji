@@ -1,6 +1,7 @@
 import React from "react"
 import Button from "../Button"
 import Link from "./Link"
+import Media from "./Media"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const INLINE_STYLES = [
@@ -37,6 +38,8 @@ const InlineStyleControls = ({
         editor={editor}
         editorState={editorState} 
         onLinkToggle={onLinkToggle}
+      />
+      <Media
       />
     </div>
   )

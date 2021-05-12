@@ -49,6 +49,24 @@ func (e EntryService) Create(c echo.Context) error {
 	return c.JSON(http.StatusOK, newEntry)
 }
 
+func (e EntryService) UploadImage(c echo.Context) error {
+	form, err := c.MultipartForm()
+
+	if err != nil {
+		return err
+	}
+
+	file := form.File["file"][0]
+
+	fileLocation, err := e.aws.AddObject(file, "hoji", "/entry")
+
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(200, fileLocation)
+}
+
 func (e EntryService) View(c echo.Context) error {
 	foundEntry := new(model.Entry)
 

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"mime/multipart"
 	"strings"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	//"github.com/aws/aws-sdk-go/service/s3"
@@ -25,7 +26,7 @@ func (s Service) AddObject(file *multipart.FileHeader, bucket string, directory 
 
 	f.Read(buffer)
 	fileBytes := bytes.NewReader(buffer)
-	path := fmt.Sprintf("%s/%s", strings.TrimRight(directory, "/"), file.Filename)
+	path := fmt.Sprintf("%s/%d-%s", strings.TrimRight(directory, "/"), time.Now().Unix(), file.Filename)
 
 	result, err := s.S3Uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(bucket),

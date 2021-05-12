@@ -36,7 +36,7 @@ func Start() {
 
 	userService := user.New(pg, aws)
 	authService := auth.New(pg)
-	entryService := entry.New(pg)
+	entryService := entry.New(pg, aws)
 	bookmarkService := bookmark.New(pg)
 
 	user.Routes(e, userService)

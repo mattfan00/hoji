@@ -12,6 +12,7 @@ func Routes(e *echo.Echo, en EntryInterface) {
 	entry.GET("/:id", en.View)
 	entry.GET("", en.List)
 	entry.POST("", en.Create, middleware.Auth)
+	entry.POST("/image", en.UploadImage, middleware.Auth)
 	entry.PUT("/:id", en.Update, middleware.Auth)
 	entry.DELETE("/:id", en.Delete, middleware.Auth)
 }
