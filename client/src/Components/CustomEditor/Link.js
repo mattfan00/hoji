@@ -6,11 +6,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Modal from "react-modal"
 
 const Link = ({
+  editor,
   editorState,
   onLinkToggle
 }) => {
   const [showURLInput, setShowURLInput] = useState(false)
   const [urlValue, setUrlValue] = useState("")
+
+  const cancelPreview = () => {
+    setShowURLInput(false)
+    setTimeout(() => editor.current.focus(), 0)
+  }
 
   const previewLink = () => {
     const selection = editorState.getSelection()
@@ -68,12 +74,14 @@ const Link = ({
           e.preventDefault()
           previewLink()
         }}
+        disabled={editorState.getSelection().isCollapsed()}
       ><FontAwesomeIcon icon="link" /></Button>
 
       <Modal
         closeTimeoutMS={250}
         isOpen={showURLInput}
         className="modal link"
+        overlayClassName="overlay"
       >
         <Input 
           value={urlValue}
@@ -83,7 +91,7 @@ const Link = ({
         <div className="flex justify-end mt-2">
           <Button 
             className="mr-2" 
-            onClick={() => setShowURLInput(false)}
+            onMouseDown={cancelPreview}
           >Cancel</Button>
           <Button 
             variant="primary" 

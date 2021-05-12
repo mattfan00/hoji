@@ -39,6 +39,8 @@ const CustomEditor = ({
     setEditorState(RichUtils.toggleLink(
       newEditorState, newEditorState.getSelection(), entityKey
     ))
+
+    setTimeout(() => editor.current.focus(), 0)
   }
 
   // If the user changes block type before entering any text, we can
@@ -59,6 +61,7 @@ const CustomEditor = ({
   return (
     <div className="relative">
       <EditorToggleBar
+        editor={editor}
         editorState={editorState}
         onInlineToggle={onInlineToggle}
         onBlockToggle={onBlockToggle}

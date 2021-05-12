@@ -11,6 +11,7 @@ const INLINE_STYLES = [
 ]
 
 const InlineStyleControls = ({
+  editor,
   editorState,
   onToggle,
   onLinkToggle
@@ -33,6 +34,7 @@ const InlineStyleControls = ({
         >{label}</Button>
       ))}
       <Link 
+        editor={editor}
         editorState={editorState} 
         onLinkToggle={onLinkToggle}
       />
@@ -110,6 +112,7 @@ const HeadingStyleControls = ({
 }
 
 const EditorToggleBar = ({
+  editor,
   editorState,
   onInlineToggle,
   onBlockToggle,
@@ -119,6 +122,7 @@ const EditorToggleBar = ({
     <div className="flex flex-wrap sticky top-3 z-10 p-1 bg-white mb-4 border border-solid shadow-sm rounded-md">
 
       <InlineStyleControls
+        editor={editor}
         editorState={editorState}
         onToggle={onInlineToggle}
         onLinkToggle={onLinkToggle}

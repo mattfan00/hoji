@@ -144,8 +144,8 @@
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 10;
-    background:linear-gradient(transparent 70%, white);
+    z-index: 5;
+    background: linear-gradient(transparent 70%, white);
     pointer-events: none;
   }
 
@@ -163,6 +163,12 @@
   .ReactModal__Overlay--before-close{
     opacity: 0;
     transform: translateY(-10px);
+  }
+
+  .overlay {
+    position: fixed;
+    inset: 0px;
+    background-color: rgba(200, 200, 200, 0.7);
   }
 
   .modal {
