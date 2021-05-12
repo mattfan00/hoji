@@ -1,6 +1,5 @@
 import React, { useState, useContext, useRef } from "react"
 import { useQuery, useMutation } from "react-query"
-import { queryClient } from "../Utils/queryClient"
 import DefaultProPic from "../Icons/DefaultProPic"
 import Button from "../Components/Button"
 import Input from "../Components/Input"
@@ -87,7 +86,7 @@ const Settings = () => {
         <div className="flex items-center mb-6">
           <div className="mr-5 w-12 h-12 rounded-full overflow-hidden">
             {fields.avatar ? (
-              <img className="object-cover w-full h-full" src={fields.avatar} />
+              <img className="object-cover w-full h-full" alt="Avatar" src={fields.avatar} />
             ) : (
               <DefaultProPic />
             )}

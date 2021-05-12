@@ -31,7 +31,7 @@ const Header = () => {
       {!loading ? (
       <>
         <div className="flex items-center">
-          <div className="logo w-10 mr-6">
+          <div className="logo w-8 mr-5">
             <Link to="/"><Logo /></Link>
           </div>
         </div>

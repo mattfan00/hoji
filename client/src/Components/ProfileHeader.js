@@ -41,7 +41,7 @@ const ProfileHeader = ({
       <div className="flex items-center">
         <div className="mr-4 w-12 h-12 rounded-full overflow-hidden">
           {avatar ? (
-            <img className="object-cover w-full h-full" src={avatar} />
+            <img className="object-cover w-full h-full" alt="Avatar" src={avatar} />
           ) : (
             <DefaultProPic />
           )}

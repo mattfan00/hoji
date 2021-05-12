@@ -50,7 +50,7 @@ const Profile = () => {
         isBookmark={checkBookmark()}
       />
 
-      <div className="mt-16">
+      <div className="mt-10">
         {sortedEntries()?.map(({
           id, 
           created_at,

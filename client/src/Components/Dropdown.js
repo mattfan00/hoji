@@ -69,9 +69,7 @@ const Dropdown = ({
 
   const items = () => {
     return (
-      children.flat().map((el) => {
-        if (el.type.name === "DropdownItem") return el
-      })
+      children.flat().filter((el) => el.type.name === "DropdownItem")
     )
   }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from "react"
+import React, { useState, useContext, useRef } from "react"
 import { useQuery, useMutation } from "react-query"
 import { queryClient } from "../Utils/queryClient"
 import { AuthContext } from "../Context/AuthContext"
@@ -83,6 +83,8 @@ const EditEntry = () => {
           onContentChange={handleContentChange} 
           initial={content}
         />
+      default:
+        return ""
     }
   }
 
@@ -92,6 +94,8 @@ const EditEntry = () => {
         return !editorState.getCurrentContent().hasText()
       case "thought":
         return content.length === 0 || content.length > charLimit
+      default:
+        return false
     }
   }
 

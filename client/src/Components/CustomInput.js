@@ -16,7 +16,7 @@ const CustomInput = ({
     if (autofocus) {
       textInput.current.focus()
     }
-  }, [])
+  }, [autofocus])
 
   useEffect(() => {
     if (initial) {
@@ -27,7 +27,7 @@ const CustomInput = ({
   }, [initial]) 
 
   const handleChange = () => {
-    if (textInput.current.innerText.trim().length == 0) {
+    if (textInput.current.innerText.trim().length === 0) {
       textInput.current.innerText = ""
     }
     onChange(textInput.current.innerText)
