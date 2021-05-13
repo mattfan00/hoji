@@ -49,7 +49,7 @@ const ProfileHeader = ({
         <div className="flex-1 flex justify-between items-center">
           <div className="flex flex-col">
             <h3 className="mb-0">{name}</h3>
-            <div className="leading-4">@{username}</div>
+            <div className="leading-4">{username}</div>
           </div>
           {user && user.username !== username ? (
           <Button onClick={toggleBookmark}>

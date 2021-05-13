@@ -65,7 +65,7 @@ const Login = () => {
         <div className="mb-5">
           <Input
             className="mb-2" 
-            label="Email" type="email" name="email" required autoFocus
+            label="Email" type="email" name="email" required autoFocus autoCompleteOff
             value={fields.email}
             onChange={(e) => setFields({...fields, email: e.target.value})}
           />

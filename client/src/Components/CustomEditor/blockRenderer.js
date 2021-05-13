@@ -16,7 +16,7 @@ const MediaBlock = ({ contentState, block }) => {
   const { src } = entity.getData();
 
   return (
-    <img src={src} />
+    <img className="m-auto mb-4 w-4/5" src={src} draggable={false} />
   )
 }
 

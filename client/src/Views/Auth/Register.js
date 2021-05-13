@@ -36,12 +36,12 @@ const FirstPage = ({
       <Form onSubmit={handleSubmit}>
         <div className="mb-5">
           <Input
-            className="mb-2" label="Email" type="email" name="email" autocompleteOff autoFocus required 
+            className="mb-2" label="Email" type="email" name="email" autoCompleteOff autoFocus required 
             value={fields.email}
             onChange={(e) => setFields({...fields, email: e.target.value})}
           />
           <Input
-            label="Set Password" type="password" name="password" autocompleteOff required
+            label="Set Password" type="password" name="password" autoCompleteOff required
             value={fields.password}
             onChange={(e) => setFields({...fields, password: e.target.value})}
           />

@@ -21,6 +21,7 @@ export const LinkEntity = ({ contentState, entityKey, children }) => {
       className="color"
       href={url} 
       target="_blank" 
+      rel="noreferrer"
       onClick={(e) => e.stopPropagation()}
     >
       {children}

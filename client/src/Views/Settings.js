@@ -100,13 +100,13 @@ const Settings = () => {
 
         <Form onSubmit={updateProfile}>
           <Input 
-            className="mb-4" label="Name" name="name" autocompleteOff required
+            className="mb-4" label="Name" name="name" autoCompleteOff required
             value={fields.name}
             onChange={(e) => handleChange(e, "name")}
           />
 
           <Input 
-            className="mb-4" label="Username" name="username" autocompleteOff required
+            className="mb-4" label="Username" name="username" autoCompleteOff required
             value={fields.username}
             onChange={(e) => handleChange(e, "username")}
           />
@@ -116,7 +116,7 @@ const Settings = () => {
             onChange={(e) => handleChange(e, "description")}
           />
           <Input 
-            className="mb-4" label="Website" name="website" autocompleteOff 
+            className="mb-4" label="Website" name="website" autoCompleteOff 
             value={fields.website}
             onChange={(e) => handleChange(e, "website")}
           />

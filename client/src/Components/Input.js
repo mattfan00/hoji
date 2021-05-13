@@ -5,7 +5,7 @@ const Input = ({
   reference,
   name,
   className,
-  autocompleteOff,
+  autoCompleteOff,
   autoFocus,
   placeholder,
   type,
@@ -29,7 +29,7 @@ const Input = ({
           className="input"
           ref={reference}
           name={name}
-          autoComplete={autocompleteOff ? "off" : ""}
+          autoComplete={autoCompleteOff ? "off" : ""}
           autoFocus={autoFocus}
           placeholder={placeholder}
           type={type}
