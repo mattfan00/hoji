@@ -1,7 +1,7 @@
 import React from "react"
 import { useQuery } from "react-query"
 import { useParams } from "react-router-dom"
-import Entry from "../Components/Entry"
+import Entry from "../Components/Entry/Entry"
 
 const EntryView = () => {
   const { id } = useParams()
@@ -15,7 +15,6 @@ const EntryView = () => {
       type={entry?.type}
       createdAt={entry?.created_at}
       title={entry?.title}
-      description={entry?.description}
       content={entry?.content}
       expanded={true}
     />

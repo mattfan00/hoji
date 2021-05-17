@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { useQuery } from "react-query"
 import { useParams, useHistory } from "react-router-dom"
 import ProfileHeader from "../Components/ProfileHeader"
-import Entry from "../Components/Entry"
+import Entry from "../Components/Entry/Entry"
 import { AuthContext } from "../Context/AuthContext"
 
 const Profile = () => {

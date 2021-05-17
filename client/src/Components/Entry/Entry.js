@@ -1,15 +1,15 @@
 import React, { useContext } from "react"
 import { useMutation } from "react-query"
-import { queryClient } from "../Utils/queryClient"
+import { queryClient } from "../../Utils/queryClient"
 import { useHistory } from "react-router-dom"
-import EntryHeader from "./Entry/EntryHeader"
-import Thought from "./Entry/Thought"
-import Post from "./Entry/Post"
-import Gallery from "./Entry/Gallery"
+import EntryHeader from "./EntryHeader"
+import Thought from "./Thought"
+import Post from "./Post"
+import Gallery from "./Gallery"
  
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import Dropdown from "./Dropdown"
-import { AuthContext } from "../Context/AuthContext"
+import Dropdown from "../Dropdown"
+import { AuthContext } from "../../Context/AuthContext"
 import axios from "axios"
 
 const Entry = ({
@@ -19,7 +19,6 @@ const Entry = ({
   type,
   content,
   title,
-  description,
   photos,
   expanded,
 }) => {
@@ -84,7 +83,6 @@ const Entry = ({
       {type === "post" ? (
         <Post 
           title={title} 
-          description={description} 
           content={content}
           expanded={expanded} 
         />

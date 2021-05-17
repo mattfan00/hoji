@@ -37,7 +37,7 @@ type updateReq struct {
 func (u UserService) Update(c echo.Context) error {
 	currUser := c.Get("user").(model.AuthUser)
 
-	// don't let people submit request to change username of someone else
+	// don't let people submit request to change details of someone else
 	if currUser.Username != c.Param("username") {
 		return errors.Unauthorized()
 	}
@@ -100,7 +100,7 @@ func (u UserService) Update(c echo.Context) error {
 func (u UserService) UpdateAvatar(c echo.Context) error {
 	currUser := c.Get("user").(model.AuthUser)
 
-	// don't let people submit request to change username of someone else
+	// don't let people submit request to change avatar of someone else
 	if currUser.Username != c.Param("username") {
 		return errors.Unauthorized()
 	}
@@ -133,7 +133,7 @@ func (u UserService) UpdateAvatar(c echo.Context) error {
 func (u UserService) RemoveAvatar(c echo.Context) error {
 	currUser := c.Get("user").(model.AuthUser)
 
-	// don't let people submit request to change username of someone else
+	// don't let people submit request to change avatar of someone else
 	if currUser.Username != c.Param("username") {
 		return errors.Unauthorized()
 	}

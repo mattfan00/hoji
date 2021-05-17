@@ -5,7 +5,6 @@ import blockRenderer from "../CustomEditor/blockRenderer"
 
 const Post = ({ 
   title,
-  description,
   content,
   expanded,
 }) => {

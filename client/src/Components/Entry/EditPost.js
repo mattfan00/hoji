@@ -7,24 +7,18 @@ const EditPost = ({
   editorState,
   setEditorState,
   onTitleChange,
-  onDescriptionChange,
   initialTitle, 
-  initialDescription, 
 }) => {
   const handleTitleChange = (value) => {
     onTitleChange(value)
   }
 
-  const handleDescriptionChange = (value) => {
-    onDescriptionChange(value)
-  }
   return (
     <>
       <CustomInput
         className="mb-8"
         placeholder="give your entry a title..."
         onChange={handleTitleChange}
-        //autofocus
         initial={initialTitle}
         tagName="h2"
       />
