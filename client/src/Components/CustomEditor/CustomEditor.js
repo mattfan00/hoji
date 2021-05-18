@@ -7,7 +7,8 @@ import blockRenderer from "./blockRenderer"
 const CustomEditor = ({
   editor,
   editorState,
-  setEditorState
+  setEditorState,
+  onChange,
 }) => {
   const styleMap = {
     "BOLD": {
@@ -24,6 +25,18 @@ const CustomEditor = ({
     }
 
     return 'not-handled';
+  }
+
+  const onEditorChange = (newEditorState) => {
+    const currentContent = editorState.getCurrentContent()
+    const newContent = newEditorState.getCurrentContent()
+
+    // if the content has changed
+    if (currentContent !== newContent) {
+      onChange()
+    }
+
+    setEditorState(newEditorState)
   }
 
   const onInlineToggle = (inlineStyle) => {
@@ -81,7 +94,7 @@ const CustomEditor = ({
         <Editor
           ref={editor}
           editorState={editorState}
-          onChange={editorState => setEditorState(editorState)}
+          onChange={onEditorChange}
           handleKeyCommand={handleKeyCommand}
           blockRendererFn={blockRenderer}
           customStyleMap={styleMap}

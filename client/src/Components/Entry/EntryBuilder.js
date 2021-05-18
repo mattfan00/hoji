@@ -1,8 +1,7 @@
-import React, { useState, useContext, useRef } from "react"
-import { useParams } from "react-router-dom"
+import React, { useState, useContext, useRef, useEffect } from "react"
 import { useMutation, useQuery } from "react-query"
 import { queryClient } from "../../Utils/queryClient"
-import { useHistory } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { AuthContext } from "../../Context/AuthContext"
 import EntryHeader from "./EntryHeader"
@@ -34,6 +33,7 @@ const EntryBuilder = ({
   const [type, setType] = useState("post")
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
+  const [changed, setChanged] = useState(false)
   const initialTitle = useRef(null)
 
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(decorator))
@@ -46,7 +46,7 @@ const EntryBuilder = ({
   const { id } = useParams()
 
   const { data: entry, isloading } = useQuery(`/entry/${id}`, {
-    enabled: editing,
+    enabled: editing ? true : false,
     onSuccess: (data) => {
       setType(data.type)
       setTitle(data.title || "")
@@ -59,6 +59,21 @@ const EntryBuilder = ({
     }
   }) 
 
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (changed) {
+        e.preventDefault()
+        e.returnValue = ""
+      }
+    }
+
+    window.addEventListener("beforeunload", handleBeforeUnload)
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload)
+    }
+  }, [changed])
+
   const handleTypeChange = (newType) => {
     if (newType !== type) {
       setTitle("")
@@ -70,9 +85,14 @@ const EntryBuilder = ({
 
   const cancel = () => history.push(`/${user.username}`)
 
-  const handleTitleChange = (value) => setTitle(value)
+  const handleTitleChange = (value) => {
+    setTitle(value)
+    setChanged(true)
+  }
 
-  const handleContentChange = (value) => setContent(value)
+  const handlePostContentChange = () => setChanged(true)
+
+  const handleThoughtContentChange = (value) => setContent(value)
 
   const renderType = () => {
     switch(type) {
@@ -82,11 +102,12 @@ const EntryBuilder = ({
           editorState={editorState}
           setEditorState={setEditorState}
           onTitleChange={handleTitleChange} 
+          onContentChange={handlePostContentChange}
           initialTitle={initialTitle.current}
         />
       case "thought":
         return <EditThought 
-          onContentChange={handleContentChange} 
+          onContentChange={handleThoughtContentChange} 
           initial={content}
         />
       default:

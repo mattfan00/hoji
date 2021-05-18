@@ -20,8 +20,6 @@ const CustomInput = ({
 
   useEffect(() => {
     if (initial) {
-      console.log(initial)
-      console.log("setting initial")
       textInput.current.innerHTML = initial
     }
   }, [initial]) 

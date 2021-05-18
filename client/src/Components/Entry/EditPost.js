@@ -7,6 +7,7 @@ const EditPost = ({
   editorState,
   setEditorState,
   onTitleChange,
+  onContentChange,
   initialTitle, 
 }) => {
   const handleTitleChange = (value) => {
@@ -35,6 +36,7 @@ const EditPost = ({
       <CustomEditor
         editor={editor}
         editorState={editorState}
+        onChange={onContentChange}
         setEditorState={setEditorState}
       />
     </>
