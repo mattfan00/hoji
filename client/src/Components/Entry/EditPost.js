@@ -22,6 +22,7 @@ const EditPost = ({
         onChange={handleTitleChange}
         initial={initialTitle}
         tagName="h2"
+        charLimit={100}
       />
 
       {/*

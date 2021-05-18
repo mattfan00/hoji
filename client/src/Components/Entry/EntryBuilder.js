@@ -59,6 +59,7 @@ const EntryBuilder = ({
     }
   }) 
 
+  /*
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       if (changed) {
@@ -73,6 +74,7 @@ const EntryBuilder = ({
       window.removeEventListener("beforeunload", handleBeforeUnload)
     }
   }, [changed])
+  */
 
   const handleTypeChange = (newType) => {
     if (newType !== type) {
@@ -82,8 +84,6 @@ const EntryBuilder = ({
       setType(newType)
     }
   }
-
-  const cancel = () => history.push(`/${user.username}`)
 
   const handleTitleChange = (value) => {
     setTitle(value)
@@ -130,7 +130,7 @@ const EntryBuilder = ({
       title,
       content: type === "post" ? (
         JSON.stringify(convertToRaw(editorState.getCurrentContent()))
-      ) : content
+      ) : content,
     }
 
     // if editing, then update
@@ -162,15 +162,18 @@ const EntryBuilder = ({
 
       <div className="flex justify-end items-center">
         <div className="flex">
+          {/*
           <Button 
             className="mr-2"
-            onClick={cancel}
-          >Cancel</Button>
+            disabled={!changed}
+            onClick={() => submit(false)}
+          >Save Draft</Button>
+          */}
           <Button
             variant="primary"
             disabled={submitDisabled()}
-            onClick={submit}
-          >{editing ? "Update" : "Submit"}</Button>
+            onClick={() => submit()}
+          >{editing ? "Update" : "Post"}</Button>
         </div>
 
         {type === "thought" ? (

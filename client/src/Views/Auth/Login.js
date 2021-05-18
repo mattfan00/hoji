@@ -66,11 +66,13 @@ const Login = () => {
           <Input
             className="mb-2" 
             label="Email" type="email" name="email" required autoFocus autoCompleteOff
+            maxLength="255"
             value={fields.email}
             onChange={(e) => setFields({...fields, email: e.target.value})}
           />
           <Input
             label="Password" type="password" name="password" required
+            maxLength="255"
             value={fields.password}
             onChange={(e) => setFields({...fields, password: e.target.value})}
           />

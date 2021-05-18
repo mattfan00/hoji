@@ -101,22 +101,28 @@ const Settings = () => {
         <Form onSubmit={updateProfile}>
           <Input 
             className="mb-4" label="Name" name="name" autoCompleteOff required
+            minLength="2"
+            maxLength="50"
             value={fields.name}
             onChange={(e) => handleChange(e, "name")}
           />
 
           <Input 
             className="mb-4" label="Username" name="username" autoCompleteOff required
+            minLength="2"
+            maxLength="20"
             value={fields.username}
             onChange={(e) => handleChange(e, "username")}
           />
           <TextArea 
             className="mb-4 max-h-28" label="Description" name="description" 
+            maxLength="280"
             value={fields.description}
             onChange={(e) => handleChange(e, "description")}
           />
           <Input 
             className="mb-4" label="Website" name="website" autoCompleteOff 
+            maxLength="280"
             value={fields.website}
             onChange={(e) => handleChange(e, "website")}
           />

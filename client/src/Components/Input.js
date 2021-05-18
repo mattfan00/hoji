@@ -13,8 +13,9 @@ const Input = ({
   value,
   onChange,
   noEdit,
+  minLength,
+  maxLength,
 }) => {
-
   return (
     <div className={`flex flex-col ${className ? className : ""}`}>
       {label ? (
@@ -36,6 +37,8 @@ const Input = ({
           required={required}
           value={value}
           onChange={onChange}
+          minLength={minLength}
+          maxLength={maxLength}
         />
       ) : (
         <div>{value}</div>

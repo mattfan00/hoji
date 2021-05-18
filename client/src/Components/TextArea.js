@@ -6,6 +6,8 @@ const TextArea = ({
   className,
   value,
   onChange,
+  minLength,
+  maxLength,
 }) => {
   return (
     <div className={`flex flex-col ${className ? className : ""}`}>
@@ -15,6 +17,8 @@ const TextArea = ({
         name={name}
         value={value}
         onChange={onChange}
+        minLength={minLength}
+        maxLength={maxLength}
       />
     </div>
   )

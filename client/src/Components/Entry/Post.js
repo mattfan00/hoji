@@ -25,7 +25,7 @@ const Post = ({
 
   return (
     <>
-      <h2 className="mb-4">{title}</h2>
+      <h2 className="mb-4 break-words">{title}</h2>
       {/*<div className={`${expanded ? "mb-12" : ""}`}>{description}</div>*/}
       {true ? (
         <div className={`entry-content ${!expanded ? "collapsed" : ""}`}>

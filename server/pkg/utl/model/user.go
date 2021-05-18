@@ -14,7 +14,6 @@ type User struct {
 	Description string   `json:"description,omitempty"`
 	Website     string   `json:"website,omitempty"`
 	Entries     []*Entry `json:"entries,omitempty" pg:"rel:has-many"`
-	//Bookmarks   []*Bookmark `json:"bookmarks,omitempty" pg:"rel:has-many"`
 }
 
 // the data stored in the JWT

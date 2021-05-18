@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Editor, RichUtils, AtomicBlockUtils } from 'draft-js'
 import 'draft-js/dist/Draft.css'
 import EditorToggleBar from "./EditorToggleBar"
@@ -15,6 +15,10 @@ const CustomEditor = ({
       fontWeight: 600
     }
   }
+
+  useEffect(() => {
+    editor.current.focus()
+  }, []) 
 
   const handleKeyCommand = (command, editorState) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);

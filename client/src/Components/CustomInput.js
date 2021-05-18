@@ -7,6 +7,7 @@ const CustomInput = ({
   initial,
   tagName,
   autofocus,
+  charLimit,
 }) => {
   const textInput = useRef(null)
   //const defaultValue = useRef(initial)
@@ -24,10 +25,12 @@ const CustomInput = ({
     }
   }, [initial]) 
 
-  const handleChange = () => {
-    if (textInput.current.innerText.trim().length === 0) {
+  const handleChange = (e) => {
+    const charLength = textInput.current.innerText.trim().length
+    if (charLength === 0) {
       textInput.current.innerText = ""
     }
+
     onChange(textInput.current.innerText)
   }
 
@@ -35,22 +38,20 @@ const CustomInput = ({
     e.preventDefault()
     const text = e.clipboardData.getData("text/plain")
     document.execCommand("insertHTML", false, text);
-    handleChange()
+    handleChange(e)
   }
 
   return (
     <div className={className}>
       <CustomTag
-        className="custom-input focus:outline-none cursor-text"
+        className="custom-input focus:outline-none cursor-text break-words"
         placeholder={placeholder}
         contentEditable="true"
         ref={textInput}
-        //dangerouslySetInnerHTML={{__html: defaultValue.current}}
+        //KdangerouslySetInnerHTML={{__html: defaultValue.current}}
         onInput={handleChange}
         onPaste={removeFormatting}
       ></CustomTag>
-      {/* {textInput.current &&
-      textInput.current.innerText.replace("\n\n", "\n").length} */}
     </div>
   )
 }

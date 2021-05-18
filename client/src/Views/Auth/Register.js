@@ -37,11 +37,13 @@ const FirstPage = ({
         <div className="mb-5">
           <Input
             className="mb-2" label="Email" type="email" name="email" autoCompleteOff autoFocus required 
+            maxLength="255"
             value={fields.email}
             onChange={(e) => setFields({...fields, email: e.target.value})}
           />
           <Input
             label="Set Password" type="password" name="password" autoCompleteOff required
+            maxLength="255"
             value={fields.password}
             onChange={(e) => setFields({...fields, password: e.target.value})}
           />
@@ -94,21 +96,27 @@ const SubmitPage = ({
         <div className="mb-5">
           <Input
             className="mb-2" label="Name" name="name" autoFocus={true} autocompleteOff required
+            minLength="2"
+            maxLength="50"
             value={fields.name}
             onChange={(e) => setFields({...fields, name: e.target.value})}
           />
           <Input
             className="mb-2" label="Username" name="username" autocompleteOff required
+            minLength="2"
+            maxLength="20"
             value={fields.username}
             onChange={(e) => setFields({...fields, username: e.target.value})}
           />
           <TextArea
             className="mb-2 max-h-28" label="Profile Description" name="description" autocompleteOff
+            maxLength="280"
             value={fields.description}
             onChange={(e) => setFields({...fields, description: e.target.value})}
           />
           <Input
             label="Website" name="website" autocompleteOff
+            maxLength="280"
             value={fields.website}
             onChange={(e) => setFields({...fields, website: e.target.value})}
           />
