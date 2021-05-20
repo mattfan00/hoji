@@ -31,7 +31,32 @@ const CustomInput = ({
       textInput.current.innerText = ""
     }
 
+    if (charLimit && charLength > charLimit && e.keyCode != 8) {
+      textInput.current.innerText = textInput.current.innerText.slice(0, charLimit)
+      //e.preventDefault()
+      placeCaretAtEnd(textInput.current)
+      return
+    }
+
     onChange(textInput.current.innerText)
+  }
+
+  function placeCaretAtEnd(el) {
+    el.focus();
+    if (typeof window.getSelection != "undefined"
+      && typeof document.createRange != "undefined") {
+      var range = document.createRange();
+      range.selectNodeContents(el);
+      range.collapse(false);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    } else if (typeof document.body.createTextRange != "undefined") {
+      var textRange = document.body.createTextRange();
+      textRange.moveToElementText(el);
+      textRange.collapse(false);
+      textRange.select();
+    }
   }
 
   const removeFormatting = (e) => {
@@ -48,7 +73,7 @@ const CustomInput = ({
         placeholder={placeholder}
         contentEditable="true"
         ref={textInput}
-        //KdangerouslySetInnerHTML={{__html: defaultValue.current}}
+        //dangerouslySetInnerHTML={{__html: defaultValue.current}}
         onInput={handleChange}
         onPaste={removeFormatting}
       ></CustomTag>
