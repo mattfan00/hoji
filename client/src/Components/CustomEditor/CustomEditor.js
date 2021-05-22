@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import { Editor, RichUtils, AtomicBlockUtils } from 'draft-js'
+import { getSelectedBlocksType } from "draftjs-utils"
 import 'draft-js/dist/Draft.css'
 import EditorToggleBar from "./EditorToggleBar"
 import blockRenderer from "./blockRenderer"
@@ -16,9 +17,11 @@ const CustomEditor = ({
     }
   }
 
+  /*
   useEffect(() => {
     editor.current.focus()
   }, []) 
+  */
 
   const handleKeyCommand = (command, editorState) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -40,7 +43,15 @@ const CustomEditor = ({
       onChange()
     }
 
-    setEditorState(newEditorState)
+    
+    //console.log(getSelectedBlocksType(newEditorState) === "atomic")
+    //console.log(newEditorState.getSelection().isCollapsed())
+    // prevents typing on images
+    if (!(getSelectedBlocksType(newEditorState) === 'atomic' && newEditorState.getSelection().isCollapsed())) {
+      console.log("went in here")
+      setEditorState(newEditorState)
+    }
+    //console.log("============================")
   }
 
   const onInlineToggle = (inlineStyle) => {

@@ -33,7 +33,6 @@ const CustomInput = ({
 
     if (charLimit && charLength > charLimit && e.keyCode != 8) {
       textInput.current.innerText = textInput.current.innerText.slice(0, charLimit)
-      //e.preventDefault()
       placeCaretAtEnd(textInput.current)
       return
     }

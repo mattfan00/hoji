@@ -21,7 +21,6 @@ const Media = ({
 
   const handleImageUpload = async (e) => {
     const [file] = e.target.files;
-    console.log(file)
     const formData = new FormData()
     formData.append("file", file)
 
