@@ -1,4 +1,5 @@
 import React, { useContext } from "react"
+import { useMutation } from "react-query"
 import { Link, useHistory } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from "../Components/Button"
@@ -8,22 +9,17 @@ import { AuthContext } from "../Context/AuthContext"
 import axios from "axios"
 
 const Header = () => {
+  const logoutMutation = useMutation(() => axios.post("/auth/logout"), {
+    onSuccess: () => {
+      setUser(null)
+      history.push("/")
+    }
+  })
   const { user, setUser, loading } = useContext(AuthContext)
   const history = useHistory()
 
   const handleLogout = () => {
-    const logout = async () => {
-      try {
-        await axios.get("/auth/logout")
-        setUser(null)
-
-        history.push("/")
-      } catch(err) {
-        console.log(err.response)
-      }
-    }
-    
-    logout()
+    logoutMutation.mutate()
   }
 
   return (

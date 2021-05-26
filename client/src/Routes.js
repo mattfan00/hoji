@@ -1,11 +1,13 @@
-import React from "react"
+import React, { useContext } from "react"
 import {
   Switch,
   Route,
+  Redirect,
   useLocation
 } from "react-router-dom"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 import FadeInRoute from "./Components/FadeInRoute"
+import { AuthContext } from "./Context/AuthContext"
 
 import Home from "./Views/Home"
 import Profile from "./Views/Profile"
@@ -18,18 +20,24 @@ import Register from "./Views/Auth/Register"
 
 import NewEntry from "./Views/NewEntry"
 import EditEntry from "./Views/EditEntry"
-import NewThought from "./Views/New/NewThought"
-import NewPost from "./Views/New/NewPost"
-import NewGallery from "./Views/New/NewGallery"
 
-const FadeRoute = ({ component: Component, ...rest }) => {
+
+const FadeRoute = ({ component: Component, auth, ...rest }) => {
+  const { user, loading } = useContext(AuthContext)
+  
+  if (loading) {
+    return <></>
+  }
+
   return (
     <Route
       {...rest}
       render={routeProps => (
-        <FadeInRoute>
-          <Component {...routeProps} />
-        </FadeInRoute>
+        user || !auth ? (
+          <FadeInRoute>
+            <Component {...routeProps} />
+          </FadeInRoute>
+        ) : <Redirect to="/login" />
       )}
     />
   );
@@ -47,21 +55,17 @@ const Routes = () => {
       >
         <Switch location={location}>
           <FadeRoute exact path="/" component={Home} />
-          <FadeRoute exact path="/settings" component={Settings} />
-          <FadeRoute exact path="/bookmarks" component={Bookmarks} />
-          <FadeRoute exact path="/entry/new" component={NewEntry} />
+          <FadeRoute auth={true} exact path="/settings" component={Settings} />
+          <FadeRoute auth={true} exact path="/bookmarks" component={Bookmarks} />
+          <FadeRoute auth={true} exact path="/entry/new" component={NewEntry} />
           <FadeRoute exact path="/entry/:id" component={Entry} />
-          <FadeRoute exact path="/entry/:id/edit" component={EditEntry} />
+          <FadeRoute auth={true} exact path="/entry/:id/edit" component={EditEntry} />
 
           <FadeRoute exact path="/login" component={Login} />
           <FadeRoute exact path="/register" component={Register} />
 
 
           <FadeRoute exact path="/:username" component={Profile} />
-
-          <FadeRoute exact path="/thought/new" component={NewThought} />
-          <FadeRoute exact path="/post/new" component={NewPost} />
-          <FadeRoute exact path="/gallery/new" component={NewGallery} />
         </Switch>
       </CSSTransition>
     </TransitionGroup>
