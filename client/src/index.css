@@ -50,17 +50,21 @@
   .btn {
     @apply
       bg-gray-100
-        font-semibold
-        text-xs
-        px-2.5 py-1.5
-        rounded-md
-        focus:outline-none
-        hover:bg-gray-200
-        transition-colors
+      font-semibold
+      text-xs
+      px-2.5 py-1.5
+      rounded-md
+      focus:outline-none
+      hover:bg-gray-200
+      transition-colors
   }
 
   .btn-primary {
     @apply bg-primary text-white hover:bg-primary-dark
+  }
+
+  .btn-danger {
+    @apply bg-red-500 text-white hover:bg-red-600
   }
 
   .btn-text {

@@ -58,22 +58,17 @@ const Profile = () => {
           content,
           photos,
         }) => (
-          <div 
-            className="cursor-pointer" 
-            onClick={(e) => handleClick(e, id)} 
-            key={id}
-          >
-            <Entry
-              id={id}
-              username={profile.username}
-              createdAt={created_at}
-              type={type}
-              title={title}
-              description={description}
-              content={content}
-              photos={photos}
-            />
-          </div>
+          <Entry
+            id={id}
+            onClick={(e) => handleClick(e, id)}
+            username={profile.username}
+            createdAt={created_at}
+            type={type}
+            title={title}
+            description={description}
+            content={content}
+            photos={photos}
+          />
         ))}
       </div>
     </>
