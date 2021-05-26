@@ -45,7 +45,9 @@ const Profile = () => {
         avatar={profile.avatar}
         username={profile.username}
         description={profile.description}
+        website={profile.website}
         isBookmark={checkBookmark()}
+        expanded={true}
       />
 
       <div className="mt-10">

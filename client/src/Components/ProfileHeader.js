@@ -12,7 +12,9 @@ const ProfileHeader = ({
   username,
   avatar,
   description,
-  isBookmark
+  website,
+  isBookmark,
+  expanded,
 }) => {
   const createMutation = useMutation((body) => axios.post(`/bookmark`, body))
   const deleteMutation = useMutation(() => axios.delete(`/bookmark/${id}`))
@@ -58,10 +60,21 @@ const ProfileHeader = ({
           ) : ""}
         </div>
       </div>
+
       {description ? (
       <div className="mt-4">{description}</div>
       ): ""}
-      {isBookmark}
+
+      {expanded ? (
+      <div className="mt-4">
+        {website ? (
+        <div>
+          <FontAwesomeIcon className="mr-2" icon="link" size="sm" />
+          <a className="color" href={website} target="_blank">{website}</a>
+        </div>
+        ): ""}
+      </div>
+      ) : ""}
     </div>
   )
 }
