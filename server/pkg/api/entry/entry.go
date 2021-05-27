@@ -1,7 +1,6 @@
 package entry
 
 import (
-	//"fmt"
 	"net/http"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/model"
@@ -83,7 +82,7 @@ func (e EntryService) View(c echo.Context) error {
 	_, err := e.db.QueryOne(foundEntry, sql, c.Param("id"))
 
 	if err != nil {
-		return errors.NotFound()
+		return c.JSON(http.StatusOK, nil)
 	}
 
 	return c.JSON(http.StatusOK, foundEntry)

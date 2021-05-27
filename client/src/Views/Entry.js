@@ -2,11 +2,17 @@ import React from "react"
 import { useQuery } from "react-query"
 import { useParams } from "react-router-dom"
 import Entry from "../Components/Entry/Entry"
+import NotFound from "../Components/NotFound"
 
 const EntryView = () => {
   const { id } = useParams()
 
-  const { data: entry } = useQuery(`/entry/${id}`)
+  const { data: entry, isLoading } = useQuery(`/entry/${id}`)
+
+  console.log(entry)
+  if (!isLoading && !entry) {
+    return <NotFound />
+  }
 
   return (
     <Entry

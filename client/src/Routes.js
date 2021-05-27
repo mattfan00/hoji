@@ -21,6 +21,7 @@ import Register from "./Views/Auth/Register"
 import NewEntry from "./Views/NewEntry"
 import EditEntry from "./Views/EditEntry"
 
+import Custom404 from "./Views/404"
 
 const FadeRoute = ({ component: Component, auth, ...rest }) => {
   const { user, loading } = useContext(AuthContext)
@@ -64,8 +65,9 @@ const Routes = () => {
           <FadeRoute exact path="/login" component={Login} />
           <FadeRoute exact path="/register" component={Register} />
 
-
           <FadeRoute exact path="/:username" component={Profile} />
+
+          <FadeRoute component={Custom404} />
         </Switch>
       </CSSTransition>
     </TransitionGroup>

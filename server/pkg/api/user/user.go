@@ -21,7 +21,7 @@ func (u UserService) View(c echo.Context) error {
 		Where("lower(username) = ?", strings.ToLower(c.Param("username"))).Select()
 
 	if err != nil {
-		return errors.NotFound()
+		return c.JSON(200, nil)
 	}
 
 	return c.JSON(200, foundUser)

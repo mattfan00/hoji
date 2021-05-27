@@ -4,13 +4,14 @@ import { useParams, useHistory } from "react-router-dom"
 import ProfileHeader from "../Components/ProfileHeader"
 import Entry from "../Components/Entry/Entry"
 import { AuthContext } from "../Context/AuthContext"
+import NotFound from "../Components/NotFound"
 
 const Profile = () => {
   const { username } = useParams()
   const { loading, user } = useContext(AuthContext)
   const history = useHistory()
 
-  const { data: profile, isLoading: isProfileLoading } = useQuery(`/user/${username}`)
+  const { data: profile, isLoading: isProfileLoading, isError } = useQuery(`/user/${username}`)
   const { data: bookmarks, isLoading: isBookmarksLoading } = useQuery(`/bookmark`, {
     enabled: (!loading && user) ? true : false
   })
@@ -34,7 +35,11 @@ const Profile = () => {
   } 
 
   if (isProfileLoading || isBookmarksLoading) {
-    return ""
+    return <></>
+  }
+
+  if (!isProfileLoading && !profile) {
+    return <NotFound />
   }
 
   return (
@@ -61,6 +66,7 @@ const Profile = () => {
           photos,
         }) => (
           <Entry
+            key={id}
             id={id}
             onClick={(e) => handleClick(e, id)}
             username={profile.username}
