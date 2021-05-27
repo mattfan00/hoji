@@ -45,9 +45,14 @@ const EntryBuilder = ({
 
   const { id } = useParams()
 
-  const { data: entry, isloading } = useQuery(`/entry/${id}`, {
+  const { data: entry } = useQuery(`/entry/${id}`, {
     enabled: editing ? true : false,
     onSuccess: (data) => {
+      // check if user is allowed to edit the entry
+      if (user.id != data.user_id) {
+        history.push(`/entry/${id}`)
+      }
+
       setType(data.type)
       setTitle(data.title || "")
       initialTitle.current = data.title || ""
