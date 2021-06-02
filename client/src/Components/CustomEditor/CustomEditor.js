@@ -44,14 +44,10 @@ const CustomEditor = ({
     }
 
     
-    //console.log(getSelectedBlocksType(newEditorState) === "atomic")
-    //console.log(newEditorState.getSelection().isCollapsed())
     // prevents typing on images
     if (!(getSelectedBlocksType(newEditorState) === 'atomic' && newEditorState.getSelection().isCollapsed())) {
-      console.log("went in here")
       setEditorState(newEditorState)
     }
-    //console.log("============================")
   }
 
   const onInlineToggle = (inlineStyle) => {

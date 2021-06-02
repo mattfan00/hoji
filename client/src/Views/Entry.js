@@ -9,7 +9,6 @@ const EntryView = () => {
 
   const { data: entry, isLoading } = useQuery(`/entry/${id}`)
 
-  console.log(entry)
   if (!isLoading && !entry) {
     return <NotFound />
   }

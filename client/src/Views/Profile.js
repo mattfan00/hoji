@@ -11,7 +11,7 @@ const Profile = () => {
   const { loading, user } = useContext(AuthContext)
   const history = useHistory()
 
-  const { data: profile, isLoading: isProfileLoading, isError } = useQuery(`/user/${username}`)
+  const { data: profile, isLoading: isProfileLoading } = useQuery(`/user/${username}`)
   const { data: bookmarks, isLoading: isBookmarksLoading } = useQuery(`/bookmark`, {
     enabled: (!loading && user) ? true : false
   })
