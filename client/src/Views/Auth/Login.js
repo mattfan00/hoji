@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react"
-import { useHistory } from "react-router-dom"
+import { useHistory, Redirect } from "react-router-dom"
 import Input from "../../Components/Input"
 import Form from "../../Components/Form"
 import { useMutation } from "react-query"
@@ -25,7 +25,7 @@ const Login = () => {
   })
   
   const history = useHistory()
-  const { setUser } = useContext(AuthContext)
+  const { user, setUser } = useContext(AuthContext)
 
   // const responseGoogle = (data) => {
   //   console.log(data)
@@ -41,6 +41,10 @@ const Login = () => {
     if (!isLoginDisabled()) {
       loginMutation.mutate(fields)
     }
+  }
+
+  if (user) {
+    return <Redirect to={`/${user.username}`} />
   }
 
   return (

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react"
 import { useMutation } from "react-query"
-import { useHistory } from "react-router-dom"
+import { useHistory, Redirect } from "react-router-dom"
 import { AuthContext } from "../../Context/AuthContext"
 import Input from "../../Components/Input"
 import Form from "../../Components/Form"
@@ -149,10 +149,15 @@ const Register = () => {
     description: "",
     website: "",
   })
+  const { user } = useContext(AuthContext)
 
   const next = () => setPage(1)
 
   const previous = () => setPage(0)
+
+  if (user) {
+    return <Redirect to={`/${user.username}`} />
+  }
 
   return (
     <div className="max-w-xs m-auto">
