@@ -64,10 +64,10 @@ func (a AuthService) Register(c echo.Context) error {
 	}
 
 	newAuthUser := model.AuthUser{
-		Id:       newUser.Id,
-		Name:     newUser.Name,
-		Username: newUser.Username,
-		Email:    newUser.Email,
+		Id: newUser.Id,
+		//Name:     newUser.Name,
+		//Username: newUser.Username,
+		//Email:    newUser.Email,
 	}
 
 	newJwt, err := jwt.GenerateToken(newAuthUser)
@@ -78,7 +78,7 @@ func (a AuthService) Register(c echo.Context) error {
 
 	jwt.CreateCookie(c, "token", newJwt)
 
-	return c.JSON(200, newAuthUser)
+	return c.JSON(200, newUser)
 }
 
 type loginReq struct {
@@ -114,17 +114,17 @@ func (a AuthService) Login(c echo.Context) error {
 	}
 
 	newAuthUser := model.AuthUser{
-		Id:       foundUser.Id,
-		Name:     foundUser.Name,
-		Username: foundUser.Username,
-		Email:    foundUser.Email,
+		Id: foundUser.Id,
+		//Name:     foundUser.Name,
+		//Username: foundUser.Username,
+		//Email:    foundUser.Email,
 	}
 
 	newJwt, _ := jwt.GenerateToken(newAuthUser)
 
 	jwt.CreateCookie(c, "token", newJwt)
 
-	return c.JSON(200, newAuthUser)
+	return c.JSON(200, foundUser)
 }
 
 func (a AuthService) Check(c echo.Context) error {

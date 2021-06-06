@@ -8,6 +8,7 @@ import (
 	"server/pkg/utl/aws"
 	"server/pkg/utl/config"
 	"server/pkg/utl/errors"
+	customMiddleware "server/pkg/utl/middleware"
 	"server/pkg/utl/postgres"
 
 	"github.com/go-playground/validator"
@@ -34,15 +35,16 @@ func Start() {
 	e.Validator = &errors.CustomValidator{Validator: validator.New()}
 	e.HTTPErrorHandler = errors.CustomHTTPErrorHandler
 
+	middlewareService := customMiddleware.New(pg)
 	userService := user.New(pg, aws)
 	authService := auth.New(pg)
 	entryService := entry.New(pg, aws)
 	bookmarkService := bookmark.New(pg)
 
-	user.Routes(e, userService)
-	auth.Routes(e, authService)
-	entry.Routes(e, entryService)
-	bookmark.Routes(e, bookmarkService)
+	user.Routes(e, userService, middlewareService)
+	auth.Routes(e, authService, middlewareService)
+	entry.Routes(e, entryService, middlewareService)
+	bookmark.Routes(e, bookmarkService, middlewareService)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))

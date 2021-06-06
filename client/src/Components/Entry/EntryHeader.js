@@ -8,7 +8,7 @@ const EntryHeader = ({
   createdAt,
 }) => {
   const dateFormat = () => {
-    if (dayjs().diff(createdAt, "day") == 0) {
+    if (dayjs().isSame(createdAt, "day")) {
       return dayjs(createdAt).format("h:mm a") 
     } else {
       return dayjs(createdAt).format("MMM D, YYYY")
@@ -18,18 +18,18 @@ const EntryHeader = ({
   return (
     <div className="flex mb-2 items-center">
       <Link 
-        to={`/${author.username}`} 
+        to={`/${author?.username}`} 
         className="mr-3 text-xs font-medium hover:underline flex items-center"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mr-2 w-6 h-6 rounded-full overflow-hidden">
-          {author.avatar ? (
+          {author?.avatar ? (
             <img className="object-cover w-full h-full" alt="Avatar" src={author.avatar} />
           ) : (
             <DefaultProPic />
           )}
         </div>
-        {author.username}
+        {author?.username}
       </Link>
       <div className="mr-3 text-xs text-gray-400">{dateFormat()}</div>
     </div>

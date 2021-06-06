@@ -20,7 +20,7 @@ func (b BookmarkService) Create(c echo.Context) error {
 		return err
 	}
 
-	currUser := c.Get("user").(model.AuthUser)
+	currUser := c.Get("user").(model.User)
 
 	if currUser.Id == body.BookmarkUserId {
 		return errors.BadRequest("Cannot bookmark your own profile")
@@ -46,7 +46,7 @@ func (b BookmarkService) Create(c echo.Context) error {
 }
 
 func (b BookmarkService) List(c echo.Context) error {
-	currUser := c.Get("user").(model.AuthUser)
+	currUser := c.Get("user").(model.User)
 
 	foundBookmarks := []model.Bookmark{}
 	err := b.db.Model(&foundBookmarks).

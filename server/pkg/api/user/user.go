@@ -35,7 +35,7 @@ type updateReq struct {
 }
 
 func (u UserService) Update(c echo.Context) error {
-	currUser := c.Get("user").(model.AuthUser)
+	currUser := c.Get("user").(model.User)
 
 	// don't let people submit request to change details of someone else
 	if currUser.Username != c.Param("username") {
@@ -76,10 +76,10 @@ func (u UserService) Update(c echo.Context) error {
 
 	// create a new JWT token
 	newAuthUser := model.AuthUser{
-		Id:       currUser.Id,
-		Name:     body.Name,
-		Username: body.Username,
-		Email:    currUser.Email,
+		Id: currUser.Id,
+		//Name:     body.Name,
+		//Username: body.Username,
+		//Email:    currUser.Email,
 	}
 
 	if err != nil {
@@ -98,7 +98,7 @@ func (u UserService) Update(c echo.Context) error {
 }
 
 func (u UserService) UpdateAvatar(c echo.Context) error {
-	currUser := c.Get("user").(model.AuthUser)
+	currUser := c.Get("user").(model.User)
 
 	// don't let people submit request to change avatar of someone else
 	if currUser.Username != c.Param("username") {
@@ -131,7 +131,7 @@ func (u UserService) UpdateAvatar(c echo.Context) error {
 }
 
 func (u UserService) RemoveAvatar(c echo.Context) error {
-	currUser := c.Get("user").(model.AuthUser)
+	currUser := c.Get("user").(model.User)
 
 	// don't let people submit request to change avatar of someone else
 	if currUser.Username != c.Param("username") {

@@ -157,7 +157,8 @@ const EntryBuilder = ({
       */}
 
       <EntryHeader 
-        username={editing ? entry?.user.username : user?.username}
+        author={editing ? entry?.user : user}
+        //username={editing ? entry?.user.username : user?.username}
         createdAt={entry?.created_at}
       />
       

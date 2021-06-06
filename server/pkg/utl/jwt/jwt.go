@@ -28,9 +28,9 @@ func GenerateToken(user model.AuthUser) (string, error) {
 	signingKey := []byte(config.Values.JWTSecret)
 
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id":       user.Id,
-		"name":     user.Name,
-		"username": user.Username,
-		"email":    user.Email,
+		"id": user.Id,
+		//"name":     user.Name,
+		//"username": user.Username,
+		//"email":    user.Email,
 	}).SignedString(signingKey)
 }

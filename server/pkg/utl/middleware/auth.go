@@ -7,10 +7,10 @@ import (
 
 	jwtGo "github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
-	"github.com/satori/go.uuid"
+	//"github.com/satori/go.uuid"
 )
 
-func Auth(next echo.HandlerFunc) echo.HandlerFunc {
+func (mw *MiddlewareService) Auth(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		cookie, err := c.Cookie("token")
 		if err != nil {
@@ -30,18 +30,29 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 
 		claims := token.Claims.(jwtGo.MapClaims)
 
-		uid, err := uuid.FromString(claims["id"].(string))
+		//uid, err := uuid.FromString(claims["id"].(string))
 
 		if err != nil {
 			return err
 		}
 
-		currUser := model.AuthUser{
-			Id:       uid,
-			Name:     claims["name"].(string),
-			Username: claims["username"].(string),
-			Email:    claims["email"].(string),
+		currUser := model.User{}
+
+		err = mw.db.Model(&currUser).
+			Where("id = ?", claims["id"].(string)).Select()
+
+		if err != nil {
+			return err
 		}
+
+		/*
+			currUser := model.AuthUser{
+				Id: uid,
+				//Name:     claims["name"].(string),
+				//Username: claims["username"].(string),
+				//Email:    claims["email"].(string),
+			}
+		*/
 
 		c.Set("user", currUser)
 

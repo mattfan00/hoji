@@ -29,7 +29,7 @@ func (e EntryService) Create(c echo.Context) error {
 		return err
 	}
 
-	currUser := c.Get("user").(model.AuthUser)
+	currUser := c.Get("user").(model.User)
 
 	newEntry := model.Entry{
 		UserId:      currUser.Id,
@@ -116,7 +116,7 @@ func (e EntryService) Update(c echo.Context) error {
 		return err
 	}
 
-	currUser := c.Get("user").(model.AuthUser)
+	currUser := c.Get("user").(model.User)
 
 	// check if entry belongs to the current user
 	foundEntry := new(model.Entry)
@@ -145,7 +145,7 @@ func (e EntryService) Update(c echo.Context) error {
 }
 
 func (e EntryService) Delete(c echo.Context) error {
-	currUser := c.Get("user").(model.AuthUser)
+	currUser := c.Get("user").(model.User)
 
 	// check if entry belongs to the current user
 	foundEntry := new(model.Entry)
