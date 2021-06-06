@@ -76,7 +76,7 @@ func (e EntryService) View(c echo.Context) error {
 			Select()
 	*/
 
-	sql := `SELECT "entry".*, "user"."id" AS "user__id",  "user"."username" AS "user__username" FROM "entries" AS "entry" LEFT JOIN "users" AS "user" ON 
+	sql := `SELECT "entry".*, "user"."id" AS "user__id", "user"."username" AS "user__username", "user"."avatar" AS "user__avatar" FROM "entries" AS "entry" LEFT JOIN "users" AS "user" ON 
 	("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE ((entry.id = ?)) AND "entry"."deleted_at" IS NULL`
 
 	_, err := e.db.QueryOne(foundEntry, sql, c.Param("id"))
@@ -91,7 +91,7 @@ func (e EntryService) View(c echo.Context) error {
 func (e EntryService) List(c echo.Context) error {
 	entries := []model.Entry{}
 
-	sql := `SELECT "entry".*, "user"."id" AS "user__id",  "user"."username" AS "user__username" FROM "entries" AS "entry" LEFT JOIN "users" AS "user" ON 
+	sql := `SELECT "entry".*, "user"."id" AS "user__id", "user"."username" AS "user__username", "user"."avatar" AS "user__avatar"  FROM "entries" AS "entry" LEFT JOIN "users" AS "user" ON 
 	("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE "entry"."deleted_at" IS NULL`
 
 	_, err := e.db.Query(&entries, sql)

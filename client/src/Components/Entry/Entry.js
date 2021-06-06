@@ -16,7 +16,7 @@ import axios from "axios"
 const Entry = ({
   id,
   onClick,
-  username,
+  author,
   createdAt,
   type,
   content,
@@ -34,7 +34,7 @@ const Entry = ({
       onSuccess: () => {
         if (expanded) {
           // go back to user profile if delete
-          history.push(`/${username}`)
+          history.push(`/${author.username}`)
         } else {
           // invalidate the query so that the profile page is reloaded
           queryClient.invalidateQueries(`/user/${user.username}`)
@@ -52,12 +52,11 @@ const Entry = ({
         onClick={onClick}
       >
         <EntryHeader
-          id={id}
-          username={username}
+          author={author}
           createdAt={createdAt}
         />
 
-        {user?.username === username ? (
+        {user?.username === author.username ? (
         <Dropdown 
           className="absolute -top-1 right-0"
           variant="text"

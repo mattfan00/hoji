@@ -9,18 +9,22 @@ const EntryView = () => {
 
   const { data: entry, isLoading } = useQuery(`/entry/${id}`)
 
+  if (isLoading) {
+    return <></>
+  }
+
   if (!isLoading && !entry) {
     return <NotFound />
   }
 
   return (
     <Entry
-      id={entry?.id}
-      username={entry?.user?.username}
-      type={entry?.type}
-      createdAt={entry?.created_at}
-      title={entry?.title}
-      content={entry?.content}
+      id={entry.id}
+      author={entry.user}
+      type={entry.type}
+      createdAt={entry.created_at}
+      title={entry.title}
+      content={entry.content}
       expanded={true}
     />
   )

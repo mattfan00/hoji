@@ -36,7 +36,7 @@ const Home = () => {
           key={id}
           id={id}
           onClick={(e) => handleClick(e, id)}
-          username={user.username}
+          author={user}
           createdAt={created_at}
           type={type}
           title={title}

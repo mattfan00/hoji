@@ -69,7 +69,7 @@ const Profile = () => {
             key={id}
             id={id}
             onClick={(e) => handleClick(e, id)}
-            username={profile.username}
+            author={profile}
             createdAt={created_at}
             type={type}
             title={title}
