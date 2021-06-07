@@ -13,18 +13,10 @@ const Discover = () => {
     history.push(`/entry/${id}`)
   }
 
-  const sortedEntries = () => {
-    return entries?.sort((a, b) => {
-      const aDate = new Date(a.created_at)
-      const bDate = new Date(b.created_at)
-      return bDate - aDate
-    })
-  }
-
   return (
     <>
       <div className="mb-20">
-        {sortedEntries()?.map(({
+        {entries?.map(({
           id, 
           created_at,
           user,

@@ -17,7 +17,9 @@ func (u UserService) View(c echo.Context) error {
 	foundUser := new(model.User)
 
 	err := u.db.Model(foundUser).
-		Relation("Entries").
+		Relation("Entries", func(q *pg.Query) (*pg.Query, error) {
+			return q.Order("entry.created_at DESC"), nil
+		}).
 		Where("lower(username) = ?", strings.ToLower(c.Param("username"))).Select()
 
 	if err != nil {

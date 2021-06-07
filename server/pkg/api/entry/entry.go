@@ -92,7 +92,7 @@ func (e EntryService) List(c echo.Context) error {
 	entries := []model.Entry{}
 
 	sql := `SELECT "entry".*, "user"."id" AS "user__id", "user"."username" AS "user__username", "user"."avatar" AS "user__avatar"  FROM "entries" AS "entry" LEFT JOIN "users" AS "user" ON 
-	("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE "entry"."deleted_at" IS NULL`
+	("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE "entry"."deleted_at" IS NULL ORDER BY "entry"."created_at" DESC`
 
 	_, err := e.db.Query(&entries, sql)
 
