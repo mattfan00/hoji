@@ -7,6 +7,7 @@ import (
 
 type MiddlewareInterface interface {
 	Auth(echo.HandlerFunc) echo.HandlerFunc
+	Pagination(echo.HandlerFunc) echo.HandlerFunc
 }
 
 type MiddlewareService struct {

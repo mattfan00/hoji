@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/model"
-	"strconv"
 	"time"
 
 	//"github.com/fatih/structs"
@@ -90,17 +89,14 @@ func (e EntryService) View(c echo.Context) error {
 }
 
 func (e EntryService) List(c echo.Context) error {
-	limit := c.QueryParam("limit")
-	limitInt, err := strconv.Atoi(limit)
-	if err != nil {
-		return err
+	type response struct {
+		Entries    []model.Entry `json:"entries"`
+		NextCursor int           `json:"nextCursor,omitempty"`
 	}
 
-	cursor := c.QueryParam("cursor")
-	cursorInt, err := strconv.Atoi(cursor)
-	if err != nil {
-		return err
-	}
+	PAGE_SIZE := 10
+
+	cursor := c.Get("cursor").(int)
 
 	entries := []model.Entry{}
 
@@ -108,13 +104,21 @@ func (e EntryService) List(c echo.Context) error {
 	LEFT JOIN "users" AS "user" ON ("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE "entry"."deleted_at" IS NULL 
 	ORDER BY "entry"."created_at" DESC LIMIT ? OFFSET ?`
 
-	_, err = e.db.Query(&entries, sql, limitInt, cursorInt)
+	_, err := e.db.Query(&entries, sql, PAGE_SIZE, cursor)
 
 	if err != nil {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, entries)
+	nextCursor := 0
+	if len(entries) >= PAGE_SIZE {
+		nextCursor = cursor + PAGE_SIZE
+	}
+
+	return c.JSON(http.StatusOK, response{
+		entries,
+		nextCursor,
+	})
 }
 
 type updateReq struct {

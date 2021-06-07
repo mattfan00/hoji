@@ -9,7 +9,7 @@ import (
 func Routes(e *echo.Echo, en EntryInterface, mw middleware.MiddlewareInterface) {
 	entry := e.Group("/entry")
 
-	entry.GET("/list", en.List)
+	entry.GET("/list", en.List, mw.Pagination)
 	entry.GET("/:id", en.View)
 	entry.POST("", en.Create, mw.Auth)
 	entry.POST("/image", en.UploadImage, mw.Auth)
