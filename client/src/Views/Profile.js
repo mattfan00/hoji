@@ -20,14 +20,6 @@ const Profile = () => {
     history.push(`/entry/${id}`)
   }
 
-  const sortedEntries = () => {
-    return profile?.entries?.sort((a, b) => {
-      const aDate = new Date(a.created_at)
-      const bDate = new Date(b.created_at)
-      return bDate - aDate
-    })
-  }
-
   const checkBookmark = () => {
     return bookmarks?.find((bookmark) => (
       profile.id === bookmark.bookmark_user.id
@@ -56,7 +48,7 @@ const Profile = () => {
       />
 
       <div className="mt-10">
-        {sortedEntries()?.map(({
+        {profile.entries?.map(({
           id, 
           created_at,
           type, 

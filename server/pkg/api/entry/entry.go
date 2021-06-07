@@ -89,18 +89,36 @@ func (e EntryService) View(c echo.Context) error {
 }
 
 func (e EntryService) List(c echo.Context) error {
+	type response struct {
+		Entries    []model.Entry `json:"entries"`
+		NextCursor int           `json:"nextCursor,omitempty"`
+	}
+
+	PAGE_SIZE := 20
+
+	cursor := c.Get("cursor").(int)
+
 	entries := []model.Entry{}
 
-	sql := `SELECT "entry".*, "user"."id" AS "user__id", "user"."username" AS "user__username", "user"."avatar" AS "user__avatar"  FROM "entries" AS "entry" LEFT JOIN "users" AS "user" ON 
-	("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE "entry"."deleted_at" IS NULL`
+	sql := `SELECT "entry".*, "user"."id" AS "user__id", "user"."username" AS "user__username", "user"."avatar" AS "user__avatar"  FROM "entries" AS "entry" 
+	LEFT JOIN "users" AS "user" ON ("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE "entry"."deleted_at" IS NULL 
+	ORDER BY "entry"."created_at" DESC LIMIT ? OFFSET ?`
 
-	_, err := e.db.Query(&entries, sql)
+	_, err := e.db.Query(&entries, sql, PAGE_SIZE, cursor)
 
 	if err != nil {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, entries)
+	nextCursor := 0
+	if len(entries) >= PAGE_SIZE {
+		nextCursor = cursor + PAGE_SIZE
+	}
+
+	return c.JSON(http.StatusOK, response{
+		entries,
+		nextCursor,
+	})
 }
 
 type updateReq struct {
