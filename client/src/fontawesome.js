@@ -30,6 +30,7 @@ import {
   faCommentAlt,
   faEdit,
   faTrashAlt,
+  faClock,
 } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
@@ -57,4 +58,5 @@ library.add(
   faEllipsisH,
   faLink,
   faImage,
+  faClock,
 )

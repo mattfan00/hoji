@@ -15,7 +15,7 @@ const Header = () => {
       history.push("/")
     }
   })
-  const { user, setUser, loading } = useContext(AuthContext)
+  const { user, setUser } = useContext(AuthContext)
   const history = useHistory()
 
   const handleLogout = () => {
@@ -24,11 +24,10 @@ const Header = () => {
 
   return (
     <header className="flex items-center pt-6 mb-4">
-      {!loading ? (
       <>
         <div className="flex items-center">
           <div className="logo w-8 mr-5">
-            <Link to="/"><Logo /></Link>
+            <Link to={user ? "/discover" : "/"}><Logo /></Link>
           </div>
         </div>
         <div className="flex items-center">
@@ -69,7 +68,6 @@ const Header = () => {
           )}
         </div>
       </>
-      ) : ""}
     </header>
   )
 }

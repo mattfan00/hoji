@@ -9,7 +9,8 @@ import { TransitionGroup, CSSTransition } from "react-transition-group"
 import FadeInRoute from "./Components/FadeInRoute"
 import { AuthContext } from "./Context/AuthContext"
 
-import Home from "./Views/Home"
+import Landing from "./Views/Landing"
+import Discover from "./Views/Discover"
 import Profile from "./Views/Profile"
 import Settings from "./Views/Settings"
 import Bookmarks from "./Views/Bookmarks"
@@ -55,7 +56,8 @@ const Routes = () => {
         timeout={{ enter: 300, exit: 200 }}
       >
         <Switch location={location}>
-          <FadeRoute exact path="/" component={Home} />
+          <FadeRoute exact path="/" component={Landing} />
+          <FadeRoute exact path="/discover" component={Discover} />
           <FadeRoute auth={true} exact path="/settings" component={Settings} />
           <FadeRoute auth={true} exact path="/bookmarks" component={Bookmarks} />
           <FadeRoute auth={true} exact path="/entry/new" component={NewEntry} />
