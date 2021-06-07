@@ -89,10 +89,15 @@ func (e EntryService) View(c echo.Context) error {
 }
 
 func (e EntryService) List(c echo.Context) error {
+	type response struct {
+		Entries []model.Entry `json:"entries"`
+	}
+
 	entries := []model.Entry{}
 
-	sql := `SELECT "entry".*, "user"."id" AS "user__id", "user"."username" AS "user__username", "user"."avatar" AS "user__avatar"  FROM "entries" AS "entry" LEFT JOIN "users" AS "user" ON 
-	("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE "entry"."deleted_at" IS NULL ORDER BY "entry"."created_at" DESC`
+	sql := `SELECT "entry".*, "user"."id" AS "user__id", "user"."username" AS "user__username", "user"."avatar" AS "user__avatar"  FROM "entries" AS "entry" 
+	LEFT JOIN "users" AS "user" ON ("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE "entry"."deleted_at" IS NULL 
+	ORDER BY "entry"."created_at" DESC`
 
 	_, err := e.db.Query(&entries, sql)
 
@@ -100,7 +105,9 @@ func (e EntryService) List(c echo.Context) error {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, entries)
+	return c.JSON(http.StatusOK, response{
+		entries,
+	})
 }
 
 type updateReq struct {
