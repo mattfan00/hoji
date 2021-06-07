@@ -94,7 +94,7 @@ func (e EntryService) List(c echo.Context) error {
 		NextCursor int           `json:"nextCursor,omitempty"`
 	}
 
-	PAGE_SIZE := 10
+	PAGE_SIZE := 20
 
 	cursor := c.Get("cursor").(int)
 
