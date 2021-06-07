@@ -7,10 +7,12 @@ import axios from "axios"
 
 const Discover = () => {
   const history = useHistory()
-  const [count, setCount] = useState(0)
+  const [cursor, setCursor] = useState(0)
 
-  const fetchEntries = async ({ pageParam = count }) => {
-    const { data } = await axios.get(`/entry/list?cursor=${pageParam}`)
+  const LIMIT = 10
+
+  const fetchEntries = async ({ pageParam = 0 }) => {
+    const { data } = await axios.get(`/entry/list?limit=${LIMIT}&cursor=${pageParam}`)
     return data
   }
 
@@ -21,10 +23,13 @@ const Discover = () => {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    status,
   } = useInfiniteQuery(`/entry/list`, fetchEntries, {
     getNextPageParam: (lastPage, pages) => {
-      return count
+      if (lastPage.length < LIMIT) {
+        return undefined
+      } else {
+        return cursor
+      }
     },
   })
 
@@ -32,14 +37,12 @@ const Discover = () => {
     history.push(`/entry/${id}`)
   }
 
-  console.log(data)
-
   return (
     <>
       <div className="mb-20">
         {data?.pages.map((page, i) => (
           <React.Fragment key={i}>
-            {page.entries.map(({
+            {page.map(({
               id, 
               created_at,
               user,
@@ -67,8 +70,7 @@ const Discover = () => {
          </React.Fragment>
         ))}
         <Waypoint onEnter={() => {
-          console.log("hey")
-          setCount(count + 1)
+          setCursor(cursor + LIMIT)
           fetchNextPage()
         }} />
 

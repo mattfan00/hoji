@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"server/pkg/utl/errors"
 	"server/pkg/utl/model"
+	"strconv"
 	"time"
 
 	//"github.com/fatih/structs"
@@ -89,25 +90,31 @@ func (e EntryService) View(c echo.Context) error {
 }
 
 func (e EntryService) List(c echo.Context) error {
-	type response struct {
-		Entries []model.Entry `json:"entries"`
+	limit := c.QueryParam("limit")
+	limitInt, err := strconv.Atoi(limit)
+	if err != nil {
+		return err
+	}
+
+	cursor := c.QueryParam("cursor")
+	cursorInt, err := strconv.Atoi(cursor)
+	if err != nil {
+		return err
 	}
 
 	entries := []model.Entry{}
 
 	sql := `SELECT "entry".*, "user"."id" AS "user__id", "user"."username" AS "user__username", "user"."avatar" AS "user__avatar"  FROM "entries" AS "entry" 
 	LEFT JOIN "users" AS "user" ON ("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE "entry"."deleted_at" IS NULL 
-	ORDER BY "entry"."created_at" DESC`
+	ORDER BY "entry"."created_at" DESC LIMIT ? OFFSET ?`
 
-	_, err := e.db.Query(&entries, sql)
+	_, err = e.db.Query(&entries, sql, limitInt, cursorInt)
 
 	if err != nil {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, response{
-		entries,
-	})
+	return c.JSON(http.StatusOK, entries)
 }
 
 type updateReq struct {
