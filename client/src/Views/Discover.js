@@ -1,8 +1,9 @@
-import React, { useState } from "react"
-import { useQuery, useInfiniteQuery } from "react-query"
+import React from "react"
+import { useInfiniteQuery } from "react-query"
 import { useHistory } from "react-router-dom"
-import Entry from "../Components/Entry/Entry"
 import { Waypoint } from "react-waypoint"
+import Entry from "../Components/Entry/Entry"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
 
 const Discover = () => {
@@ -15,18 +16,15 @@ const Discover = () => {
 
   const {
     data,
-    error,
     fetchNextPage,
-    hasNextPage,
-    isFetching,
     isFetchingNextPage,
   } = useInfiniteQuery(`/entry/list`, fetchEntries, {
-    getNextPageParam: (lastPage, pages) => {
+    getNextPageParam: (lastPage, _) => {
       return lastPage.nextCursor
     },
   })
 
-  const handleClick = (e, id) => {
+  const handleClick = (_, id) => {
     history.push(`/entry/${id}`)
   }
 
@@ -62,9 +60,21 @@ const Discover = () => {
            ))}
          </React.Fragment>
         ))}
+
+        {isFetchingNextPage ? (
+          <div className="flex justify-center mt-10">
+            <FontAwesomeIcon 
+              className="animate-spin text-primary"
+              icon="circle-notch" 
+              size="lg" 
+            />
+          </div>
+        ) : ""}
+
         <Waypoint onEnter={() => {
           fetchNextPage()
         }} />
+
 
         {/*
         entries?.map(({
