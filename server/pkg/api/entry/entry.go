@@ -39,7 +39,7 @@ func (e EntryService) Create(c echo.Context) error {
 		Content:     body.Content,
 	}
 
-	_, err := e.db.Model(&newEntry).Insert()
+	err := e.udb.Create(e.db, &newEntry)
 
 	if err != nil {
 		return err
@@ -67,19 +67,7 @@ func (e EntryService) UploadImage(c echo.Context) error {
 }
 
 func (e EntryService) View(c echo.Context) error {
-	foundEntry := new(model.Entry)
-
-	/*
-		err := e.db.Model(foundEntry).
-			Relation("User").Where("entry.id = ?", c.Param("id")).
-			Column("entry.*").
-			Select()
-	*/
-
-	sql := `SELECT "entry".*, "user"."id" AS "user__id", "user"."username" AS "user__username", "user"."avatar" AS "user__avatar" FROM "entries" AS "entry" LEFT JOIN "users" AS "user" ON 
-	("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE ((entry.id = ?)) AND "entry"."deleted_at" IS NULL`
-
-	_, err := e.db.QueryOne(foundEntry, sql, c.Param("id"))
+	foundEntry, err := e.udb.View(e.db, c.Param("id"))
 
 	if err != nil {
 		return c.JSON(http.StatusOK, nil)
@@ -95,16 +83,9 @@ func (e EntryService) List(c echo.Context) error {
 	}
 
 	PAGE_SIZE := 20
-
 	cursor := c.Get("cursor").(int)
 
-	entries := []model.Entry{}
-
-	sql := `SELECT "entry".*, "user"."id" AS "user__id", "user"."username" AS "user__username", "user"."avatar" AS "user__avatar"  FROM "entries" AS "entry" 
-	LEFT JOIN "users" AS "user" ON ("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE "entry"."deleted_at" IS NULL 
-	ORDER BY "entry"."created_at" DESC LIMIT ? OFFSET ?`
-
-	_, err := e.db.Query(&entries, sql, PAGE_SIZE, cursor)
+	entries, err := e.udb.List(e.db, PAGE_SIZE, cursor)
 
 	if err != nil {
 		return err
@@ -137,9 +118,7 @@ func (e EntryService) Update(c echo.Context) error {
 	currUser := c.Get("user").(model.User)
 
 	// check if entry belongs to the current user
-	foundEntry := new(model.Entry)
-	err := e.db.Model(foundEntry).
-		Where("id = ? AND user_id = ?", c.Param("id"), currUser.Id).Select()
+	_, err := e.udb.FindByUser(e.db, c.Param("id"), currUser.Id.String())
 
 	if err != nil {
 		return errors.Unauthorized()
@@ -152,8 +131,8 @@ func (e EntryService) Update(c echo.Context) error {
 		"content":     body.Content,
 		"updated_at":  time.Now().UTC(),
 	}
-	_, err = e.db.Model(&newValues).TableExpr("entries").
-		Where("id = ?", c.Param("id")).UpdateNotZero()
+
+	err = e.udb.Update(e.db, newValues, c.Param("id"))
 
 	if err != nil {
 		return err
@@ -166,15 +145,13 @@ func (e EntryService) Delete(c echo.Context) error {
 	currUser := c.Get("user").(model.User)
 
 	// check if entry belongs to the current user
-	foundEntry := new(model.Entry)
-	err := e.db.Model(foundEntry).
-		Where("id = ? AND user_id = ?", c.Param("id"), currUser.Id).Select()
+	foundEntry, err := e.udb.FindByUser(e.db, c.Param("id"), currUser.Id.String())
 
 	if err != nil {
 		return errors.Unauthorized()
 	}
 
-	_, err = e.db.Model(foundEntry).Where("id = ?id").Delete()
+	err = e.udb.Delete(e.db, foundEntry)
 
 	if err != nil {
 		return err
