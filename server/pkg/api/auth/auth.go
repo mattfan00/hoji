@@ -4,9 +4,8 @@ import (
 	"server/pkg/utl/errors"
 	"server/pkg/utl/jwt"
 	"server/pkg/utl/model"
-	"strings"
 
-	"github.com/go-pg/pg/v10"
+	//"github.com/go-pg/pg/v10"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -31,20 +30,6 @@ func (a AuthService) Register(c echo.Context) error {
 		return err
 	}
 
-	foundUser := new(model.User)
-
-	// check if email exists already
-	err := a.db.Model(foundUser).Where("lower(email) = ?", strings.ToLower(body.Email)).Select()
-	if err == nil || err != pg.ErrNoRows {
-		return errors.BadRequest("Email already in use")
-	}
-
-	// check if username exists already
-	err = a.db.Model(foundUser).Where("lower(username) = ?", strings.ToLower(body.Username)).Select()
-	if err == nil || err != pg.ErrNoRows {
-		return errors.BadRequest("Username already in use")
-	}
-
 	hashed, _ := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
 	body.Password = string(hashed)
 
@@ -57,7 +42,7 @@ func (a AuthService) Register(c echo.Context) error {
 		Website:     body.Website,
 	}
 
-	_, err = a.db.Model(&newUser).Insert()
+	err := a.udb.Register(a.db, &newUser)
 
 	if err != nil {
 		return err
@@ -97,9 +82,7 @@ func (a AuthService) Login(c echo.Context) error {
 		return err
 	}
 
-	foundUser := new(model.User)
-
-	err := a.db.Model(foundUser).Where("lower(email) = ?", strings.ToLower(body.Email)).Select()
+	foundUser, err := a.udb.CheckEmail(a.db, body.Email)
 
 	// couldn't find user
 	if err != nil {
@@ -128,9 +111,7 @@ func (a AuthService) Login(c echo.Context) error {
 }
 
 func (a AuthService) Check(c echo.Context) error {
-	foundUser := new(model.User)
-
-	err := a.db.Model(foundUser).Where("lower(email) = ?", strings.ToLower(c.QueryParam("email"))).Select()
+	_, err := a.udb.CheckEmail(a.db, c.QueryParam("email"))
 
 	if err != nil {
 		return c.JSON(200, "Email valid")

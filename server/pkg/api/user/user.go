@@ -4,7 +4,6 @@ import (
 	"server/pkg/utl/errors"
 	"server/pkg/utl/jwt"
 	"server/pkg/utl/model"
-	"strings"
 	"time"
 
 	//"github.com/fatih/structs"
@@ -14,13 +13,7 @@ import (
 )
 
 func (u UserService) View(c echo.Context) error {
-	foundUser := new(model.User)
-
-	err := u.db.Model(foundUser).
-		Relation("Entries", func(q *pg.Query) (*pg.Query, error) {
-			return q.Order("entry.created_at DESC"), nil
-		}).
-		Where("lower(username) = ?", strings.ToLower(c.Param("username"))).Select()
+	foundUser, err := u.udb.View(u.db, c.Param("username"))
 
 	if err != nil {
 		return c.JSON(200, nil)
@@ -54,10 +47,9 @@ func (u UserService) Update(c echo.Context) error {
 		return err
 	}
 
-	// if the username is being changed, check if it the username is in use already
+	// if the username is being changed, check if the username is in use already
 	if currUser.Username != body.Username {
-		foundUser := new(model.User)
-		err := u.db.Model(foundUser).Where("lower(username) = ?", strings.ToLower(body.Username)).Select()
+		_, err := u.udb.CheckUsername(u.db, body.Username)
 
 		// if found a user with that username
 		if err == nil || err != pg.ErrNoRows {
@@ -66,11 +58,10 @@ func (u UserService) Update(c echo.Context) error {
 	}
 
 	// update the appropriate user
-	updatedUser := new(model.User)
-	copier.Copy(updatedUser, &body)
+	updatedUser := model.User{}
+	copier.Copy(&updatedUser, &body)
 
-	_, err := u.db.Model(updatedUser).
-		Where("lower(username) = ?", currUser.Username).UpdateNotZero()
+	err := u.udb.Update(u.db, &updatedUser, currUser.Username)
 
 	if err != nil {
 		return err
@@ -125,6 +116,8 @@ func (u UserService) UpdateAvatar(c echo.Context) error {
 	_, err = u.db.Model(&updatedUser).
 		Where("lower(username) = ?", currUser.Username).UpdateNotZero()
 
+	err = u.udb.Update(u.db, &updatedUser, currUser.Username)
+
 	if err != nil {
 		return err
 	}
@@ -144,8 +137,8 @@ func (u UserService) RemoveAvatar(c echo.Context) error {
 		"avatar":     nil,
 		"updated_at": time.Now().UTC(),
 	}
-	_, err := u.db.Model(&newValues).TableExpr("users").
-		Where("lower(username) = ?", currUser.Username).Update()
+
+	err := u.udb.UpdateValues(u.db, newValues, currUser.Username)
 
 	if err != nil {
 		return err
