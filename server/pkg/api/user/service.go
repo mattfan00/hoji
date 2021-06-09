@@ -1,19 +1,19 @@
 package user
 
 import (
+	"mime/multipart"
 	"server/pkg/api/user/platform"
 	"server/pkg/utl/aws"
 	"server/pkg/utl/model"
 
 	"github.com/go-pg/pg/v10"
-	"github.com/labstack/echo/v4"
 )
 
 type UserInterface interface {
-	View(echo.Context) error
-	Update(echo.Context) error
-	UpdateAvatar(echo.Context) error
-	RemoveAvatar(echo.Context) error
+	View(string) (model.User, error)
+	Update(model.User, string, updateReq) error
+	UpdateAvatar(model.User, string, *multipart.FileHeader) (string, error)
+	RemoveAvatar(model.User, string) error
 }
 
 type UserService struct {

@@ -1,50 +1,26 @@
 package user
 
 import (
+	"mime/multipart"
 	"server/pkg/utl/errors"
-	"server/pkg/utl/jwt"
 	"server/pkg/utl/model"
 	"time"
 
-	//"github.com/fatih/structs"
 	"github.com/go-pg/pg/v10"
 	"github.com/jinzhu/copier"
-	"github.com/labstack/echo/v4"
 )
 
-func (u UserService) View(c echo.Context) error {
-	foundUser, err := u.udb.View(u.db, c.Param("username"))
+func (u UserService) View(username string) (model.User, error) {
+	foundUser, err := u.udb.View(u.db, username)
 
-	if err != nil {
-		return c.JSON(200, nil)
-	}
+	return foundUser, err
 
-	return c.JSON(200, foundUser)
 }
 
-type updateReq struct {
-	Name        string `json:"name" structs:"name" validate:"required"`
-	Username    string `json:"username" structs:"username" validate:"required"`
-	Description string `json:"description,omitempty" structs:"description"`
-	Website     string `json:"website,omitempty" structs:"website"`
-}
-
-func (u UserService) Update(c echo.Context) error {
-	currUser := c.Get("user").(model.User)
-
+func (u UserService) Update(currUser model.User, username string, body updateReq) error {
 	// don't let people submit request to change details of someone else
-	if currUser.Username != c.Param("username") {
+	if currUser.Username != username {
 		return errors.Unauthorized()
-	}
-
-	body := new(updateReq)
-
-	if err := c.Bind(body); err != nil {
-		return err
-	}
-
-	if err := c.Validate(body); err != nil {
-		return err
 	}
 
 	// if the username is being changed, check if the username is in use already
@@ -63,73 +39,32 @@ func (u UserService) Update(c echo.Context) error {
 
 	err := u.udb.Update(u.db, &updatedUser, currUser.Username)
 
-	if err != nil {
-		return err
-	}
-
-	// create a new JWT token
-	newAuthUser := model.AuthUser{
-		Id: currUser.Id,
-		//Name:     body.Name,
-		//Username: body.Username,
-		//Email:    currUser.Email,
-	}
-
-	if err != nil {
-		return err
-	}
-
-	newJwt, err := jwt.GenerateToken(newAuthUser)
-
-	if err != nil {
-		return err
-	}
-
-	jwt.CreateCookie(c, "token", newJwt)
-
-	return c.JSON(200, newAuthUser)
+	return err
 }
 
-func (u UserService) UpdateAvatar(c echo.Context) error {
-	currUser := c.Get("user").(model.User)
-
+func (u UserService) UpdateAvatar(currUser model.User, username string, file *multipart.FileHeader) (string, error) {
 	// don't let people submit request to change avatar of someone else
-	if currUser.Username != c.Param("username") {
-		return errors.Unauthorized()
+	if currUser.Username != username {
+		return "", errors.Unauthorized()
 	}
-
-	form, err := c.MultipartForm()
-
-	if err != nil {
-		return err
-	}
-
-	file := form.File["file"][0]
 
 	fileLocation, err := u.aws.AddObject(file, "hoji", "/avatar")
 
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	updatedUser := model.User{Avatar: fileLocation}
-	_, err = u.db.Model(&updatedUser).
-		Where("lower(username) = ?", currUser.Username).UpdateNotZero()
 
 	err = u.udb.Update(u.db, &updatedUser, currUser.Username)
 
-	if err != nil {
-		return err
-	}
-
-	return c.JSON(200, fileLocation)
+	return fileLocation, err
 }
 
-func (u UserService) RemoveAvatar(c echo.Context) error {
-	currUser := c.Get("user").(model.User)
+func (u UserService) RemoveAvatar(currUser model.User, username string) error {
 
 	// don't let people submit request to change avatar of someone else
-	if currUser.Username != c.Param("username") {
+	if currUser.Username != username {
 		return errors.Unauthorized()
 	}
 
@@ -140,9 +75,5 @@ func (u UserService) RemoveAvatar(c echo.Context) error {
 
 	err := u.udb.UpdateValues(u.db, newValues, currUser.Username)
 
-	if err != nil {
-		return err
-	}
-
-	return c.JSON(200, "Succesfully removed avatar")
+	return err
 }
