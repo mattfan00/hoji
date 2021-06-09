@@ -1,21 +1,21 @@
 package entry
 
 import (
+	"mime/multipart"
 	"server/pkg/api/entry/platform"
 	"server/pkg/utl/aws"
 	"server/pkg/utl/model"
 
 	"github.com/go-pg/pg/v10"
-	"github.com/labstack/echo/v4"
 )
 
 type EntryInterface interface {
-	View(echo.Context) error
-	Create(echo.Context) error
-	UploadImage(echo.Context) error
-	List(echo.Context) error
-	Update(echo.Context) error
-	Delete(echo.Context) error
+	View(string) (model.Entry, error)
+	Create(model.User, createReq) (model.Entry, error)
+	UploadImage(*multipart.FileHeader) (string, error)
+	List(int) ([]model.Entry, int, error)
+	Update(model.User, string, updateReq) error
+	Delete(model.User, string) error
 }
 
 type EntryService struct {
