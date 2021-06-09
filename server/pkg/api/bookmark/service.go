@@ -1,6 +1,9 @@
 package bookmark
 
 import (
+	"server/pkg/api/bookmark/platform"
+	"server/pkg/utl/model"
+
 	"github.com/go-pg/pg/v10"
 	"github.com/labstack/echo/v4"
 )
@@ -12,11 +15,19 @@ type BookmarkInterface interface {
 }
 
 type BookmarkService struct {
-	db *pg.DB
+	db  *pg.DB
+	udb UDB
+}
+
+type UDB interface {
+	Create(*pg.DB, *model.Bookmark) error
+	List(*pg.DB, string) ([]model.Bookmark, error)
+	Delete(*pg.DB, string) error
 }
 
 func New(db *pg.DB) *BookmarkService {
 	return &BookmarkService{
-		db: db,
+		db:  db,
+		udb: platform.Postgres{},
 	}
 }
