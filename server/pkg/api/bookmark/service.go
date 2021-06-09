@@ -5,13 +5,12 @@ import (
 	"server/pkg/utl/model"
 
 	"github.com/go-pg/pg/v10"
-	"github.com/labstack/echo/v4"
 )
 
 type BookmarkInterface interface {
-	Create(echo.Context) error
-	List(echo.Context) error
-	Delete(echo.Context) error
+	Create(model.User, createReq) (model.Bookmark, error)
+	List(model.User) ([]model.Bookmark, error)
+	Delete(string) error
 }
 
 type BookmarkService struct {
