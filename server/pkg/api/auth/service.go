@@ -5,15 +5,12 @@ import (
 	"server/pkg/utl/model"
 
 	"github.com/go-pg/pg/v10"
-	"github.com/labstack/echo/v4"
 )
 
 type AuthInterface interface {
-	Register(echo.Context) error
-	Login(echo.Context) error
-	Check(echo.Context) error
-	Current(echo.Context) error
-	Logout(echo.Context) error
+	Register(registerReq) (model.User, error)
+	Login(loginReq) (model.User, error)
+	Check(string) error
 }
 
 type AuthService struct {
