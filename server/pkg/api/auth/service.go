@@ -2,6 +2,7 @@ package auth
 
 import (
 	"server/pkg/api/auth/platform"
+	"server/pkg/utl/mock/postgres"
 	"server/pkg/utl/model"
 
 	"github.com/go-pg/pg/v10"
@@ -28,5 +29,12 @@ func New(db *pg.DB) *AuthService {
 	return &AuthService{
 		db:  db,
 		udb: platform.Postgres{},
+	}
+}
+
+func NewMock() *AuthService {
+	return &AuthService{
+		db:  nil,
+		udb: &postgres.UserMock{},
 	}
 }
