@@ -1,10 +1,10 @@
 package middleware
 
 import (
-	"server/pkg/utl/errors"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
+	"github.com/mattfan00/hoji/server/pkg/utl/errors"
 )
 
 func (mw *MiddlewareService) Pagination(next echo.HandlerFunc) echo.HandlerFunc {

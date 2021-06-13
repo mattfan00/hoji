@@ -1,4 +1,4 @@
-module server
+module github.com/mattfan00/hoji/server
 
 go 1.15
 

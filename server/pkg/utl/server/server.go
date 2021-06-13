@@ -1,11 +1,10 @@
 package server
 
 import (
-	"server/pkg/utl/errors"
-
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/mattfan00/hoji/server/pkg/utl/errors"
 )
 
 func New() *echo.Echo {

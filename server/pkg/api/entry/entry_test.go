@@ -1,13 +1,11 @@
 package entry
 
 import (
-	//"server/pkg/utl/aws"
-	//"server/pkg/utl/config"
 	"net/http"
 	"net/http/httptest"
-	"server/pkg/utl/server"
 	"testing"
 
+	"github.com/mattfan00/hoji/server/pkg/utl/server"
 	"github.com/stretchr/testify/assert"
 )
 

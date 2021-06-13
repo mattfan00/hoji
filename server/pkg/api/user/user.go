@@ -2,12 +2,12 @@ package user
 
 import (
 	"mime/multipart"
-	"server/pkg/utl/errors"
-	"server/pkg/utl/model"
 	"time"
 
 	"github.com/go-pg/pg/v10"
 	"github.com/jinzhu/copier"
+	"github.com/mattfan00/hoji/server/pkg/utl/errors"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
 func (u UserService) View(username string) (model.User, error) {

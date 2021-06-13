@@ -2,9 +2,10 @@ package entry
 
 import (
 	"mime/multipart"
-	"server/pkg/utl/errors"
-	"server/pkg/utl/model"
 	"time"
+
+	"github.com/mattfan00/hoji/server/pkg/utl/errors"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
 func (e EntryService) Create(currUser model.User, body createReq) (model.Entry, error) {

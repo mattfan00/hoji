@@ -1,11 +1,11 @@
 package platform
 
 import (
-	"server/pkg/utl/errors"
-	"server/pkg/utl/model"
 	"strings"
 
 	"github.com/go-pg/pg/v10"
+	"github.com/mattfan00/hoji/server/pkg/utl/errors"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
 type Postgres struct{}

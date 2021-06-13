@@ -1,13 +1,13 @@
 package api
 
 import (
-	"server/pkg/api/auth"
-	"server/pkg/api/bookmark"
-	"server/pkg/api/entry"
-	"server/pkg/api/user"
-	"server/pkg/utl/aws"
-	customMiddleware "server/pkg/utl/middleware"
-	"server/pkg/utl/server"
+	"github.com/mattfan00/hoji/server/pkg/api/auth"
+	"github.com/mattfan00/hoji/server/pkg/api/bookmark"
+	"github.com/mattfan00/hoji/server/pkg/api/entry"
+	"github.com/mattfan00/hoji/server/pkg/api/user"
+	"github.com/mattfan00/hoji/server/pkg/utl/aws"
+	customMiddleware "github.com/mattfan00/hoji/server/pkg/utl/middleware"
+	"github.com/mattfan00/hoji/server/pkg/utl/server"
 
 	"github.com/go-pg/pg/v10"
 )

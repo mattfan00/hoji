@@ -1,9 +1,8 @@
 package auth
 
 import (
-	"server/pkg/utl/errors"
-	"server/pkg/utl/model"
-
+	"github.com/mattfan00/hoji/server/pkg/utl/errors"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 	//"github.com/go-pg/pg/v10"
 	"golang.org/x/crypto/bcrypt"
 )

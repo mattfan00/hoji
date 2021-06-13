@@ -2,11 +2,11 @@ package entry
 
 import (
 	"mime/multipart"
-	"server/pkg/api/entry/platform"
-	"server/pkg/utl/aws"
-	"server/pkg/utl/model"
 
 	"github.com/go-pg/pg/v10"
+	"github.com/mattfan00/hoji/server/pkg/api/entry/platform"
+	"github.com/mattfan00/hoji/server/pkg/utl/aws"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
 type EntryInterface interface {

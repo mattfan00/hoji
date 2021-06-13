@@ -1,10 +1,9 @@
 package bookmark
 
 import (
-	"server/pkg/api/bookmark/platform"
-	"server/pkg/utl/model"
-
 	"github.com/go-pg/pg/v10"
+	"github.com/mattfan00/hoji/server/pkg/api/bookmark/platform"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
 type BookmarkInterface interface {

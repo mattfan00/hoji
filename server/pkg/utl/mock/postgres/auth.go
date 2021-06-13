@@ -1,10 +1,10 @@
 package postgres
 
 import (
-	"server/pkg/utl/model"
 	"time"
 
 	"github.com/go-pg/pg/v10"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 	"github.com/satori/go.uuid"
 	"github.com/stretchr/testify/mock"
 )

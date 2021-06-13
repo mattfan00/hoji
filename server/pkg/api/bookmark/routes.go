@@ -1,10 +1,9 @@
 package bookmark
 
 import (
-	"server/pkg/utl/middleware"
-	"server/pkg/utl/model"
-
 	"github.com/labstack/echo/v4"
+	"github.com/mattfan00/hoji/server/pkg/utl/middleware"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 	"github.com/satori/go.uuid"
 )
 

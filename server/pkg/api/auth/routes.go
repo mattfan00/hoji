@@ -1,11 +1,10 @@
 package auth
 
 import (
-	"server/pkg/utl/jwt"
-	"server/pkg/utl/middleware"
-	"server/pkg/utl/model"
-
 	"github.com/labstack/echo/v4"
+	"github.com/mattfan00/hoji/server/pkg/utl/jwt"
+	"github.com/mattfan00/hoji/server/pkg/utl/middleware"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
 type RouteHandler struct {

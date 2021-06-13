@@ -1,10 +1,10 @@
 package main
 
 import (
-	"server/pkg/api"
-	"server/pkg/utl/aws"
-	"server/pkg/utl/config"
-	"server/pkg/utl/postgres"
+	"github.com/mattfan00/hoji/server/pkg/api"
+	"github.com/mattfan00/hoji/server/pkg/utl/aws"
+	"github.com/mattfan00/hoji/server/pkg/utl/config"
+	"github.com/mattfan00/hoji/server/pkg/utl/postgres"
 )
 
 func main() {

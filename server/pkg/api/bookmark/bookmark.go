@@ -1,8 +1,8 @@
 package bookmark
 
 import (
-	"server/pkg/utl/errors"
-	"server/pkg/utl/model"
+	"github.com/mattfan00/hoji/server/pkg/utl/errors"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
 func (b BookmarkService) Create(currUser model.User, body createReq) (model.Bookmark, error) {

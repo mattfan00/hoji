@@ -2,11 +2,11 @@ package auth
 
 import (
 	"errors"
-	"server/pkg/utl/mock/postgres"
-	"server/pkg/utl/model"
 	"testing"
 	"time"
 
+	"github.com/mattfan00/hoji/server/pkg/utl/mock/postgres"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 	"github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"

@@ -1,10 +1,8 @@
 package jwt
 
 import (
-	"server/pkg/utl/config"
-	//"server/pkg/utl/errors"
-	"server/pkg/utl/model"
-	//"strings"
+	"github.com/mattfan00/hoji/server/pkg/utl/config"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )

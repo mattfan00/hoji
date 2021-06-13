@@ -1,11 +1,10 @@
 package auth
 
 import (
-	"server/pkg/api/auth/platform"
-	"server/pkg/utl/mock/postgres"
-	"server/pkg/utl/model"
-
 	"github.com/go-pg/pg/v10"
+	"github.com/mattfan00/hoji/server/pkg/api/auth/platform"
+	"github.com/mattfan00/hoji/server/pkg/utl/mock/postgres"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
 type AuthInterface interface {

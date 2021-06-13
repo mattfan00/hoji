@@ -1,9 +1,8 @@
 package platform
 
 import (
-	"server/pkg/utl/model"
-
 	"github.com/go-pg/pg/v10"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
 type Postgres struct{}
