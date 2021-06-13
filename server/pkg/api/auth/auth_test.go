@@ -1,34 +1,206 @@
 package auth
 
 import (
+	"errors"
 	"server/pkg/utl/mock/postgres"
+	"server/pkg/utl/model"
 	"testing"
 	"time"
 
 	"github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func TestRegister(t *testing.T) {
-	userMock := postgres.UserMock{}
-	a := NewTest(&userMock)
+	type mockParams struct {
+		email    string
+		retError error
+	}
 
-	newReq := registerReq{
-		Email:    "success1@test.com",
-		Password: "password",
+	cases := map[string]struct {
+		body    registerReq
+		mock    mockParams
+		wantErr bool
+	}{
+		"Successfully register user": {
+			body: registerReq{
+				Email:    "test@test.com",
+				Password: "password",
+				Name:     "Test",
+				Username: "test",
+			},
+			mock: mockParams{
+				email:    "test@test.com",
+				retError: nil,
+			},
+			wantErr: false,
+		},
+	}
+
+	for name, test := range cases {
+		t.Run(name, func(t *testing.T) {
+			userMock := postgres.UserMock{}
+			a := NewTest(&userMock)
+
+			userMock.On("Register", test.mock.email).Return(test.mock.retError)
+
+			newUser, err := a.Register(test.body)
+
+			assert.Equal(t, test.wantErr, err != nil)
+			userMock.AssertExpectations(t)
+
+			if test.wantErr == false {
+				assert.Equal(t, newUser.Email, test.body.Email)
+				assert.NotEqual(t, newUser.Password, test.body.Password)
+				assert.NotEqual(t, newUser.Id, uuid.UUID{})
+				assert.NotEqual(t, newUser.CreatedAt, time.Time{})
+				assert.NotEqual(t, newUser.UpdatedAt, time.Time{})
+			}
+
+		})
+	}
+}
+
+func TestLogin(t *testing.T) {
+	type mockParams struct {
+		email    string
+		retUser  model.User
+		retError error
+	}
+
+	hashed, _ := bcrypt.GenerateFromPassword([]byte("password"), bcrypt.DefaultCost)
+
+	expectedUser := model.User{
+		Email:    "test@test.com",
+		Password: string(hashed),
 		Name:     "Test",
 		Username: "test",
 	}
 
-	userMock.On("Register", newReq.Email).Return(nil)
+	cases := map[string]struct {
+		body     loginReq
+		mock     mockParams
+		wantErr  bool
+		wantUser model.User
+	}{
+		"Successfully login": {
+			body: loginReq{
+				Email:    "test@test.com",
+				Password: "password",
+			},
+			mock: mockParams{
+				email:    "test@test.com",
+				retUser:  expectedUser,
+				retError: nil,
+			},
+			wantErr:  false,
+			wantUser: expectedUser,
+		},
 
-	newUser, err := a.Register(newReq)
+		"Failed login with incorrect username": {
+			body: loginReq{
+				Email:    "fail@test.com",
+				Password: "password",
+			},
+			mock: mockParams{
+				email:    mock.Anything,
+				retUser:  model.User{},
+				retError: errors.New("User not found"),
+			},
+			wantErr:  true,
+			wantUser: model.User{},
+		},
 
-	if assert.Nil(t, err) {
-		assert.Equal(t, newUser.Email, newReq.Email)
-		assert.NotEqual(t, newUser.Password, newReq.Password)
-		assert.NotEqual(t, newUser.Id, uuid.UUID{})
-		assert.NotEqual(t, newUser.CreatedAt, time.Time{})
-		assert.NotEqual(t, newUser.UpdatedAt, time.Time{})
+		"Failed login with incorrect password": {
+			body: loginReq{
+				Email:    "test@test.com",
+				Password: "hello",
+			},
+			mock: mockParams{
+				email:    "test@test.com",
+				retUser:  expectedUser,
+				retError: nil,
+			},
+			wantErr:  true,
+			wantUser: model.User{},
+		},
+	}
+
+	for name, test := range cases {
+		t.Run(name, func(t *testing.T) {
+			userMock := postgres.UserMock{}
+			a := NewTest(&userMock)
+
+			userMock.On("CheckEmail", test.mock.email).Return(test.mock.retUser, test.mock.retError)
+
+			foundUser, err := a.Login(test.body)
+
+			assert.Equal(t, test.wantErr, err != nil)
+			userMock.AssertExpectations(t)
+
+			if test.wantErr == false {
+				assert.Equal(t, test.wantUser, foundUser)
+			}
+		})
+	}
+}
+
+func TestCheck(t *testing.T) {
+	type mockParams struct {
+		email    string
+		retUser  model.User
+		retError error
+	}
+
+	hashed, _ := bcrypt.GenerateFromPassword([]byte("password"), bcrypt.DefaultCost)
+
+	expectedUser := model.User{
+		Email:    "test@test.com",
+		Password: string(hashed),
+		Name:     "Test",
+		Username: "test",
+	}
+
+	cases := map[string]struct {
+		email    string
+		mock     mockParams
+		wantErr  bool
+		wantUser model.User
+	}{
+		"Successfully check with no email found": {
+			email: "test@test.com",
+			mock: mockParams{
+				email:    mock.Anything,
+				retUser:  model.User{},
+				retError: errors.New("User not found"),
+			},
+			wantErr: false,
+		},
+
+		"Failed check with email found": {
+			email: "fail@test.com",
+			mock: mockParams{
+				email:    "fail@test.com",
+				retUser:  expectedUser,
+				retError: nil,
+			},
+			wantErr: true,
+		},
+	}
+
+	for name, test := range cases {
+		t.Run(name, func(t *testing.T) {
+			userMock := postgres.UserMock{}
+			a := NewTest(&userMock)
+
+			userMock.On("CheckEmail", test.mock.email).Return(test.mock.retUser, test.mock.retError)
+
+			err := a.Check(test.email)
+
+			assert.Equal(t, test.wantErr, err != nil)
+			userMock.AssertExpectations(t)
+		})
 	}
 }

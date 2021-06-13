@@ -1,7 +1,6 @@
 package postgres
 
 import (
-	"fmt"
 	"server/pkg/utl/model"
 	"time"
 
@@ -17,29 +16,13 @@ type UserMock struct {
 func (m *UserMock) CheckEmail(db *pg.DB, email string) (model.User, error) {
 	args := m.Called(email)
 
-	fmt.Println(args.String(0))
-
-	user := model.User{
-		Email:    "test@test.com",
-		Name:     "Test",
-		Username: "test",
-	}
-
-	return user, nil
+	return args.Get(0).(model.User), args.Error(1)
 }
 
 func (m *UserMock) CheckUsername(db *pg.DB, username string) (model.User, error) {
 	args := m.Called(username)
 
-	fmt.Println(args.String(0))
-
-	user := model.User{
-		Email:    "test@test.com",
-		Name:     "Test",
-		Username: "test",
-	}
-
-	return user, nil
+	return args.Get(0).(model.User), args.Error(1)
 }
 
 func (m *UserMock) Register(db *pg.DB, newUser *model.User) error {
