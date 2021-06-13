@@ -8,7 +8,7 @@ jobs:
         - npm install
 
     - language: go
-      go: tip
+      go: master
 
       before_install:
         - cd server
