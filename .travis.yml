@@ -1,20 +1,16 @@
 jobs:
   include:
     - language: node_js
-      node_js:
-        - 'node'
-        - '12'
+      node_js: node
 
       before_script:
         - cd client
         - npm install
 
     - language: go
-      go:
-        - '1.x'
-        - 'master'
+      go: tip
 
-      before_script:
+      before_install:
         - cd server
 
       script:
