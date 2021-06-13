@@ -1,29 +1,13 @@
 package bookmark
 
 import (
-	"fmt"
-	"server/pkg/utl/errors"
-	"server/pkg/utl/model"
-
-	"github.com/labstack/echo/v4"
-	"github.com/satori/go.uuid"
+	"github.com/mattfan00/hoji/server/pkg/utl/errors"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
-type createReq struct {
-	BookmarkUserId uuid.UUID `json:"bookmark_user_id"`
-}
-
-func (b BookmarkService) Create(c echo.Context) error {
-	body := new(createReq)
-
-	if err := c.Bind(&body); err != nil {
-		return err
-	}
-
-	currUser := c.Get("user").(model.User)
-
+func (b BookmarkService) Create(currUser model.User, body createReq) (model.Bookmark, error) {
 	if currUser.Id == body.BookmarkUserId {
-		return errors.BadRequest("Cannot bookmark your own profile")
+		return model.Bookmark{}, errors.BadRequest("Cannot bookmark your own profile")
 	}
 
 	newBookmark := model.Bookmark{
@@ -31,49 +15,19 @@ func (b BookmarkService) Create(c echo.Context) error {
 		BookmarkUserId: body.BookmarkUserId,
 	}
 
-	// update active to be true if the bookmark exists already
-	_, err := b.db.Model(&newBookmark).
-		OnConflict("(user_id, bookmark_user_id) DO UPDATE").
-		Set("active = EXCLUDED.active").
-		Insert()
+	err := b.udb.Create(b.db, &newBookmark)
 
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-
-	return c.JSON(200, newBookmark)
+	return newBookmark, err
 }
 
-func (b BookmarkService) List(c echo.Context) error {
-	currUser := c.Get("user").(model.User)
+func (b BookmarkService) List(currUser model.User) ([]model.Bookmark, error) {
+	foundBookmarks, err := b.udb.List(b.db, currUser.Id.String())
 
-	foundBookmarks := []model.Bookmark{}
-	err := b.db.Model(&foundBookmarks).
-		Where("user_id = ? AND active = ?", currUser.Id, true).
-		Relation("BookmarkUser").
-		Select()
-
-	if err != nil {
-		return err
-	}
-
-	return c.JSON(200, foundBookmarks)
+	return foundBookmarks, err
 }
 
-func (b BookmarkService) Delete(c echo.Context) error {
-	values := map[string]interface{}{
-		"active": false,
-	}
+func (b BookmarkService) Delete(bookmarkUserId string) error {
+	err := b.udb.Delete(b.db, bookmarkUserId)
 
-	_, err := b.db.Model(&values).
-		TableExpr("bookmarks").
-		Where("bookmark_user_id = ?", c.Param("bookmark_user_id")).
-		Update()
-
-	if err != nil {
-		return err
-	}
-
-	return c.JSON(200, "Successfully deleted")
+	return err
 }

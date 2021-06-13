@@ -1,45 +1,25 @@
 package api
 
 import (
-	"server/pkg/api/auth"
-	"server/pkg/api/bookmark"
-	"server/pkg/api/entry"
-	"server/pkg/api/user"
-	"server/pkg/utl/aws"
-	"server/pkg/utl/config"
-	"server/pkg/utl/errors"
-	customMiddleware "server/pkg/utl/middleware"
-	"server/pkg/utl/postgres"
+	"github.com/mattfan00/hoji/server/pkg/api/auth"
+	"github.com/mattfan00/hoji/server/pkg/api/bookmark"
+	"github.com/mattfan00/hoji/server/pkg/api/entry"
+	"github.com/mattfan00/hoji/server/pkg/api/user"
+	"github.com/mattfan00/hoji/server/pkg/utl/aws"
+	customMiddleware "github.com/mattfan00/hoji/server/pkg/utl/middleware"
+	"github.com/mattfan00/hoji/server/pkg/utl/server"
 
-	"github.com/go-playground/validator"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/go-pg/pg/v10"
 )
 
-func Start() {
-	config.Init()
-	pg := postgres.Init()
-	aws := aws.Init()
+func Start(pgClient *pg.DB, awsClient *aws.Service) {
+	e := server.New()
 
-	// Echo instance
-	e := echo.New()
-
-	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-		Format: "method=${method}, uri=${uri}, status=${status}\n",
-	}))
-
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowCredentials: true,
-	}))
-
-	e.Validator = &errors.CustomValidator{Validator: validator.New()}
-	e.HTTPErrorHandler = errors.CustomHTTPErrorHandler
-
-	middlewareService := customMiddleware.New(pg)
-	userService := user.New(pg, aws)
-	authService := auth.New(pg)
-	entryService := entry.New(pg, aws)
-	bookmarkService := bookmark.New(pg)
+	middlewareService := customMiddleware.New(pgClient)
+	userService := user.New(pgClient, awsClient)
+	authService := auth.New(pgClient)
+	entryService := entry.New(pgClient, awsClient)
+	bookmarkService := bookmark.New(pgClient)
 
 	user.Routes(e, userService, middlewareService)
 	auth.Routes(e, authService, middlewareService)

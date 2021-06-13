@@ -1,8 +1,19 @@
-language: node_js
-node_js:
-  - 'node'
-  - '12'
+jobs:
+  include:
+    - language: node_js
+      node_js: node
 
-before_script:
-  - cd client
-  - npm install
+      before_script:
+        - cd client
+        - npm install
+
+    - language: go
+      go: master
+
+      before_install:
+        - cd server
+
+      script:
+        - go test -v ./...
+
+

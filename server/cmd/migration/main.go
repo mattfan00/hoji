@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 	"log"
-	"server/pkg/utl/config"
-	"server/pkg/utl/model"
 
 	"github.com/go-pg/pg/v10"
 	"github.com/go-pg/pg/v10/orm"
+	"github.com/mattfan00/hoji/server/pkg/utl/config"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
 func main() {

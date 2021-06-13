@@ -1,13 +1,11 @@
 package middleware
 
 import (
-	"server/pkg/utl/errors"
-	"server/pkg/utl/jwt"
-	"server/pkg/utl/model"
-
 	jwtGo "github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
-	//"github.com/satori/go.uuid"
+	"github.com/mattfan00/hoji/server/pkg/utl/errors"
+	"github.com/mattfan00/hoji/server/pkg/utl/jwt"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
 func (mw *MiddlewareService) Auth(next echo.HandlerFunc) echo.HandlerFunc {

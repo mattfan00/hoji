@@ -1,36 +1,14 @@
 package entry
 
 import (
-	"net/http"
-	"server/pkg/utl/errors"
-	"server/pkg/utl/model"
+	"mime/multipart"
 	"time"
 
-	//"github.com/fatih/structs"
-	//"github.com/jinzhu/copier"
-	"github.com/labstack/echo/v4"
+	"github.com/mattfan00/hoji/server/pkg/utl/errors"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
-type createReq struct {
-	Type        string `json:"type" validate:"required"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Content     string `json:"content"`
-}
-
-func (e EntryService) Create(c echo.Context) error {
-	body := new(createReq)
-
-	if err := c.Bind(&body); err != nil {
-		return err
-	}
-
-	if err := c.Validate(body); err != nil {
-		return err
-	}
-
-	currUser := c.Get("user").(model.User)
-
+func (e EntryService) Create(currUser model.User, body createReq) (model.Entry, error) {
 	newEntry := model.Entry{
 		UserId:      currUser.Id,
 		Type:        body.Type,
@@ -39,75 +17,31 @@ func (e EntryService) Create(c echo.Context) error {
 		Content:     body.Content,
 	}
 
-	_, err := e.db.Model(&newEntry).Insert()
+	err := e.udb.Create(e.db, &newEntry)
 
-	if err != nil {
-		return err
-	}
+	return newEntry, err
 
-	return c.JSON(http.StatusOK, newEntry)
 }
 
-func (e EntryService) UploadImage(c echo.Context) error {
-	form, err := c.MultipartForm()
-
-	if err != nil {
-		return err
-	}
-
-	file := form.File["file"][0]
-
+func (e EntryService) UploadImage(file *multipart.FileHeader) (string, error) {
 	fileLocation, err := e.aws.AddObject(file, "hoji", "/entry")
 
-	if err != nil {
-		return err
-	}
-
-	return c.JSON(200, fileLocation)
+	return fileLocation, err
 }
 
-func (e EntryService) View(c echo.Context) error {
-	foundEntry := new(model.Entry)
+func (e EntryService) View(id string) (model.Entry, error) {
+	foundEntry, err := e.udb.View(e.db, id)
 
-	/*
-		err := e.db.Model(foundEntry).
-			Relation("User").Where("entry.id = ?", c.Param("id")).
-			Column("entry.*").
-			Select()
-	*/
-
-	sql := `SELECT "entry".*, "user"."id" AS "user__id", "user"."username" AS "user__username", "user"."avatar" AS "user__avatar" FROM "entries" AS "entry" LEFT JOIN "users" AS "user" ON 
-	("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE ((entry.id = ?)) AND "entry"."deleted_at" IS NULL`
-
-	_, err := e.db.QueryOne(foundEntry, sql, c.Param("id"))
-
-	if err != nil {
-		return c.JSON(http.StatusOK, nil)
-	}
-
-	return c.JSON(http.StatusOK, foundEntry)
+	return foundEntry, err
 }
 
-func (e EntryService) List(c echo.Context) error {
-	type response struct {
-		Entries    []model.Entry `json:"entries"`
-		NextCursor int           `json:"nextCursor,omitempty"`
-	}
-
+func (e EntryService) List(cursor int) ([]model.Entry, int, error) {
 	PAGE_SIZE := 20
 
-	cursor := c.Get("cursor").(int)
-
-	entries := []model.Entry{}
-
-	sql := `SELECT "entry".*, "user"."id" AS "user__id", "user"."username" AS "user__username", "user"."avatar" AS "user__avatar"  FROM "entries" AS "entry" 
-	LEFT JOIN "users" AS "user" ON ("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE "entry"."deleted_at" IS NULL 
-	ORDER BY "entry"."created_at" DESC LIMIT ? OFFSET ?`
-
-	_, err := e.db.Query(&entries, sql, PAGE_SIZE, cursor)
+	entries, err := e.udb.List(e.db, PAGE_SIZE, cursor)
 
 	if err != nil {
-		return err
+		return entries, 0, err
 	}
 
 	nextCursor := 0
@@ -115,31 +49,12 @@ func (e EntryService) List(c echo.Context) error {
 		nextCursor = cursor + PAGE_SIZE
 	}
 
-	return c.JSON(http.StatusOK, response{
-		entries,
-		nextCursor,
-	})
+	return entries, nextCursor, err
 }
 
-type updateReq struct {
-	Title       string `json:"title" structs:"title"`
-	Description string `json:"description" structs:"description"`
-	Content     string `json:"content" structs:"content"`
-}
-
-func (e EntryService) Update(c echo.Context) error {
-	body := new(updateReq)
-
-	if err := c.Bind(body); err != nil {
-		return err
-	}
-
-	currUser := c.Get("user").(model.User)
-
+func (e EntryService) Update(currUser model.User, id string, body updateReq) error {
 	// check if entry belongs to the current user
-	foundEntry := new(model.Entry)
-	err := e.db.Model(foundEntry).
-		Where("id = ? AND user_id = ?", c.Param("id"), currUser.Id).Select()
+	_, err := e.udb.FindByUser(e.db, id, currUser.Id.String())
 
 	if err != nil {
 		return errors.Unauthorized()
@@ -152,33 +67,22 @@ func (e EntryService) Update(c echo.Context) error {
 		"content":     body.Content,
 		"updated_at":  time.Now().UTC(),
 	}
-	_, err = e.db.Model(&newValues).TableExpr("entries").
-		Where("id = ?", c.Param("id")).UpdateNotZero()
 
-	if err != nil {
-		return err
-	}
+	err = e.udb.Update(e.db, newValues, id)
 
-	return c.JSON(http.StatusOK, "Successfully updated")
+	return err
 }
 
-func (e EntryService) Delete(c echo.Context) error {
-	currUser := c.Get("user").(model.User)
-
+func (e EntryService) Delete(currUser model.User, id string) error {
 	// check if entry belongs to the current user
-	foundEntry := new(model.Entry)
-	err := e.db.Model(foundEntry).
-		Where("id = ? AND user_id = ?", c.Param("id"), currUser.Id).Select()
+	foundEntry, err := e.udb.FindByUser(e.db, id, currUser.Id.String())
 
 	if err != nil {
 		return errors.Unauthorized()
 	}
 
-	_, err = e.db.Model(foundEntry).Where("id = ?id").Delete()
+	err = e.udb.Delete(e.db, foundEntry)
 
-	if err != nil {
-		return err
-	}
+	return err
 
-	return c.JSON(http.StatusOK, "Successfully deleted")
 }

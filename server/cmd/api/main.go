@@ -1,9 +1,17 @@
 package main
 
 import (
-	"server/pkg/api"
+	"github.com/mattfan00/hoji/server/pkg/api"
+	"github.com/mattfan00/hoji/server/pkg/utl/aws"
+	"github.com/mattfan00/hoji/server/pkg/utl/config"
+	"github.com/mattfan00/hoji/server/pkg/utl/postgres"
 )
 
 func main() {
-	api.Start()
+	config.Init()
+	pg := postgres.Init()
+	aws := aws.Init()
+
+	api.Start(pg, aws)
+
 }

@@ -1,5 +1,6 @@
 import React, { useState, useContext, useRef } from "react"
 import { useQuery, useMutation } from "react-query"
+import { queryClient } from "../Utils/queryClient"
 import DefaultProPic from "../Icons/DefaultProPic"
 import Button from "../Components/Button"
 import Input from "../Components/Input"
@@ -13,7 +14,8 @@ import axios from "axios"
 const Settings = () => {
   const updateMutation = useMutation(fields => axios.put(`/user/${user.username}`, fields), {
     onSuccess: ({ data }) => {
-      setUser(data)
+      console.log(data)
+      queryClient.invalidateQueries(`/auth/me`)
       setEdited(false)
     },
   })
