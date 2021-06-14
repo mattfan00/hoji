@@ -10,12 +10,18 @@ func (b BookmarkService) Create(currUser model.User, body createReq) (model.Book
 		return model.Bookmark{}, errors.BadRequest("Cannot bookmark your own profile")
 	}
 
+	_, err := b.udb.FindUser(b.db, body.BookmarkUserId.String())
+
+	if err != nil {
+		return model.Bookmark{}, errors.BadRequest("Bookmarked user does not exist")
+	}
+
 	newBookmark := model.Bookmark{
 		UserId:         currUser.Id,
 		BookmarkUserId: body.BookmarkUserId,
 	}
 
-	err := b.udb.Create(b.db, &newBookmark)
+	err = b.udb.Create(b.db, &newBookmark)
 
 	return newBookmark, err
 }
@@ -26,8 +32,8 @@ func (b BookmarkService) List(currUser model.User) ([]model.Bookmark, error) {
 	return foundBookmarks, err
 }
 
-func (b BookmarkService) Delete(bookmarkUserId string) error {
-	err := b.udb.Delete(b.db, bookmarkUserId)
+func (b BookmarkService) Delete(currUser model.User, bookmarkUserId string) error {
+	err := b.udb.Delete(b.db, currUser.Id.String(), bookmarkUserId)
 
 	return err
 }

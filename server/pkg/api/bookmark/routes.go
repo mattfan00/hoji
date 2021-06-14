@@ -57,7 +57,9 @@ func (r RouteHandler) list(c echo.Context) error {
 }
 
 func (r RouteHandler) delete(c echo.Context) error {
-	err := r.svc.Delete(c.Param("bookmark_user_id"))
+	currUser := c.Get("user").(model.User)
+
+	err := r.svc.Delete(currUser, c.Param("bookmark_user_id"))
 
 	if err != nil {
 		return err

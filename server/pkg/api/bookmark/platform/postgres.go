@@ -17,6 +17,16 @@ func (postgres Postgres) Create(db *pg.DB, newBookmark *model.Bookmark) error {
 	return err
 }
 
+func (postgres Postgres) FindUser(db *pg.DB, id string) (model.User, error) {
+	foundUser := model.User{}
+
+	err := db.Model(&foundUser).
+		Where("id = ?", id).
+		Select()
+
+	return foundUser, err
+}
+
 func (postgres Postgres) List(db *pg.DB, userId string) ([]model.Bookmark, error) {
 	foundBookmarks := []model.Bookmark{}
 
@@ -28,7 +38,7 @@ func (postgres Postgres) List(db *pg.DB, userId string) ([]model.Bookmark, error
 	return foundBookmarks, err
 }
 
-func (postgres Postgres) Delete(db *pg.DB, id string) error {
+func (postgres Postgres) Delete(db *pg.DB, userId string, id string) error {
 	// instead of hard/soft deleting, updates "active" field to be false
 	values := map[string]interface{}{
 		"active": false,
@@ -36,7 +46,7 @@ func (postgres Postgres) Delete(db *pg.DB, id string) error {
 
 	_, err := db.Model(&values).
 		TableExpr("bookmarks").
-		Where("bookmark_user_id = ?", id).
+		Where("user_id = ? AND bookmark_user_id = ?", userId, id).
 		Update()
 
 	return err
