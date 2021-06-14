@@ -58,7 +58,6 @@ func TestRegister(t *testing.T) {
 				assert.NotEqual(t, newUser.CreatedAt, time.Time{})
 				assert.NotEqual(t, newUser.UpdatedAt, time.Time{})
 			}
-
 		})
 	}
 }

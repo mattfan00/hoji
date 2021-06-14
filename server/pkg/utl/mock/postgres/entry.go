@@ -20,7 +20,7 @@ func (m *EntryMock) Create(db *pg.DB, newEntry *model.Entry) error {
 	newEntry.CreatedAt = time.Now().UTC()
 	newEntry.UpdatedAt = time.Now().UTC()
 
-	return args.Error(1)
+	return args.Error(0)
 }
 
 func (m *EntryMock) View(db *pg.DB, id string) (model.Entry, error) {
@@ -48,7 +48,7 @@ func (m *EntryMock) Update(db *pg.DB, newValues map[string]interface{}, id strin
 }
 
 func (m *EntryMock) Delete(db *pg.DB, entry model.Entry) error {
-	args := m.Called(entry.Id.String())
+	args := m.Called("Delete entry")
 
 	return args.Error(0)
 }
