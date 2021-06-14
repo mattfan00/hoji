@@ -19,7 +19,7 @@ type UserInterface interface {
 type UserService struct {
 	db  *pg.DB
 	udb UDB
-	aws *aws.Service
+	aws aws.Interface
 }
 
 type UDB interface {
@@ -29,7 +29,7 @@ type UDB interface {
 	UpdateValues(*pg.DB, map[string]interface{}, string) error
 }
 
-func New(db *pg.DB, aws *aws.Service) *UserService {
+func New(db *pg.DB, aws aws.Interface) *UserService {
 	return &UserService{
 		db:  db,
 		udb: platform.Postgres{},

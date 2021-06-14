@@ -6,6 +6,8 @@ import (
 	"github.com/go-pg/pg/v10"
 	"github.com/mattfan00/hoji/server/pkg/api/entry/platform"
 	"github.com/mattfan00/hoji/server/pkg/utl/aws"
+	awsMock "github.com/mattfan00/hoji/server/pkg/utl/mock/aws"
+	"github.com/mattfan00/hoji/server/pkg/utl/mock/postgres"
 	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
@@ -21,7 +23,7 @@ type EntryInterface interface {
 type EntryService struct {
 	db  *pg.DB
 	udb UDB
-	aws *aws.Service
+	aws aws.Interface
 }
 
 type UDB interface {
@@ -33,10 +35,18 @@ type UDB interface {
 	Delete(*pg.DB, model.Entry) error
 }
 
-func New(db *pg.DB, aws *aws.Service) *EntryService {
+func New(db *pg.DB, aws aws.Interface) *EntryService {
 	return &EntryService{
 		db:  db,
 		udb: platform.Postgres{},
 		aws: aws,
+	}
+}
+
+func NewTest(mockdb *postgres.EntryMock, mockaws *awsMock.AwsMock) *EntryService {
+	return &EntryService{
+		db:  nil,
+		udb: mockdb,
+		aws: mockaws,
 	}
 }

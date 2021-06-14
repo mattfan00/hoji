@@ -1,25 +1,35 @@
 package entry
 
 import (
-	"net/http"
-	"net/http/httptest"
 	"testing"
 
-	"github.com/mattfan00/hoji/server/pkg/utl/server"
-	"github.com/stretchr/testify/assert"
+	"github.com/mattfan00/hoji/server/pkg/utl/mock/aws"
+	"github.com/mattfan00/hoji/server/pkg/utl/mock/postgres"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
+	"github.com/satori/go.uuid"
+	//"github.com/stretchr/testify/assert"
 )
 
 func TestCreate(t *testing.T) {
-	r := server.New()
-
-	ts := httptest.NewServer(r)
-	defer ts.Close()
-
-	res, err := http.Get(ts.URL)
-
-	if err != nil {
-		t.Fatal(err)
+	currUser := model.User{
+		Email:    "test@test.com",
+		Name:     "Test",
+		Username: "test",
 	}
 
-	assert.Equal(t, 200, res.StatusCode)
+	currUser.Id = uuid.NewV4()
+
+	cases := map[string]struct {
+		currUser model.User
+		body     createReq
+	}{}
+
+	for name, _ := range cases {
+		t.Run(name, func(t *testing.T) {
+			entryMock := postgres.EntryMock{}
+			awsMock := aws.AwsMock{}
+
+			NewTest(&entryMock, &awsMock)
+		})
+	}
 }

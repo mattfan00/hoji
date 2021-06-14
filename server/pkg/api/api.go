@@ -12,7 +12,7 @@ import (
 	"github.com/go-pg/pg/v10"
 )
 
-func Start(pgClient *pg.DB, awsClient *aws.Service) {
+func Start(pgClient *pg.DB, awsClient aws.Interface) {
 	e := server.New()
 
 	middlewareService := customMiddleware.New(pgClient)

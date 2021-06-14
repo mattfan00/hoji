@@ -7,8 +7,8 @@ import (
 
 type Postgres struct{}
 
-func (postgres Postgres) Create(db *pg.DB, entry *model.Entry) error {
-	_, err := db.Model(entry).Insert()
+func (postgres Postgres) Create(db *pg.DB, newEntry *model.Entry) error {
+	_, err := db.Model(newEntry).Insert()
 
 	return err
 }
