@@ -9,23 +9,23 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-type UserMock struct {
+type AuthMock struct {
 	mock.Mock
 }
 
-func (m *UserMock) CheckEmail(db *pg.DB, email string) (model.User, error) {
+func (m *AuthMock) CheckEmail(db *pg.DB, email string) (model.User, error) {
 	args := m.Called(email)
 
 	return args.Get(0).(model.User), args.Error(1)
 }
 
-func (m *UserMock) CheckUsername(db *pg.DB, username string) (model.User, error) {
+func (m *AuthMock) CheckUsername(db *pg.DB, username string) (model.User, error) {
 	args := m.Called(username)
 
 	return args.Get(0).(model.User), args.Error(1)
 }
 
-func (m *UserMock) Register(db *pg.DB, newUser *model.User) error {
+func (m *AuthMock) Register(db *pg.DB, newUser *model.User) error {
 	args := m.Called(newUser.Email)
 
 	newUser.Id = uuid.NewV4()

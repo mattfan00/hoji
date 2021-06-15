@@ -41,15 +41,15 @@ func TestRegister(t *testing.T) {
 
 	for name, test := range cases {
 		t.Run(name, func(t *testing.T) {
-			userMock := postgres.UserMock{}
-			a := NewTest(&userMock)
+			authMock := postgres.AuthMock{}
+			a := NewTest(&authMock)
 
-			userMock.On("Register", test.mock.email).Return(test.mock.retError)
+			authMock.On("Register", test.mock.email).Return(test.mock.retError)
 
 			newUser, err := a.Register(test.body)
 
 			assert.Equal(t, test.wantErr, err != nil)
-			userMock.AssertExpectations(t)
+			authMock.AssertExpectations(t)
 
 			if test.wantErr == false {
 				assert.Equal(t, newUser.Email, test.body.Email)
@@ -129,15 +129,15 @@ func TestLogin(t *testing.T) {
 
 	for name, test := range cases {
 		t.Run(name, func(t *testing.T) {
-			userMock := postgres.UserMock{}
-			a := NewTest(&userMock)
+			authMock := postgres.AuthMock{}
+			a := NewTest(&authMock)
 
-			userMock.On("CheckEmail", test.mock.email).Return(test.mock.retUser, test.mock.retError)
+			authMock.On("CheckEmail", test.mock.email).Return(test.mock.retUser, test.mock.retError)
 
 			foundUser, err := a.Login(test.body)
 
 			assert.Equal(t, test.wantErr, err != nil)
-			userMock.AssertExpectations(t)
+			authMock.AssertExpectations(t)
 
 			if test.wantErr == false {
 				assert.Equal(t, test.wantUser, foundUser)
@@ -191,15 +191,15 @@ func TestCheck(t *testing.T) {
 
 	for name, test := range cases {
 		t.Run(name, func(t *testing.T) {
-			userMock := postgres.UserMock{}
-			a := NewTest(&userMock)
+			authMock := postgres.AuthMock{}
+			a := NewTest(&authMock)
 
-			userMock.On("CheckEmail", test.mock.email).Return(test.mock.retUser, test.mock.retError)
+			authMock.On("CheckEmail", test.mock.email).Return(test.mock.retUser, test.mock.retError)
 
 			err := a.Check(test.email)
 
 			assert.Equal(t, test.wantErr, err != nil)
-			userMock.AssertExpectations(t)
+			authMock.AssertExpectations(t)
 		})
 	}
 }

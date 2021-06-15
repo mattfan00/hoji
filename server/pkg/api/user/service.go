@@ -6,6 +6,8 @@ import (
 	"github.com/go-pg/pg/v10"
 	"github.com/mattfan00/hoji/server/pkg/api/user/platform"
 	"github.com/mattfan00/hoji/server/pkg/utl/aws"
+	awsMock "github.com/mattfan00/hoji/server/pkg/utl/mock/aws"
+	"github.com/mattfan00/hoji/server/pkg/utl/mock/postgres"
 	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
@@ -34,5 +36,13 @@ func New(db *pg.DB, aws aws.Interface) *UserService {
 		db:  db,
 		udb: platform.Postgres{},
 		aws: aws,
+	}
+}
+
+func NewTest(mockdb *postgres.UserMock, mockaws *awsMock.AwsMock) *UserService {
+	return &UserService{
+		db:  nil,
+		udb: mockdb,
+		aws: mockaws,
 	}
 }

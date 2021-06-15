@@ -31,7 +31,7 @@ func New(db *pg.DB) *AuthService {
 	}
 }
 
-func NewTest(mock *postgres.UserMock) *AuthService {
+func NewTest(mock *postgres.AuthMock) *AuthService {
 	return &AuthService{
 		db:  nil,
 		udb: mock,
