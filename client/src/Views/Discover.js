@@ -3,7 +3,7 @@ import { useInfiniteQuery } from "react-query"
 import { useHistory } from "react-router-dom"
 import { Waypoint } from "react-waypoint"
 import Entry from "../Components/Entry/Entry"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import Spinner from "../Icons/Spinner"
 import axios from "axios"
 
 const Discover = () => {
@@ -63,11 +63,7 @@ const Discover = () => {
 
         {isFetchingNextPage ? (
           <div className="flex justify-center mt-10">
-            <FontAwesomeIcon 
-              className="animate-spin text-primary"
-              icon="circle-notch" 
-              size="lg" 
-            />
+            <Spinner />
           </div>
         ) : ""}
 

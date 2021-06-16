@@ -49,12 +49,14 @@ const Routes = () => {
   const location = useLocation()
 
   return (
+    /*
     <TransitionGroup>
       <CSSTransition
         key={location.pathname}
         classNames="fade"
         timeout={{ enter: 300, exit: 200 }}
       >
+      */
         <Switch location={location}>
           <FadeRoute exact path="/" component={Landing} />
           <FadeRoute exact path="/discover" component={Discover} />
@@ -71,8 +73,10 @@ const Routes = () => {
 
           <FadeRoute component={Custom404} />
         </Switch>
+    /*
       </CSSTransition>
     </TransitionGroup>
+    */
   )
 }
 

@@ -5,6 +5,7 @@ import ProfileHeader from "../Components/ProfileHeader"
 import Entry from "../Components/Entry/Entry"
 import { AuthContext } from "../Context/AuthContext"
 import NotFound from "../Components/NotFound"
+import Spinner from "../Icons/Spinner"
 
 const Profile = () => {
   const { username } = useParams()
