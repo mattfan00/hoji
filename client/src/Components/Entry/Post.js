@@ -8,7 +8,12 @@ const Post = ({
   content,
   expanded,
 }) => {
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty(decorator))
+  const [editorState, setEditorState] = useState(() => {
+    const contentState = convertFromRaw(JSON.parse(content))
+
+    //EditorState.createEmpty(decorator)
+    return EditorState.createWithContent(contentState, decorator)
+  })
 
   const styleMap = {
     "BOLD": {
@@ -16,12 +21,14 @@ const Post = ({
     }
   }
 
+  /*
   useEffect(() => {
     if (content) {
       const contentState = convertFromRaw(JSON.parse(content))
       setEditorState(EditorState.createWithContent(contentState, decorator))
     }
   }, [content])
+  */
 
   return (
     <>

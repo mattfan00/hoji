@@ -7,6 +7,7 @@ import {
 } from "react-router-dom"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 import FadeInRoute from "./Components/FadeInRoute"
+import ScrollToTop from "./Components/ScrollToTop"
 import { AuthContext } from "./Context/AuthContext"
 
 import Landing from "./Views/Landing"
@@ -24,7 +25,8 @@ import EditEntry from "./Views/EditEntry"
 
 import Custom404 from "./Views/404"
 
-const FadeRoute = ({ component: Component, auth, ...rest }) => {
+
+const CustomRoute = ({ component: Component, auth, scrollToTop, ...rest }) => {
   const { user, loading } = useContext(AuthContext)
   
   if (loading) {
@@ -36,9 +38,12 @@ const FadeRoute = ({ component: Component, auth, ...rest }) => {
       {...rest}
       render={routeProps => (
         user || !auth ? (
-          <FadeInRoute>
+          <>
+            {scrollToTop ? (
+              <ScrollToTop />
+            ): ""}
             <Component {...routeProps} />
-          </FadeInRoute>
+          </>
         ) : <Redirect to="/login" />
       )}
     />
@@ -58,20 +63,20 @@ const Routes = () => {
       >
       */
         <Switch location={location}>
-          <FadeRoute exact path="/" component={Landing} />
-          <FadeRoute exact path="/discover" component={Discover} />
-          <FadeRoute auth={true} exact path="/settings" component={Settings} />
-          <FadeRoute auth={true} exact path="/bookmarks" component={Bookmarks} />
-          <FadeRoute auth={true} exact path="/entry/new" component={NewEntry} />
-          <FadeRoute exact path="/entry/:id" component={Entry} />
-          <FadeRoute auth={true} exact path="/entry/:id/edit" component={EditEntry} />
+          <CustomRoute exact path="/" component={Landing} />
+          <CustomRoute exact path="/discover" component={Discover} />
+          <CustomRoute auth={true} exact path="/settings" component={Settings} />
+          <CustomRoute auth={true} exact path="/bookmarks" component={Bookmarks} />
+          <CustomRoute auth={true} exact path="/entry/new" component={NewEntry} />
+          <CustomRoute scrollToTop={true} exact path="/entry/:id" component={Entry} />
+          <CustomRoute scrollToTop={true} auth={true} exact path="/entry/:id/edit" component={EditEntry} />
 
-          <FadeRoute exact path="/login" component={Login} />
-          <FadeRoute exact path="/register" component={Register} />
+          <CustomRoute exact path="/login" component={Login} />
+          <CustomRoute exact path="/register" component={Register} />
 
-          <FadeRoute exact path="/:username" component={Profile} />
+          <CustomRoute exact path="/:username" component={Profile} />
 
-          <FadeRoute component={Custom404} />
+          <CustomRoute component={Custom404} />
         </Switch>
     /*
       </CSSTransition>

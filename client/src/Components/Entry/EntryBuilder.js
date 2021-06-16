@@ -45,7 +45,7 @@ const EntryBuilder = ({
 
   const { id } = useParams()
 
-  const { data: entry } = useQuery(`/entry/${id}`, {
+  const { data: entry, isLoading } = useQuery(`/entry/${id}`, {
     enabled: editing ? true : false,
     onSuccess: (data) => {
       // check if user is allowed to edit the entry
@@ -145,6 +145,10 @@ const EntryBuilder = ({
     } else {
       submitMutation.mutate(body)
     }
+  }
+
+  if (editing && isLoading) {
+    return <></>
   }
 
   return (
