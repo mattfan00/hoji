@@ -1,11 +1,11 @@
 import React from "react"
 import CustomInput from "../CustomInput"
 import CustomEditor from "../CustomEditor/CustomEditor"
+import Slab from "../Slab/Slab"
 
 const EditPost = ({
-  editor,
-  editorState,
-  setEditorState,
+  value,
+  setValue,
   onTitleChange,
   onContentChange,
   initialTitle, 
@@ -34,11 +34,18 @@ const EditPost = ({
       />
       */}
 
+      {/*
       <CustomEditor
         editor={editor}
         editorState={editorState}
         onChange={onContentChange}
         setEditorState={setEditorState}
+      />
+      */}
+
+      <Slab 
+        value={value}
+        setValue={setValue}
       />
     </>
   )

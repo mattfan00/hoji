@@ -1,8 +1,10 @@
-import React, { useState, useContext, useRef, useEffect } from "react"
+import React, { useState, useContext, useRef, useEffect, useMemo } from "react"
 import { useMutation, useQuery } from "react-query"
 import { queryClient } from "../../Utils/queryClient"
 import { useHistory, useParams } from "react-router-dom"
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import { createEditor } from 'slate'
+import { withReact } from 'slate-react'
 import { AuthContext } from "../../Context/AuthContext"
 import EntryHeader from "./EntryHeader"
 import SelectNew from "../SelectNew"
@@ -36,8 +38,13 @@ const EntryBuilder = ({
   const [changed, setChanged] = useState(false)
   const initialTitle = useRef(null)
 
+  /*
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(decorator))
   const editor = useRef(null)
+  */
+
+  const [value, setValue] = useState([])
+  
 
   const { user } = useContext(AuthContext)
   const history = useHistory()
@@ -58,8 +65,8 @@ const EntryBuilder = ({
       initialTitle.current = data.title || ""
       setContent(data.content || "")
       if (data.type === "post") {
-        const contentState = convertFromRaw(JSON.parse(data.content))
-        setEditorState(EditorState.createWithContent(contentState, decorator))
+        //const contentState = convertFromRaw(JSON.parse(data.content))
+        //setEditorState(EditorState.createWithContent(contentState, decorator))
       }
     }
   }) 
@@ -81,6 +88,8 @@ const EntryBuilder = ({
   }, [changed])
   */
 
+
+  /*
   const handleTypeChange = (newType) => {
     if (newType !== type) {
       setTitle("")
@@ -89,6 +98,7 @@ const EntryBuilder = ({
       setType(newType)
     }
   }
+  */
 
   const handleTitleChange = (value) => {
     setTitle(value)
@@ -103,9 +113,8 @@ const EntryBuilder = ({
     switch(type) {
       case "post":
         return <EditPost 
-          editor={editor}
-          editorState={editorState}
-          setEditorState={setEditorState}
+          value={value}
+          setValue={setValue}
           onTitleChange={handleTitleChange} 
           onContentChange={handlePostContentChange}
           initialTitle={initialTitle.current}
@@ -123,7 +132,7 @@ const EntryBuilder = ({
   const submitDisabled = () => {
     switch(type) {
       case "post":
-        return !editorState.getCurrentContent().hasText()
+        //return !editorState.getCurrentContent().hasText()
       case "thought":
         return content.length === 0 || content.length > charLimit
     }
@@ -134,7 +143,8 @@ const EntryBuilder = ({
       type,
       title,
       content: type === "post" ? (
-        JSON.stringify(convertToRaw(editorState.getCurrentContent()))
+        ""
+        //JSON.stringify(convertToRaw(editorState.getCurrentContent()))
       ) : content,
     }
 
