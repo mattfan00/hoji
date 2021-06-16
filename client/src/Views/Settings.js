@@ -13,8 +13,7 @@ import axios from "axios"
 
 const Settings = () => {
   const updateMutation = useMutation(fields => axios.put(`/user/${user.username}`, fields), {
-    onSuccess: ({ data }) => {
-      console.log(data)
+    onSuccess: () => {
       queryClient.invalidateQueries(`/auth/me`)
       setEdited(false)
     },

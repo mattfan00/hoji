@@ -90,7 +90,7 @@ const Login = () => {
          >Login</Button>
       </Form>
       {/* <div className="mb-4 text-xs">Forgot password?</div> */}
-      <div className="text-center mt-2 text-xs">Don't have an account? <Link to="/register">Register</Link></div>
+      <div className="text-center mt-2 text-xs">Don't have an account? <Link className="color" to="/register">Register</Link></div>
     </div>
   )
 }

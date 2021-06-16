@@ -108,18 +108,6 @@ const SubmitPage = ({
             value={fields.username}
             onChange={(e) => setFields({...fields, username: e.target.value})}
           />
-          <TextArea
-            className="mb-2 max-h-28" label="Profile Description" name="description" autocompleteOff
-            maxLength="280"
-            value={fields.description}
-            onChange={(e) => setFields({...fields, description: e.target.value})}
-          />
-          <Input
-            label="Website" name="website" autocompleteOff
-            maxLength="280"
-            value={fields.website}
-            onChange={(e) => setFields({...fields, website: e.target.value})}
-          />
         </div>
 
         <Button 
@@ -146,8 +134,6 @@ const Register = () => {
     password: "",
     name: "",
     username: "",
-    description: "",
-    website: "",
   })
   const { user } = useContext(AuthContext)
 
@@ -183,7 +169,7 @@ const Register = () => {
           setFields={setFields}
         />
       )}
-      <div className="text-center mt-2 text-xs">Already have an account? <Link to="/login">Login</Link></div>
+      <div className="text-center mt-2 text-xs">Already have an account? <Link className="color" to="/login">Login</Link></div>
     </div>
   )
 }
