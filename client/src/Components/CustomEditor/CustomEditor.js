@@ -17,12 +17,6 @@ const CustomEditor = ({
     }
   }
 
-  /*
-  useEffect(() => {
-    editor.current.focus()
-  }, []) 
-  */
-
   const handleKeyCommand = (command, editorState) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
 

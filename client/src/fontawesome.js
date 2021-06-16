@@ -22,6 +22,10 @@ import {
   faLink,
   faImage,
   faCircleNotch,
+  faHeading,
+  faBold,
+  faItalic,
+  faUnderline,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -61,4 +65,8 @@ library.add(
   faImage,
   faClock,
   faCircleNotch,
+  faHeading,
+  faBold,
+  faItalic,
+  faUnderline,
 )

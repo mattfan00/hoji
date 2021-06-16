@@ -24,7 +24,7 @@ const InlineStyleControls = ({
     <div className="flex">
       {INLINE_STYLES.map(({ label, style, className }) => (
         <Button
-          key={className}
+          key={style}
           variant="text"
           size="sm"
           className={`mr-1 ${className ? className : ""}`}
@@ -83,9 +83,9 @@ const BlockStyleControls = ({
 }
 
 const HEADING_TYPES = [
-  { label: 'H1', style: 'header-one' },
-  { label: 'H2', style: 'header-two' },
-  { label: 'H3', style: 'header-three' },
+  //{ label: 'H1', style: 'header-one' },
+  //{ label: 'H2', style: 'header-two' },
+  { label: <FontAwesomeIcon icon="heading" />, style: 'header-three' },
 ]
 
 const HeadingStyleControls = ({
