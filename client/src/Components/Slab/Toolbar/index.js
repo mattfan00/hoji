@@ -3,6 +3,7 @@ import { useSlate } from "slate-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Button from "../../Button"
 import Media from "./Media"
+import Link from "./Link"
 import { isInlineActive, toggleInline, isBlockActive, toggleBlock } from "../Utils"
 
 const INLINE_STYLES = [
@@ -24,6 +25,7 @@ const Toolbar = () => {
     <div className="flex flex-wrap sticky top-3 z-10 p-1 bg-white mb-4 border border-solid shadow-sm rounded-md">
       {INLINE_STYLES.map(({ label, format }) => (
         <Button
+          key={format}
           variant="text"
           size="sm"
           className="mr-1"
@@ -35,10 +37,12 @@ const Toolbar = () => {
         >{label}</Button>
       ))}
 
+      <Link />
       <Media />
 
       {BLOCK_STYLES.map(({ label, format }) => (
         <Button
+          key={format}
           variant="text"
           size="sm"
           className="mr-1"

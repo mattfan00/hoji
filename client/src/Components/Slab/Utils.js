@@ -2,6 +2,7 @@ import {
   Editor, 
   Transforms,
   Element,
+  Range,
 } from 'slate'
 import isUrl from "is-url"
 import imageExtensions from "image-extensions"
@@ -70,12 +71,56 @@ const insertImage = (editor, url) => {
   Transforms.insertNodes(editor, emptyBlock())
 }
 
-const isImageUrl = url => {
+const isImageUrl = (url) => {
   if (!url) return false
   if (!isUrl(url)) return false
   const ext = new URL(url).pathname.split('.').pop()
   return imageExtensions.includes(ext)
 }
+
+const isLinkActive = editor => {
+  const [link] = Editor.nodes(editor, {
+    match: n =>
+      !Editor.isEditor(n) && Element.isElement(n) && n.type === 'link',
+  })
+  return !!link
+}
+
+const unwrapLink = editor => {
+  Transforms.unwrapNodes(editor, {
+    match: n =>
+      !Editor.isEditor(n) && Element.isElement(n) && n.type === 'link',
+  })
+}
+
+const wrapLink = (editor, url) => {
+  if (isLinkActive(editor)) {
+    unwrapLink(editor)
+  }
+
+  const { selection } = editor
+  const isCollapsed = selection && Range.isCollapsed(selection)
+  const link = {
+    type: 'link',
+    url,
+    children: isCollapsed ? [{ text: url }] : [],
+  }
+
+  if (isCollapsed) {
+    Transforms.insertNodes(editor, link)
+  } else {
+    Transforms.wrapNodes(editor, link, { split: true })
+    Transforms.collapse(editor, { edge: 'end' })
+  }
+}
+
+const insertLink = (editor, url) => {
+  console.log(editor.selection)
+  if (editor.selection) {
+    wrapLink(editor, url)
+  }
+}
+
 
 export {
   emptyBlock,
@@ -85,5 +130,7 @@ export {
   toggleBlock,
   insertImage,
   isImageUrl,
+  wrapLink,
+  insertLink,
 }
 

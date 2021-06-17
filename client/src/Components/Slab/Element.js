@@ -43,11 +43,19 @@ const Element = ({
     case 'list-item':
       return <li {...attributes}>{children}</li>
     case 'image':
-      return <Image
-        attributes={attributes}
-        children={children}
-        element={element}
-      />
+      return (
+        <Image
+          attributes={attributes}
+          children={children}
+          element={element}
+        />
+      )
+    case 'link':
+      return (
+        <a {...attributes} href={element.url} className="color">
+          {children}
+        </a>
+      )
     default:
       return <p {...attributes}>{children}</p>
   }

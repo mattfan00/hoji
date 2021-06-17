@@ -1,16 +1,30 @@
 import { withReact } from "slate-react"
 import { withHistory } from "slate-history"
-import { insertImage, isImageUrl } from "./Utils"
+import { insertImage, isImageUrl, wrapLink } from "./Utils"
+import isUrl from "is-url"
 
-const withSlab = editor => {
+const withSlab = (editor) => {
   const customEditor = withHistory(withReact(editor))
-  const { insertData, isVoid } = customEditor
+  const { insertText, insertData, isVoid, isInline } = customEditor
 
-  customEditor.isVoid = element => {
+  customEditor.isVoid = (element) => {
     return element.type === 'image' ? true : isVoid(element)
   }
 
-  customEditor.insertData = data => {
+  customEditor.isInline = (element) => {
+    return element.type === 'link' ? true : isInline(element)
+  }
+
+  customEditor.insertText = (text) => {
+    if (text && isUrl(text)) {
+      wrapLink(customEditor, text)
+    } else {
+      insertText(text)
+    }
+  }
+
+
+  customEditor.insertData = (data) => {
     const text = data.getData('text/plain')
     const { files } = data
 
@@ -30,6 +44,8 @@ const withSlab = editor => {
       }
     } else if (isImageUrl(text)) {
       insertImage(customEditor, text)
+    } else if (text && isUrl(text)) {
+      wrapLink(customEditor, text)
     } else {
       insertData(data)
     }
