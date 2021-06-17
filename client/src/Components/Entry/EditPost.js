@@ -1,7 +1,7 @@
 import React from "react"
 import CustomInput from "../CustomInput"
 import CustomEditor from "../CustomEditor/CustomEditor"
-import Slab from "../Slab/Slab"
+import Slab from "../Slab"
 
 const EditPost = ({
   value,
