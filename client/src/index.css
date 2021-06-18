@@ -30,7 +30,7 @@
 
   .custom-input[placeholder]:empty:before {
     content: attr(placeholder);
-    @apply text-gray-300
+    opacity: 0.333;
   }
 }
 

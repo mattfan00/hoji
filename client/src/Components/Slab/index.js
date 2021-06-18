@@ -28,6 +28,7 @@ const Slab = ({
         renderLeaf={renderLeaf}
         renderElement={renderElement}
         placeholder="start writing your entry here..."
+        
         onKeyDown={(event) => {
           for (const hotkey in HOTKEYS) {
             if (isHotkey(hotkey, event)) {
