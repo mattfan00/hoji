@@ -1,8 +1,9 @@
 import React, { useState } from "react"
-import { useSlate } from "slate-react"
+import { ReactEditor, useSlate } from "slate-react"
+import { Transforms } from "slate"
 import Button from "../../Button"
 import Input from "../../Input"
-import { insertLink } from "../Utils"
+import { isLinkActive, unwrapLink, insertLink } from "../Utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Modal from "react-modal"
 import isUrl from "is-url"
@@ -12,57 +13,32 @@ const Link = ({
   const editor = useSlate()
   const [showURLInput, setShowURLInput] = useState(false)
   const [urlValue, setUrlValue] = useState("")
+  const [currSelection, setCurrSelection] = useState({})
 
   const cancelPreview = () => {
-    setShowURLInput(false)
-    //setTimeout(() => editor.current.focus(), 0)
+    // necessary for refocusing the editor
+    Transforms.select(editor, currSelection)
+    ReactEditor.focus(editor)
+
+    hideModal()
   }
 
   const previewLink = () => {
-    console.log(editor.selection)
     setShowURLInput(true)
-    //setUrlValue(url)
-    /*
-    const selection = editorState.getSelection()
-    if (!selection.isCollapsed()) {
-      const contentState = editorState.getCurrentContent();
-      const startKey = editorState.getSelection().getStartKey();
-      const startOffset = editorState.getSelection().getStartOffset();
-      const blockWithLinkAtBeginning = contentState.getBlockForKey(startKey);
-      const linkKey = blockWithLinkAtBeginning.getEntityAt(startOffset);
-
-      let url = '';
-      if (linkKey) {
-        const linkInstance = contentState.getEntity(linkKey);
-        url = linkInstance.getData().url;
-      }
-
-      setShowURLInput(true)
-      setUrlValue(url)
-      //confirmLink()
-    }
-    */
+    setCurrSelection(editor.selection)
   }
 
   const confirmLink = () => {
-    insertLink(editor, urlValue)
+    insertLink(editor, urlValue, currSelection)
+    ReactEditor.focus(editor)
+
+    hideModal()
+  }
+
+  const hideModal = () => {
     setShowURLInput(false)
     setUrlValue("")
-    /*
-    const contentState = editorState.getCurrentContent()
-    const contentStateWithEntity = contentState.createEntity(
-      "LINK",
-      "MUTABLE",
-      { url: urlValue }
-    )
-    const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
-    const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity })
-
-    onLinkToggle(newEditorState, entityKey)
-
-    setShowURLInput(false)
-    setUrlValue("")
-    */
+    setCurrSelection({})
   }
 
   return (
@@ -71,9 +47,15 @@ const Link = ({
         variant="text"
         size="sm"
         className={`mr-1`}
+        active={isLinkActive(editor)}
         onMouseDown={(e) => {
           e.preventDefault()
-          previewLink()
+
+          if (isLinkActive(editor)) {
+            unwrapLink(editor)
+          } else {
+            previewLink()
+          }
         }}
         disabled={!editor.selection}
       ><FontAwesomeIcon icon="link" /></Button>

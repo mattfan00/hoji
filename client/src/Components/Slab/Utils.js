@@ -78,7 +78,7 @@ const isImageUrl = (url) => {
   return imageExtensions.includes(ext)
 }
 
-const isLinkActive = editor => {
+const isLinkActive = (editor) => {
   const [link] = Editor.nodes(editor, {
     match: n =>
       !Editor.isEditor(n) && Element.isElement(n) && n.type === 'link',
@@ -86,7 +86,7 @@ const isLinkActive = editor => {
   return !!link
 }
 
-const unwrapLink = editor => {
+const unwrapLink = (editor) => {
   Transforms.unwrapNodes(editor, {
     match: n =>
       !Editor.isEditor(n) && Element.isElement(n) && n.type === 'link',
@@ -114,8 +114,10 @@ const wrapLink = (editor, url) => {
   }
 }
 
-const insertLink = (editor, url) => {
-  console.log(editor.selection)
+const insertLink = (editor, url, selection) => {
+  // need to use selection since the editor is not focused right
+  editor.selection = selection
+
   if (editor.selection) {
     wrapLink(editor, url)
   }
@@ -130,6 +132,8 @@ export {
   toggleBlock,
   insertImage,
   isImageUrl,
+  isLinkActive,
+  unwrapLink,
   wrapLink,
   insertLink,
 }
