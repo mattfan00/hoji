@@ -1,25 +1,19 @@
-import React, { useState, useEffect } from "react"
-import { Editor, EditorState, convertFromRaw } from 'draft-js';
-import decorator from "../CustomEditor/decorator"
-import blockRenderer from "../CustomEditor/blockRenderer"
+import React, { useState, useEffect, useMemo } from "react"
+import { createEditor } from "slate"
+import { Slate, Editable } from "slate-react"
+import withSlab from "../Slab/withSlab"
+import Leaf from "../Slab/Leaf"
+import Element from "../Slab/Element"
 
 const Post = ({ 
   title,
   content,
   expanded,
 }) => {
-  const [editorState, setEditorState] = useState(() => {
-    const contentState = convertFromRaw(JSON.parse(content))
+  const editor = useMemo(() => withSlab(createEditor()), [])
 
-    //EditorState.createEmpty(decorator)
-    return EditorState.createWithContent(contentState, decorator)
-  })
-
-  const styleMap = {
-    "BOLD": {
-      fontWeight: 600
-    }
-  }
+  const renderLeaf = (props) => <Leaf {...props} />
+  const renderElement = (props) => <Element {...props} />
 
   /*
   useEffect(() => {
@@ -36,12 +30,13 @@ const Post = ({
       {/*<div className={`${expanded ? "mb-12" : ""}`}>{description}</div>*/}
       {true ? (
         <div className={`entry-content ${!expanded ? "collapsed" : ""}`}>
-          <Editor
-            editorState={editorState}
-            blockRendererFn={blockRenderer}
-            customStyleMap={styleMap}
-            readOnly={true}
-          />
+          <Slate editor={editor} value={JSON.parse(content)}>
+            <Editable 
+              readOnly 
+              renderLeaf={renderLeaf}
+              renderElement={renderElement}
+            />
+          </Slate>
         </div>
       ) : ""}
     </>

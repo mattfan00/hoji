@@ -30,23 +30,22 @@
 
   .custom-input[placeholder]:empty:before {
     content: attr(placeholder);
-    @apply text-gray-300
-  }
-
-  .public-DraftEditorPlaceholder-root {
-    @apply text-gray-300 !important
-  }
-
-  .RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
-    display: none;
-  }
-
-  div > .public-DraftStyleDefault-block {
-    @apply mb-4;
+    opacity: 0.333;
   }
 }
 
 @layer components {
+  .code {
+    @apply 
+      font-mono
+      px-1
+      py-0.5
+      text-xs
+      rounded-sm
+      bg-gray-100
+      text-red-500
+  }
+
   .btn {
     @apply
       bg-gray-100
@@ -173,6 +172,7 @@
     position: fixed;
     inset: 0px;
     background-color: rgba(200, 200, 200, 0.7);
+    z-index: 100;
   }
 
   .modal {

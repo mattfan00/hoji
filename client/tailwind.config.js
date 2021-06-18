@@ -40,6 +40,8 @@ module.exports = {
       // 'sans': ['Inter'],
       'sans': ['Avenir Next'],
       // 'sans': ['Helvetica Neue']
+      'mono': ['monospace']
+      //'mono': ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace']
     },
   },
   variants: {
