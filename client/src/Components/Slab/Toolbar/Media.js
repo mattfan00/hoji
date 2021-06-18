@@ -2,7 +2,7 @@ import React, { useRef } from "react"
 import { useMutation } from "react-query"
 import { useSlate } from "slate-react"
 import Button from "../../Button"
-import { insertImage } from "../Utils"
+import { insertImage, isBlockActive } from "../Utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
 
@@ -31,8 +31,9 @@ const Media = () => {
       <Button
         variant="text"
         size="sm"
-        className={`mr-1`}
+        className="mr-1"
         onClick={showFileBrowser}
+        disabled={isBlockActive(editor, "image")}
       ><FontAwesomeIcon icon="image" /></Button>
       <input ref={inputFile} className="hidden" type="file" accept="image/*" onChange={handleImageUpload} />
     </>

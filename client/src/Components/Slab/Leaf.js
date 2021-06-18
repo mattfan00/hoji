@@ -19,6 +19,10 @@ const Leaf = ({
     classes.push("underline")
   }
 
+  if (leaf.code) {
+    classes.push("code")
+  }
+
   return <span {...attributes} className={classes.join(" ")}>{children}</span>
 }
 

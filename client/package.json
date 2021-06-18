@@ -17,6 +17,7 @@
     "draftjs-utils": "^0.10.2",
     "image-extensions": "^1.1.0",
     "immutable": "^4.0.0-rc.12",
+    "is-hotkey": "^0.2.0",
     "is-url": "^1.2.4",
     "react": "^17.0.2",
     "react-contenteditable": "^3.3.5",

@@ -3,7 +3,7 @@ import { ReactEditor, useSlate } from "slate-react"
 import { Transforms } from "slate"
 import Button from "../../Button"
 import Input from "../../Input"
-import { isLinkActive, unwrapLink, insertLink } from "../Utils"
+import { isBlockActive, unwrapLink, insertLink } from "../Utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Modal from "react-modal"
 import isUrl from "is-url"
@@ -46,18 +46,18 @@ const Link = ({
       <Button
         variant="text"
         size="sm"
-        className={`mr-1`}
-        active={isLinkActive(editor)}
+        className="mr-1"
+        active={isBlockActive(editor, "link")}
         onMouseDown={(e) => {
           e.preventDefault()
 
-          if (isLinkActive(editor)) {
+          if (isBlockActive(editor, "link")) {
             unwrapLink(editor)
           } else {
             previewLink()
           }
         }}
-        disabled={!editor.selection}
+        disabled={!editor.selection || isBlockActive(editor, "image")}
       ><FontAwesomeIcon icon="link" /></Button>
 
       <Modal

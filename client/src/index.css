@@ -47,6 +47,17 @@
 }
 
 @layer components {
+  .code {
+    @apply 
+      font-mono
+      px-1
+      py-0.5
+      text-xs
+      rounded-sm
+      bg-gray-100
+      text-red-500
+  }
+
   .btn {
     @apply
       bg-gray-100

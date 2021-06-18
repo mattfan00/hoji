@@ -7,15 +7,16 @@ import Link from "./Link"
 import { isInlineActive, toggleInline, isBlockActive, toggleBlock } from "../Utils"
 
 const INLINE_STYLES = [
-  { label: "B", format: "bold" },
-  { label: "I", format: "italic" },
-  { label: "U", format: "underline" },
+  { label: <FontAwesomeIcon icon="bold" />, format: "bold" },
+  { label: <FontAwesomeIcon icon="italic" />, format: "italic" },
+  { label: <FontAwesomeIcon icon="underline" />, format: "underline" },
+  { label: <FontAwesomeIcon icon="code" />, format: "code" },
 ]
 
 const BLOCK_STYLES = [
+  { label: <FontAwesomeIcon icon="heading" />, format: "heading" },
   { label: <FontAwesomeIcon icon="list-ul" />, format: "bulleted-list" },
   { label: <FontAwesomeIcon icon="list-ol" />, format: "numbered-list" },
-  { label: "H", format: "heading" },
 ]
 
 const Toolbar = () => {
@@ -30,6 +31,7 @@ const Toolbar = () => {
           size="sm"
           className="mr-1"
           active={isInlineActive(editor, format)}
+          disabled={isBlockActive(editor, "image")}
           onMouseDown={(e) => {
             e.preventDefault()
             toggleInline(editor, format)
@@ -38,7 +40,6 @@ const Toolbar = () => {
       ))}
 
       <Link />
-      <Media />
 
       {BLOCK_STYLES.map(({ label, format }) => (
         <Button
@@ -47,12 +48,15 @@ const Toolbar = () => {
           size="sm"
           className="mr-1"
           active={isBlockActive(editor, format)}
+          disabled={isBlockActive(editor, "image")}
           onMouseDown={(e) => {
             e.preventDefault()
             toggleBlock(editor, format)
           }}
         >{label}</Button>
       ))}
+
+      <Media />
     </div>
   )
 }

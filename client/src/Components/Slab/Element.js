@@ -13,7 +13,7 @@ const Image = ({
     <div {...attributes}>
       <div contentEditable={false}>
         <img 
-          className="m-auto mb-4 w-4/5" 
+          className="m-auto w-4/5" 
           style={{
             boxShadow: selected && focused ? '0 0 0 3px #B4D5FF' : 'none'
           }}

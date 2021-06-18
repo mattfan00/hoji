@@ -7,6 +7,13 @@ import {
 import isUrl from "is-url"
 import imageExtensions from "image-extensions"
 
+const HOTKEYS = {
+  'mod+b': 'bold',
+  'mod+i': 'italic',
+  'mod+u': 'underline',
+  'mod+`': 'code',
+}
+
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 
 const emptyBlock = () => {
@@ -69,6 +76,7 @@ const insertImage = (editor, url) => {
   const image = { type: 'image', url, children: [text] }
   Transforms.insertNodes(editor, image)
   Transforms.insertNodes(editor, emptyBlock())
+  console.log(editor.selection)
 }
 
 const isImageUrl = (url) => {
@@ -76,14 +84,6 @@ const isImageUrl = (url) => {
   if (!isUrl(url)) return false
   const ext = new URL(url).pathname.split('.').pop()
   return imageExtensions.includes(ext)
-}
-
-const isLinkActive = (editor) => {
-  const [link] = Editor.nodes(editor, {
-    match: n =>
-      !Editor.isEditor(n) && Element.isElement(n) && n.type === 'link',
-  })
-  return !!link
 }
 
 const unwrapLink = (editor) => {
@@ -94,9 +94,15 @@ const unwrapLink = (editor) => {
 }
 
 const wrapLink = (editor, url) => {
-  if (isLinkActive(editor)) {
+  if (isBlockActive(editor, "link")) {
     unwrapLink(editor)
   }
+
+  // remove all other styles before inserting a link
+  Editor.removeMark(editor, "bold")
+  Editor.removeMark(editor, "italic")
+  Editor.removeMark(editor, "underline")
+  Editor.removeMark(editor, "code")
 
   const { selection } = editor
   const isCollapsed = selection && Range.isCollapsed(selection)
@@ -125,6 +131,7 @@ const insertLink = (editor, url, selection) => {
 
 
 export {
+  HOTKEYS,
   emptyBlock,
   isInlineActive,
   toggleInline, 
@@ -132,7 +139,6 @@ export {
   toggleBlock,
   insertImage,
   isImageUrl,
-  isLinkActive,
   unwrapLink,
   wrapLink,
   insertLink,

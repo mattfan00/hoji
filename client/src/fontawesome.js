@@ -26,6 +26,7 @@ import {
   faBold,
   faItalic,
   faUnderline,
+  faCode,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -69,4 +70,5 @@ library.add(
   faBold,
   faItalic,
   faUnderline,
+  faCode,
 )
