@@ -57,8 +57,7 @@ const EntryBuilder = ({
       initialTitle.current = data.title || ""
       setContent(data.content || "")
       if (data.type === "post") {
-        //const contentState = convertFromRaw(JSON.parse(data.content))
-        //setEditorState(EditorState.createWithContent(contentState, decorator))
+        setValue(JSON.parse(data.content))
       }
     }
   }) 
@@ -124,7 +123,6 @@ const EntryBuilder = ({
   const submitDisabled = () => {
     switch(type) {
       case "post":
-        //return false //return !editorState.getCurrentContent().hasText()
         return !hasText(value)
       case "thought":
         return content.length === 0 || content.length > charLimit
@@ -132,13 +130,11 @@ const EntryBuilder = ({
   }
 
   const submit = async () => {
-    /*
     const body = {
       type,
       title,
       content: type === "post" ? (
-        ""
-        //JSON.stringify(convertToRaw(editorState.getCurrentContent()))
+        JSON.stringify(trimEnd(value))
       ) : content,
     }
 
@@ -149,9 +145,7 @@ const EntryBuilder = ({
     } else {
       submitMutation.mutate(body)
     }
-    */
 
-    console.log(trimEnd(value))
   }
 
   if (editing && isLoading) {

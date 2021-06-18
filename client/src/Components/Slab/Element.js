@@ -57,7 +57,7 @@ const Element = ({
         </a>
       )
     default:
-      return <p {...attributes}>{children}</p>
+      return <p {...attributes} className="first:mt-0">{children}</p>
   }
 }
 
