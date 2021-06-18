@@ -6,15 +6,13 @@ import Element from "./Element"
 import Leaf from "./Leaf"
 import Toolbar from "./Toolbar/"
 import withSlab from "./withSlab"
-import { HOTKEYS, emptyBlock, toggleInline } from "./Utils"
+import { HOTKEYS, toggleInline } from "./Utils"
 
 const Slab = ({
-  //value,
-  //setValue,
+  value,
+  setValue,
 }) => {
   const editor = useMemo(() => withSlab(createEditor()), [])
-  // Add the initial value when setting up our state.
-  const [value, setValue] = useState(() => emptyBlock())
 
   const renderLeaf = (props) => <Leaf {...props} />
   const renderElement = (props) => <Element {...props} />

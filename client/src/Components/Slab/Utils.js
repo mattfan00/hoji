@@ -1,5 +1,6 @@
 import { 
   Editor, 
+  Node,
   Transforms,
   Element,
   Range,
@@ -76,7 +77,6 @@ const insertImage = (editor, url) => {
   const image = { type: 'image', url, children: [text] }
   Transforms.insertNodes(editor, image)
   Transforms.insertNodes(editor, emptyBlock())
-  console.log(editor.selection)
 }
 
 const isImageUrl = (url) => {
@@ -98,12 +98,6 @@ const wrapLink = (editor, url) => {
     unwrapLink(editor)
   }
 
-  // remove all other styles before inserting a link
-  Editor.removeMark(editor, "bold")
-  Editor.removeMark(editor, "italic")
-  Editor.removeMark(editor, "underline")
-  Editor.removeMark(editor, "code")
-
   const { selection } = editor
   const isCollapsed = selection && Range.isCollapsed(selection)
   const link = {
@@ -111,6 +105,7 @@ const wrapLink = (editor, url) => {
     url,
     children: isCollapsed ? [{ text: url }] : [],
   }
+
 
   if (isCollapsed) {
     Transforms.insertNodes(editor, link)
@@ -129,6 +124,26 @@ const insertLink = (editor, url, selection) => {
   }
 }
 
+const trimEnd = (value) => {
+  let i = value.length - 1
+
+  while (i !== 0 && value[i].type !== "image" && Node.string(value[i]) === "") {
+    i--
+  }
+
+  return value.slice(0, i + 1)
+}
+
+const hasText = (value) => {
+  const newValue = trimEnd(value)
+
+  if (newValue.length !== 1) {
+    return true
+  } else {
+    return Node.string(newValue[0]) !== ""
+  }
+}
+
 
 export {
   HOTKEYS,
@@ -142,5 +157,7 @@ export {
   unwrapLink,
   wrapLink,
   insertLink,
+  trimEnd,
+  hasText,
 }
 

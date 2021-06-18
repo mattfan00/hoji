@@ -1,10 +1,8 @@
-import React, { useState, useContext, useRef, useEffect, useMemo } from "react"
+import React, { useState, useContext, useRef, useEffect } from "react"
 import { useMutation, useQuery } from "react-query"
 import { queryClient } from "../../Utils/queryClient"
 import { useHistory, useParams } from "react-router-dom"
-import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
-import { createEditor } from 'slate'
-import { withReact } from 'slate-react'
+import { emptyBlock, trimEnd, hasText } from "../Slab/Utils"
 import { AuthContext } from "../../Context/AuthContext"
 import EntryHeader from "./EntryHeader"
 import SelectNew from "../SelectNew"
@@ -12,7 +10,6 @@ import Button from "../Button"
 import EditPost from "./EditPost"
 import EditThought from "./EditThought"
 import FadeAnimation from "../FadeAnimation"
-import decorator from "../CustomEditor/decorator"
 import axios from "axios"
 
 const EntryBuilder = ({
@@ -38,12 +35,7 @@ const EntryBuilder = ({
   const [changed, setChanged] = useState(false)
   const initialTitle = useRef(null)
 
-  /*
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty(decorator))
-  const editor = useRef(null)
-  */
-
-  const [value, setValue] = useState([])
+  const [value, setValue] = useState(() => emptyBlock())
   
 
   const { user } = useContext(AuthContext)
@@ -132,13 +124,15 @@ const EntryBuilder = ({
   const submitDisabled = () => {
     switch(type) {
       case "post":
-        //return !editorState.getCurrentContent().hasText()
+        //return false //return !editorState.getCurrentContent().hasText()
+        return !hasText(value)
       case "thought":
         return content.length === 0 || content.length > charLimit
     }
   }
 
   const submit = async () => {
+    /*
     const body = {
       type,
       title,
@@ -155,6 +149,9 @@ const EntryBuilder = ({
     } else {
       submitMutation.mutate(body)
     }
+    */
+
+    console.log(trimEnd(value))
   }
 
   if (editing && isLoading) {
