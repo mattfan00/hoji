@@ -4,6 +4,7 @@ import (
 	"mime/multipart"
 	"time"
 
+	"github.com/mattfan00/hoji/server/pkg/utl/constants"
 	"github.com/mattfan00/hoji/server/pkg/utl/errors"
 	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
@@ -36,17 +37,15 @@ func (e EntryService) View(id string) (model.Entry, error) {
 }
 
 func (e EntryService) List(cursor int) ([]model.Entry, int, error) {
-	PAGE_SIZE := 20
-
-	entries, err := e.udb.List(e.db, PAGE_SIZE, cursor)
+	entries, err := e.udb.List(e.db, constants.PageSize, cursor)
 
 	if err != nil {
 		return entries, 0, err
 	}
 
 	nextCursor := 0
-	if len(entries) >= PAGE_SIZE {
-		nextCursor = cursor + PAGE_SIZE
+	if len(entries) >= constants.PageSize {
+		nextCursor = cursor + constants.PageSize
 	}
 
 	return entries, nextCursor, err

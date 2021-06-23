@@ -1,13 +1,20 @@
 package auth
 
 import (
+	"github.com/mattfan00/hoji/server/pkg/utl/constants"
 	"github.com/mattfan00/hoji/server/pkg/utl/errors"
 	"github.com/mattfan00/hoji/server/pkg/utl/model"
-	//"github.com/go-pg/pg/v10"
 	"golang.org/x/crypto/bcrypt"
 )
 
 func (a AuthService) Register(body registerReq) (model.User, error) {
+	// check if the desired username is invalid
+	for _, username := range constants.InvalidUsernames {
+		if body.Username == username {
+			return model.User{}, errors.BadRequest("Username is unavailable")
+		}
+	}
+
 	hashed, _ := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
 	body.Password = string(hashed)
 

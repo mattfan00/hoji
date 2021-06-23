@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	"reflect"
 	"testing"
 	"time"
 
@@ -37,6 +38,17 @@ func TestRegister(t *testing.T) {
 			},
 			wantErr: false,
 		},
+
+		"Failed register user with unavailable username": {
+			body: registerReq{
+				Email:    "test@test.com",
+				Password: "password",
+				Name:     "Test",
+				Username: "settings",
+			},
+			mock:    mockParams{},
+			wantErr: true,
+		},
 	}
 
 	for name, test := range cases {
@@ -44,7 +56,9 @@ func TestRegister(t *testing.T) {
 			authMock := postgres.AuthMock{}
 			a := NewTest(&authMock)
 
-			authMock.On("Register", test.mock.email).Return(test.mock.retError)
+			if !reflect.ValueOf(test.mock).IsZero() {
+				authMock.On("Register", test.mock.email).Return(test.mock.retError)
+			}
 
 			newUser, err := a.Register(test.body)
 
