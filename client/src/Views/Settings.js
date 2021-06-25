@@ -92,8 +92,16 @@ const Settings = () => {
               <DefaultProPic />
             )}
           </div>
-          <Button className="mr-2" onClick={showFileBrowser}>Upload</Button>
-          <Button onClick={removeImage}>Remove</Button>
+          <Button 
+            variant="primary" 
+            className="mr-2" 
+            onClick={showFileBrowser}
+            disabled={uploadMutation.isLoading || removeMutation.isLoading}
+          >Upload</Button>
+          <Button 
+            onClick={removeImage}
+            disabled={uploadMutation.isLoading || removeMutation.isLoading}
+          >Remove</Button>
           <input ref={inputFile} className="hidden" type="file" accept="image/*" onChange={handleImageUpload} />
         </div>
 
@@ -131,7 +139,7 @@ const Settings = () => {
           <Button 
             type="submit"
             variant="primary"
-            disabled={!edited}
+            disabled={updateMutation.isLoading || !edited}
           >Update profile</Button>
         </Form>
       </div>

@@ -8,8 +8,6 @@ import Error from "../../Components/Error"
 import { Link } from "react-router-dom"
 import axios from "axios"
 import { AuthContext } from "../../Context/AuthContext"
-// import GoogleButton from "../../Components/GoogleButton"
-// import GoogleLogin from "react-google-login"
 
 const Login = () => {
   const loginMutation = useMutation((fields) => axios.post("/auth/login", fields), {
@@ -27,12 +25,8 @@ const Login = () => {
   const history = useHistory()
   const { user, setUser } = useContext(AuthContext)
 
-  // const responseGoogle = (data) => {
-  //   console.log(data)
-  // }
-
   const isLoginDisabled = () => {
-    return fields.email === "" || fields.password === ""
+    return loginMutation.isLoading || fields.email === "" || fields.password === ""
   }
 
   const login = async (e) => {
@@ -53,18 +47,9 @@ const Login = () => {
         <h2 className="mb-0">Login</h2>
         <div className="text-xs">Welcome back to <span className="font-semibold">hoji</span>!</div>
       </div>
-      {/* <GoogleLogin
-        clientId={process.env.GOOGLE_CLIENT_ID}
-        render={renderProps => (
-          // <button onClick={renderProps.onClick} disabled={renderProps.disabled}>This is my custom Google button</button>
-          <GoogleButton onClick={renderProps.onClick} disabled={renderProps.disabled} />
-        )}
-        buttonText="Login"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        cookiePolicy={'single_host_origin'}
-      /> */}
+
       <Error className="mb-4" error={loginMutation.error} />
+
       <Form onSubmit={login}>
         <div className="mb-5">
           <Input

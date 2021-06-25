@@ -27,7 +27,7 @@ const FirstPage = ({
   }
 
   const isSubmitDisabled = () => {
-    return fields.email === ""
+    return checkMutation.isLoading || fields.email === ""
   }
 
   return (
@@ -45,7 +45,7 @@ const FirstPage = ({
 
         <Button
           className="w-full"
-          disabled={isSubmitDisabled()}
+          disabled={isSubmitDisabled()} 
         >
           Next
         </Button>
@@ -80,7 +80,7 @@ const SubmitPage = ({
   }
 
   const isSubmitDisabled = () => {
-    return fields.email === "" || fields.password === "" || fields.name === "" || fields.username === ""
+    return registerMutation.isLoading || fields.email === "" || fields.password === "" || fields.name === "" || fields.username === ""
   }
 
   return (
