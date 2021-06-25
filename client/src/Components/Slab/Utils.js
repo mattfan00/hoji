@@ -144,7 +144,6 @@ const hasText = (value) => {
   }
 }
 
-
 export {
   HOTKEYS,
   emptyBlock,

@@ -9,6 +9,7 @@ import (
 )
 
 type response struct {
+	Type    interface{} `json:"type,omitempty"`
 	Message interface{} `json:"message"`
 }
 
@@ -36,7 +37,9 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 	)
 
 	code = http.StatusInternalServerError
-	resp = response{err.Error()}
+	resp = response{
+		Message: err.Error(),
+	}
 
 	switch customError := err.(type) {
 

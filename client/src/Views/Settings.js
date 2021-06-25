@@ -135,7 +135,6 @@ const Settings = () => {
           >Update profile</Button>
         </Form>
       </div>
-
     </div>
   )
 }

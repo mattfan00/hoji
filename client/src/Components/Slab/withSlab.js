@@ -23,7 +23,6 @@ const withSlab = (editor) => {
     }
   }
 
-
   customEditor.insertData = (data) => {
     const text = data.getData('text/plain')
     const { files } = data

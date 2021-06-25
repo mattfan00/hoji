@@ -19,12 +19,10 @@ func (a AuthService) Register(body registerReq) (model.User, error) {
 	body.Password = string(hashed)
 
 	newUser := model.User{
-		Email:       body.Email,
-		Password:    body.Password,
-		Name:        body.Name,
-		Username:    body.Username,
-		Description: body.Description,
-		Website:     body.Website,
+		Email:    body.Email,
+		Password: body.Password,
+		Name:     body.Name,
+		Username: body.Username,
 	}
 
 	err := a.udb.Register(a.db, &newUser)

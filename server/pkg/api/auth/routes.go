@@ -25,12 +25,10 @@ func Routes(e *echo.Echo, a AuthInterface, mw middleware.MiddlewareInterface) {
 }
 
 type registerReq struct {
-	Email       string `json:"email" bson:"email" validate:"required,email"`
-	Password    string `json:"password" bson:"password" validate:"required,min=4"`
-	Name        string `json:"name" bson:"name" validate:"required"`
-	Username    string `json:"username" bson:"username" validate:"required"`
-	Description string `json:"description,omitempty" bson:"description,omitempty"`
-	Website     string `json:"website,omitempty" bson:"website,omitempty"`
+	Email    string `json:"email" bson:"email" validate:"required,email"`
+	Password string `json:"password" bson:"password" validate:"required,min=4"`
+	Name     string `json:"name" bson:"name" validate:"required"`
+	Username string `json:"username" bson:"username" validate:"required"`
 }
 
 func (r RouteHandler) register(c echo.Context) error {

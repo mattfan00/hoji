@@ -27,7 +27,7 @@ const FirstPage = ({
   }
 
   const isSubmitDisabled = () => {
-    return fields.email === "" || fields.password === ""
+    return fields.email === ""
   }
 
   return (
@@ -40,12 +40,6 @@ const FirstPage = ({
             maxLength="255"
             value={fields.email}
             onChange={(e) => setFields({...fields, email: e.target.value})}
-          />
-          <Input
-            label="Set Password" type="password" name="password" autoCompleteOff required
-            maxLength="255"
-            value={fields.password}
-            onChange={(e) => setFields({...fields, password: e.target.value})}
           />
         </div>
 
@@ -107,6 +101,12 @@ const SubmitPage = ({
             maxLength="20"
             value={fields.username}
             onChange={(e) => setFields({...fields, username: e.target.value})}
+          />
+          <Input
+            label="Set Password" type="password" name="password" autoCompleteOff required
+            maxLength="255"
+            value={fields.password}
+            onChange={(e) => setFields({...fields, password: e.target.value})}
           />
         </div>
 
