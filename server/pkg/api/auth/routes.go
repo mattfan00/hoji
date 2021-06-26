@@ -1,6 +1,8 @@
 package auth
 
 import (
+	"github.com/go-ozzo/ozzo-validation/v4"
+	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/labstack/echo/v4"
 	"github.com/mattfan00/hoji/server/pkg/utl/jwt"
 	"github.com/mattfan00/hoji/server/pkg/utl/middleware"
@@ -38,7 +40,11 @@ func (r RouteHandler) register(c echo.Context) error {
 		return err
 	}
 
-	if err := c.Validate(&body); err != nil {
+	err := validation.ValidateStruct(&body,
+		validation.Field(&body.Email, validation.Required, is.Email),
+	)
+
+	if err != nil {
 		return err
 	}
 

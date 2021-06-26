@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 )
@@ -15,7 +16,7 @@ type response struct {
 
 type validationMessage struct {
 	Field string `json:"field"`
-	Msg   string `json:"msg"`
+	Error string `json:"error"`
 }
 
 func getValidationMessage(tag string, param string) string {
@@ -55,7 +56,7 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 		for _, valError := range customError {
 			newValidationMessage := validationMessage{
 				Field: valError.Field(),
-				Msg:   getValidationMessage(valError.ActualTag(), valError.Param()),
+				Error: getValidationMessage(valError.ActualTag(), valError.Param()),
 			}
 
 			errMessages = append(
@@ -65,6 +66,10 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 		}
 
 		resp.Message = errMessages
+
+	case validation.Errors:
+		code = http.StatusBadRequest
+		resp.Message = "this is from ozzo validation"
 	}
 
 	c.JSON(code, resp)
