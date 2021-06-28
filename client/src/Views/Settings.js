@@ -110,7 +110,7 @@ const Settings = () => {
         <Form onSubmit={updateProfile}>
           <Input 
             className="mb-4" label="Name" name="name" autoCompleteOff required
-            minLength="2"
+            minLength="1"
             maxLength="50"
             value={fields.name}
             onChange={(e) => handleChange(e, "name")}
@@ -118,7 +118,7 @@ const Settings = () => {
 
           <Input 
             className="mb-4" label="Username" name="username" autoCompleteOff required
-            minLength="2"
+            minLength="4"
             maxLength="20"
             value={fields.username}
             onChange={(e) => handleChange(e, "username")}

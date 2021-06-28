@@ -3,7 +3,9 @@ package entry
 import (
 	"net/http"
 
+	"github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/labstack/echo/v4"
+	"github.com/mattfan00/hoji/server/pkg/utl/errors"
 	"github.com/mattfan00/hoji/server/pkg/utl/middleware"
 	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
@@ -55,7 +57,7 @@ func (r RouteHandler) view(c echo.Context) error {
 }
 
 type createReq struct {
-	Type        string `json:"type" validate:"required"`
+	Type        string `json:"type"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Content     string `json:"content"`
@@ -68,7 +70,12 @@ func (r RouteHandler) create(c echo.Context) error {
 		return err
 	}
 
-	if err := c.Validate(&body); err != nil {
+	err := validation.ValidateStruct(&body,
+		validation.Field(&body.Type, validation.Required, validation.By(errors.IsType)),
+		validation.Field(&body.Title, validation.Length(0, 200)),
+	)
+
+	if err != nil {
 		return err
 	}
 
@@ -102,9 +109,9 @@ func (r RouteHandler) uploadImage(c echo.Context) error {
 }
 
 type updateReq struct {
-	Title       string `json:"title" structs:"title"`
-	Description string `json:"description" structs:"description"`
-	Content     string `json:"content" structs:"content"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Content     string `json:"content"`
 }
 
 func (r RouteHandler) update(c echo.Context) error {
@@ -114,9 +121,17 @@ func (r RouteHandler) update(c echo.Context) error {
 		return err
 	}
 
+	err := validation.ValidateStruct(&body,
+		validation.Field(&body.Title, validation.Length(0, 200)),
+	)
+
+	if err != nil {
+		return err
+	}
+
 	currUser := c.Get("user").(model.User)
 
-	err := r.svc.Update(currUser, c.Param("id"), body)
+	err = r.svc.Update(currUser, c.Param("id"), body)
 
 	if err != nil {
 		return err
