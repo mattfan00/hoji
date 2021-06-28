@@ -1,10 +1,11 @@
 import React, { useState, useContext, useRef } from "react"
-import { useQuery, useMutation } from "react-query"
+import { useMutation } from "react-query"
 import { queryClient } from "../Utils/queryClient"
+import { Formik, Form } from "formik"
+import * as Yup from "yup"
 import DefaultProPic from "../Icons/DefaultProPic"
 import Button from "../Components/Button"
 import Input from "../Components/Input"
-import Form from "../Components/Form"
 import Error from "../Components/Error"
 import TextArea from "../Components/TextArea"
 import { AuthContext } from "../Context/AuthContext"
@@ -15,56 +16,20 @@ const Settings = () => {
   const updateMutation = useMutation(fields => axios.put(`/user/${user.username}`, fields), {
     onSuccess: () => {
       queryClient.invalidateQueries(`/auth/me`)
-      setEdited(false)
     },
   })
 
   const uploadMutation = useMutation(formData => axios.put(`/user/${user.username}/avatar`, formData), {
-    onSuccess: ({ data }) => setFields({...fields, avatar: data})
+    onSuccess: ({ data }) => setAvatar(data)
   })
 
   const removeMutation = useMutation(() => axios.delete(`/user/${user.username}/avatar`), {
-    onSuccess: () => setFields({...fields, avatar: ""})
+    onSuccess: () => setAvatar("")
   })
 
-  const [fields, setFields] = useState({
-    avatar: "",
-    name: "",
-    username: "",
-    description: "",
-    website: "",
-  })
-  const [edited, setEdited] = useState(false)
   const { user, setUser } = useContext(AuthContext)
+  const [avatar, setAvatar] = useState(user.avatar || "")
   const inputFile = useRef(null)
-
-  useQuery([`/user/${user?.username}`, { page: "settings" }], {
-    queryFn: async ({ queryKey }) => {
-      const { data } = await axios.get(queryKey[0])
-      return data
-    },
-    enabled: user ? true : false,
-    onSuccess: (data) => {
-      setFields({
-        avatar: data.avatar || "",
-        name: data.name || "",
-        username: data.username || "",
-        description: data.description || "",
-        website: data.website || "",
-      })
-    }
-  })
-
-  const handleChange = (e, field) => {
-    setEdited(true)
-    setFields({...fields, [field]: e.target.value})
-  }
-
-  const updateProfile = async (e) => {
-    e.preventDefault()
-
-    updateMutation.mutate(fields)
-  }
 
   const showFileBrowser = () => inputFile.current.click()
 
@@ -86,8 +51,8 @@ const Settings = () => {
       <div className="mb-10">
         <div className="flex items-center mb-6">
           <div className="mr-5 w-12 h-12 rounded-full overflow-hidden">
-            {fields.avatar ? (
-              <img className="object-cover w-full h-full" alt="Avatar" src={fields.avatar} />
+            {avatar ? (
+              <img className="object-cover w-full h-full" alt="Avatar" src={avatar} />
             ) : (
               <DefaultProPic />
             )}
@@ -107,43 +72,65 @@ const Settings = () => {
 
         <Error className="mb-4" error={updateMutation.error} />
 
-        <Form onSubmit={updateProfile}>
-          <Input 
-            className="mb-4" label="Name" name="name" autoCompleteOff required
-            minLength="1"
-            maxLength="50"
-            value={fields.name}
-            onChange={(e) => handleChange(e, "name")}
-          />
+        <Formik
+          initialValues={{ 
+            name: user.name || "",
+            username: user.username || "",
+            description: user.description || "",
+            website: user.website || "",
+          }}
+          validationSchema={Yup.object({
+           name: Yup.string()
+            .min(1, "Must be at least ${min} characters")
+            .max(50, "Must be at most ${max} characters")
+            .required('Required'),
+           username: Yup.string()
+            .min(4, "Must be at least ${min} characters")
+            .max(20, "Must be at most ${max} characters")
+            .matches("^[a-zA-Z_]*$", "Must contain letters, numbers, or '_'")
+            .required('Required'),
+           description: Yup.string()
+            .max(280, "Must be at most ${max} characters"),
+           website: Yup.string()
+            .max(280, "Must be at most ${max} characters")
+            .url()
+          })}
+          onSubmit={(values) => {
+            updateMutation.mutate(values)
+          }}
+        >
+          <Form>
+            <div className="mb-5">
+              <Input 
+                className="mb-4" label="Name" name="name" autoCompleteOff
+                minLength="1"
+                maxLength="50"
+              />
 
-          <Input 
-            className="mb-4" label="Username" name="username" autoCompleteOff required
-            minLength="4"
-            maxLength="20"
-            value={fields.username}
-            onChange={(e) => handleChange(e, "username")}
-          />
+              <Input 
+                className="mb-4" label="Username" name="username" autoCompleteOff
+                minLength="4"
+                maxLength="20"
+              />
 
-          <TextArea 
-            className="mb-4 max-h-28" label="Description" name="description" 
-            maxLength="280"
-            value={fields.description}
-            onChange={(e) => handleChange(e, "description")}
-          />
+              <TextArea 
+                className="mb-4 max-h-28" label="Description" name="description" 
+                maxLength="280"
+              />
 
-          <Input 
-            className="mb-4" label="Website" name="website" autoCompleteOff 
-            maxLength="280"
-            value={fields.website}
-            onChange={(e) => handleChange(e, "website")}
-          />
+              <Input 
+                className="mb-4" label="Website" name="website" autoCompleteOff 
+                maxLength="280"
+              />
+            </div>
 
-          <Button 
-            type="submit"
-            variant="primary"
-            disabled={updateMutation.isLoading || !edited}
-          >Update profile</Button>
-        </Form>
+            <Button 
+              type="submit"
+              variant="primary"
+              disabled={updateMutation.isLoading}
+            >Update profile</Button>
+          </Form>
+        </Formik>
       </div>
     </div>
   )
