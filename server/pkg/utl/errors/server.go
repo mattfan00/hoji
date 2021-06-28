@@ -1,10 +1,10 @@
 package errors
 
 import (
-	"fmt"
 	"net/http"
+	"sort"
 
-	"github.com/go-playground/validator"
+	"github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/labstack/echo/v4"
 )
 
@@ -15,19 +15,7 @@ type response struct {
 
 type validationMessage struct {
 	Field string `json:"field"`
-	Msg   string `json:"msg"`
-}
-
-func getValidationMessage(tag string, param string) string {
-	switch tag {
-	case "required":
-		return "Field is required but was not received"
-	case "email":
-		return "Email must be valid"
-	case "min":
-		return fmt.Sprintf("Must be at minimum %s characters", param)
-	}
-	return ""
+	Error string `json:"error"`
 }
 
 func CustomHTTPErrorHandler(err error, c echo.Context) {
@@ -47,15 +35,23 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 		code = customError.Code
 		resp.Message = customError.Message
 
-	case validator.ValidationErrors:
+	case validation.Errors:
 		code = http.StatusBadRequest
+		resp.Message = customError
+
+		var fields []string
+		for field := range customError {
+			fields = append(fields, field)
+		}
+
+		sort.Strings(fields)
 
 		var errMessages []validationMessage
 
-		for _, valError := range customError {
+		for _, field := range fields {
 			newValidationMessage := validationMessage{
-				Field: valError.Field(),
-				Msg:   getValidationMessage(valError.ActualTag(), valError.Param()),
+				Field: field,
+				Error: customError[field].Error(),
 			}
 
 			errMessages = append(
@@ -64,19 +60,9 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 			)
 		}
 
+		resp.Type = "validation"
 		resp.Message = errMessages
 	}
 
 	c.JSON(code, resp)
-}
-
-type CustomValidator struct {
-	Validator *validator.Validate
-}
-
-func (cv *CustomValidator) Validate(i interface{}) error {
-	if err := cv.Validator.Struct(i); err != nil {
-		return err
-	}
-	return nil
 }

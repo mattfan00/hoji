@@ -81,7 +81,7 @@ const Settings = () => {
   }
 
   return (
-    <div className="max-w-md m-auto">
+    <div className="m-auto">
       <h2 className="mb-6">General</h2>
       <div className="mb-10">
         <div className="flex items-center mb-6">
@@ -110,7 +110,7 @@ const Settings = () => {
         <Form onSubmit={updateProfile}>
           <Input 
             className="mb-4" label="Name" name="name" autoCompleteOff required
-            minLength="2"
+            minLength="1"
             maxLength="50"
             value={fields.name}
             onChange={(e) => handleChange(e, "name")}
@@ -118,17 +118,19 @@ const Settings = () => {
 
           <Input 
             className="mb-4" label="Username" name="username" autoCompleteOff required
-            minLength="2"
+            minLength="4"
             maxLength="20"
             value={fields.username}
             onChange={(e) => handleChange(e, "username")}
           />
+
           <TextArea 
             className="mb-4 max-h-28" label="Description" name="description" 
             maxLength="280"
             value={fields.description}
             onChange={(e) => handleChange(e, "description")}
           />
+
           <Input 
             className="mb-4" label="Website" name="website" autoCompleteOff 
             maxLength="280"

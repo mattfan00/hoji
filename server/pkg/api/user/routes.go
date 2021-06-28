@@ -1,7 +1,10 @@
 package user
 
 import (
+	"github.com/go-ozzo/ozzo-validation/v4"
+	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/labstack/echo/v4"
+	"github.com/mattfan00/hoji/server/pkg/utl/errors"
 	"github.com/mattfan00/hoji/server/pkg/utl/middleware"
 	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
@@ -33,10 +36,10 @@ func (r RouteHandler) view(c echo.Context) error {
 }
 
 type updateReq struct {
-	Name        string `json:"name" structs:"name" validate:"required"`
-	Username    string `json:"username" structs:"username" validate:"required"`
-	Description string `json:"description,omitempty" structs:"description"`
-	Website     string `json:"website,omitempty" structs:"website"`
+	Name        string `json:"name"`
+	Username    string `json:"username"`
+	Description string `json:"description,omitempty"`
+	Website     string `json:"website,omitempty"`
 }
 
 func (r RouteHandler) update(c echo.Context) error {
@@ -46,13 +49,20 @@ func (r RouteHandler) update(c echo.Context) error {
 		return err
 	}
 
-	if err := c.Validate(&body); err != nil {
+	err := validation.ValidateStruct(&body,
+		validation.Field(&body.Name, validation.Required, validation.Length(1, 50)),
+		validation.Field(&body.Username, validation.Required, validation.Length(4, 20), validation.By(errors.IsUsername)),
+		validation.Field(&body.Description, validation.Length(0, 280)),
+		validation.Field(&body.Website, validation.Length(0, 280), is.URL),
+	)
+
+	if err != nil {
 		return err
 	}
 
 	currUser := c.Get("user").(model.User)
 
-	err := r.svc.Update(currUser, c.Param("username"), body)
+	err = r.svc.Update(currUser, c.Param("username"), body)
 
 	if err != nil {
 		return err

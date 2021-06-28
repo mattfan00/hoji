@@ -1,7 +1,10 @@
 package auth
 
 import (
+	"github.com/go-ozzo/ozzo-validation/v4"
+	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/labstack/echo/v4"
+	"github.com/mattfan00/hoji/server/pkg/utl/errors"
 	"github.com/mattfan00/hoji/server/pkg/utl/jwt"
 	"github.com/mattfan00/hoji/server/pkg/utl/middleware"
 	"github.com/mattfan00/hoji/server/pkg/utl/model"
@@ -25,10 +28,10 @@ func Routes(e *echo.Echo, a AuthInterface, mw middleware.MiddlewareInterface) {
 }
 
 type registerReq struct {
-	Email    string `json:"email" bson:"email" validate:"required,email"`
-	Password string `json:"password" bson:"password" validate:"required,min=4"`
-	Name     string `json:"name" bson:"name" validate:"required"`
-	Username string `json:"username" bson:"username" validate:"required"`
+	Email    string `json:"email" bson:"email"`
+	Password string `json:"password" bson:"password"`
+	Name     string `json:"name" bson:"name"`
+	Username string `json:"username" bson:"username"`
 }
 
 func (r RouteHandler) register(c echo.Context) error {
@@ -38,7 +41,14 @@ func (r RouteHandler) register(c echo.Context) error {
 		return err
 	}
 
-	if err := c.Validate(&body); err != nil {
+	err := validation.ValidateStruct(&body,
+		validation.Field(&body.Email, validation.Required, is.Email),
+		validation.Field(&body.Password, validation.Required, validation.Length(4, 0)),
+		validation.Field(&body.Name, validation.Required, validation.Length(1, 50)),
+		validation.Field(&body.Username, validation.Required, validation.Length(4, 20), validation.By(errors.IsUsername)),
+	)
+
+	if err != nil {
 		return err
 	}
 
@@ -67,8 +77,8 @@ func (r RouteHandler) register(c echo.Context) error {
 }
 
 type loginReq struct {
-	Email    string `json:"email" bson:"email" validate:"required"`
-	Password string `json:"password" bson:"password" validate:"required"`
+	Email    string `json:"email" bson:"email"`
+	Password string `json:"password" bson:"password"`
 }
 
 func (r RouteHandler) login(c echo.Context) error {
@@ -78,7 +88,12 @@ func (r RouteHandler) login(c echo.Context) error {
 		return err
 	}
 
-	if err := c.Validate(&body); err != nil {
+	err := validation.ValidateStruct(&body,
+		validation.Field(&body.Email, validation.Required, is.Email),
+		validation.Field(&body.Password, validation.Required, validation.Length(4, 0)),
+	)
+
+	if err != nil {
 		return err
 	}
 
