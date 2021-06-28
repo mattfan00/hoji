@@ -90,7 +90,7 @@ func (r RouteHandler) login(c echo.Context) error {
 
 	err := validation.ValidateStruct(&body,
 		validation.Field(&body.Email, validation.Required, is.Email),
-		validation.Field(&body.Password, validation.Required, validation.Length(4, 0)),
+		validation.Field(&body.Password, validation.Required),
 	)
 
 	if err != nil {

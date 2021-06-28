@@ -1,25 +1,42 @@
 import React from "react"
+import { useField } from "formik"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const TextArea = ({
   label,
   name,
   className,
-  value,
-  onChange,
   minLength,
   maxLength,
 }) => {
+  const [field, meta] = useField(name)
+
   return (
     <div className={`flex flex-col ${className ? className : ""}`}>
-      <div className="text-xs">{label}</div>
+      {label ? (
+      <div className="text-xs">
+        <label htmlFor={name}>{label}</label>
+      </div>
+      ) : ""}
+
       <textarea
-        className="textarea border border-solid rounded-md px-3 py-1.5 focus:outline-none"
+        className="input"
         name={name}
-        value={value}
-        onChange={onChange}
         minLength={minLength}
         maxLength={maxLength}
+        {...field}
       />
+
+      {meta.touched && meta.error ? (
+        <div className="mt-1 text-xs text-red-400">
+          <FontAwesomeIcon
+            className="mr-2"
+            icon="exclamation-triangle"
+            size="sm"
+          />
+          {meta.error}
+        </div>
+       ) : ""}
     </div>
   )
 }
