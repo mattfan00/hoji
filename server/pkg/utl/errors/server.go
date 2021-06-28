@@ -60,6 +60,7 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 			)
 		}
 
+		resp.Type = "validation"
 		resp.Message = errMessages
 	}
 
