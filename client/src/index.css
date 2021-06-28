@@ -79,7 +79,7 @@
   }
 
   .btn.disabled {
-    @apply cursor-default pointer-events-none opacity-50
+    @apply cursor-default pointer-events-none opacity-50;
   }
 
   .btn.active {
