@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react"
 import { useMutation } from "react-query"
 import { useHistory, Redirect } from "react-router-dom"
+import { Formik, Form } from "formik"
+import * as Yup from "yup"
 import { AuthContext } from "../../Context/AuthContext"
 import Input from "../../Components/Input"
-import Form from "../../Components/Form"
-import TextArea from "../../Components/TextArea"
 import Button from "../../Components/Button"
 import Error from "../../Components/Error"
 import { Link } from "react-router-dom"
@@ -12,52 +12,46 @@ import axios from "axios"
 
 const FirstPage = ({
   onSubmit,
-  fields,
-  setFields,
 }) => {
-  const checkMutation = useMutation(() => axios.post(`/auth/check?email=${fields.email}`), {
+  const checkMutation = useMutation((email) => axios.post(`/auth/check?email=${email}`), {
     onSuccess: () => onSubmit()
   })
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (!isSubmitDisabled()) {
-      checkMutation.mutate()
-    }
-  }
-
-  const isSubmitDisabled = () => {
-    return checkMutation.isLoading || fields.email === ""
-  }
 
   return (
     <>
       <Error className="mb-4" error={checkMutation.error} />
-      <Form onSubmit={handleSubmit}>
-        <div className="mb-5">
-          <Input
-            className="mb-2" label="Email" type="email" name="email" autoCompleteOff autoFocus required 
-            maxLength="255"
-            value={fields.email}
-            onChange={(e) => setFields({...fields, email: e.target.value})}
-          />
-        </div>
 
-        <Button
-          className="w-full"
-          disabled={isSubmitDisabled()} 
-        >
-          Next
-        </Button>
-      </Form>
+      <Formik
+        initialValues={{ email: "" }}
+        validationSchema={Yup.object({
+         email: Yup.string().email('Invalid email address').required('Required'),
+        })}
+        onSubmit={(values) => {
+          checkMutation.mutate(values.email)
+        }}
+      >
+        <Form>
+          <div className="mb-5">
+            <Input
+              className="mb-2" 
+              label="Email" type="email" name="email" autoCompleteOff autoFocus 
+              maxLength="255"
+            />
+          </div>
+
+          <Button
+            className="w-full"
+            type="submit"
+            disabled={checkMutation.isLoading}
+           >Next</Button>
+        </Form>
+      </Formik>
     </>
   )
 }
 
 const SubmitPage = ({
   onPrevious,
-  fields,
-  setFields
 }) => {
   const registerMutation = useMutation((fields) => axios.post(`/auth/register`, fields), {
     onSuccess: ({ data }) => {
@@ -69,72 +63,74 @@ const SubmitPage = ({
   const { setUser } = useContext(AuthContext)
   const history = useHistory()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    registerMutation.mutate(fields)
-  }
-
   const handlePrevious = (e) => {
     e.preventDefault()
     onPrevious()
   }
 
-  const isSubmitDisabled = () => {
-    return registerMutation.isLoading || fields.email === "" || fields.password === "" || fields.name === "" || fields.username === ""
-  }
-
   return (
     <>
       <Error className="mb-4" error={registerMutation.error} />
-      <Form onSubmit={handleSubmit}>
-        <div className="mb-5">
-          <Input
-            className="mb-2" label="Name" name="name" autoFocus={true} autocompleteOff required
-            minLength="2"
-            maxLength="50"
-            value={fields.name}
-            onChange={(e) => setFields({...fields, name: e.target.value})}
-          />
-          <Input
-            className="mb-2" label="Username" name="username" autocompleteOff required
-            minLength="2"
-            maxLength="20"
-            value={fields.username}
-            onChange={(e) => setFields({...fields, username: e.target.value})}
-          />
-          <Input
-            label="Set Password" type="password" name="password" autoCompleteOff required
-            maxLength="255"
-            value={fields.password}
-            onChange={(e) => setFields({...fields, password: e.target.value})}
-          />
-        </div>
 
-        <Button 
-          className="mb-2 w-full" type="button"
-          onClick={handlePrevious}
-        >
-          Previous
-        </Button>
-        <Button
-          className="w-full" variant="primary" type="submit"
-          disabled={isSubmitDisabled()}
-        >
-          Register
-        </Button>
-      </Form>
+      <Formik
+        initialValues={{ name: "", username: "", password: "" }}
+        validationSchema={Yup.object({
+         name: Yup.string()
+          .min(1, "Must be at least ${min} characters")
+          .max(50, "Must be at most ${max} characters")
+          .required('Required'),
+         username: Yup.string()
+          .min(4, "Must be at least ${min} characters")
+          .max(20, "Must be at most ${max} characters")
+          .matches("^[a-zA-Z_]*$", "Must contain letters, numbers, or '_'")
+          .required('Required'),
+         password: Yup.string()
+          .min(4, "Must be at least ${min} characters")
+          .required('Required'),
+        })}
+        onSubmit={(values) => {
+          registerMutation.mutate(values)
+        }}
+      >
+        <Form>
+          <div className="mb-5">
+            <Input
+              className="mb-2" label="Name" name="name" autoFocus autoCompleteOff 
+              minLength="1"
+              maxLength="50"
+            />
+            <Input
+              className="mb-2" label="Username" name="username" autoCompleteOff 
+              minLength="4"
+              maxLength="20"
+            />
+            <Input
+              label="Set Password" type="password" name="password" autoCompleteOff 
+              minLength="4"
+              maxLength="255"
+            />
+          </div>
+
+          <Button 
+            className="mb-2 w-full" type="button"
+            onClick={handlePrevious}
+          >
+            Previous
+          </Button>
+          <Button
+            className="w-full" variant="primary" type="submit"
+            //disabled={isSubmitDisabled()}
+          >
+            Register
+          </Button>
+        </Form>
+      </Formik>
     </>
   )
 }
 
 const Register = () => {
   const [page, setPage] = useState(0)
-  const [fields, setFields] = useState({
-    email: "",
-    password: "",
-    name: "",
-    username: "",
-  })
   const { user } = useContext(AuthContext)
 
   const next = () => setPage(1)
@@ -159,14 +155,10 @@ const Register = () => {
       {page === 0 ? (
         <FirstPage 
           onSubmit={next}
-          fields={fields}
-          setFields={setFields}
         />
       ) : (
         <SubmitPage
           onPrevious={previous}
-          fields={fields}
-          setFields={setFields}
         />
       )}
       <div className="text-center mt-2 text-xs">Already have an account? <Link className="color" to="/login">Login</Link></div>
