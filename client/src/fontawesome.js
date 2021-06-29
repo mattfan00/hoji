@@ -28,6 +28,7 @@ import {
   faUnderline,
   faCode,
   faExclamationTriangle,
+  faMapMarkerAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -73,4 +74,5 @@ library.add(
   faUnderline,
   faCode,
   faExclamationTriangle,
+  faMapMarkerAlt,
 )

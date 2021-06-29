@@ -38,12 +38,7 @@ const Profile = () => {
   return (
     <>
       <ProfileHeader 
-        id={profile.id}
-        name={profile.name}
-        avatar={profile.avatar}
-        username={profile.username}
-        description={profile.description}
-        website={profile.website}
+        profile={profile}
         isBookmark={checkBookmark()}
         expanded={true}
       />

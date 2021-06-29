@@ -13,6 +13,7 @@ type User struct {
 	Avatar      string   `json:"avatar,omitempty"`
 	Description string   `json:"description,omitempty"`
 	Website     string   `json:"website,omitempty"`
+	Location    string   `json:"location,omitempty"`
 	Entries     []*Entry `json:"entries,omitempty" pg:"rel:has-many"`
 }
 

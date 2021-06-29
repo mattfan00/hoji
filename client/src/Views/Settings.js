@@ -78,6 +78,7 @@ const Settings = () => {
             username: user.username || "",
             description: user.description || "",
             website: user.website || "",
+            location: user.location || "",
           }}
           validationSchema={Yup.object({
            name: Yup.string()
@@ -93,7 +94,9 @@ const Settings = () => {
             .max(280, "Must be at most ${max} characters"),
            website: Yup.string()
             .max(280, "Must be at most ${max} characters")
-            .url()
+            .url(),
+           location: Yup.string()
+            .max(100, "Must be at most ${max} characters")
           })}
           onSubmit={(values) => {
             updateMutation.mutate(values)
@@ -121,6 +124,11 @@ const Settings = () => {
               <Input 
                 className="mb-4" label="Website" name="website" autoCompleteOff 
                 maxLength="280"
+              />
+
+              <Input 
+                className="mb-4" label="Location" name="location" autoCompleteOff 
+                maxLength="100"
               />
             </div>
 

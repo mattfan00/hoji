@@ -40,6 +40,7 @@ type updateReq struct {
 	Username    string `json:"username"`
 	Description string `json:"description,omitempty"`
 	Website     string `json:"website,omitempty"`
+	Location    string `json:"location,omitempty"`
 }
 
 func (r RouteHandler) update(c echo.Context) error {
@@ -54,6 +55,7 @@ func (r RouteHandler) update(c echo.Context) error {
 		validation.Field(&body.Username, validation.Required, validation.Length(4, 20), validation.By(errors.IsUsername)),
 		validation.Field(&body.Description, validation.Length(0, 280)),
 		validation.Field(&body.Website, validation.Length(0, 280), is.URL),
+		validation.Field(&body.Location, validation.Length(0, 100)),
 	)
 
 	if err != nil {

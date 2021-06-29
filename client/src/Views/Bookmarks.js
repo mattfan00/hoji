@@ -40,10 +40,7 @@ const Bookmarks = () => {
         sortedBookmarks().map(({ bookmark_user: user }) => (
           <div className="mb-4 cursor-pointer" onClick={() => handleClick(user.username)} key={user.id}>
             <ProfileHeader
-              id={user.id}
-              name={user.name}
-              username={user.username}
-              description={user.description}
+              profile={user}
               isBookmark={true}
             />
           </div>
