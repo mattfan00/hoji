@@ -10,13 +10,13 @@ import (
 
 func (mw *MiddlewareService) Auth(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		cookie, err := c.Cookie("token")
+		cookie, err := c.Cookie("at")
+
 		if err != nil {
-			//return errors.BadRequest("Invalid cookie")
 			return c.JSON(200, nil)
 		}
 
-		token, err := jwt.ParseToken(cookie.Value)
+		token, err := jwt.ParseAccessToken(cookie.Value)
 
 		if err != nil {
 			return err
@@ -28,12 +28,6 @@ func (mw *MiddlewareService) Auth(next echo.HandlerFunc) echo.HandlerFunc {
 
 		claims := token.Claims.(jwtGo.MapClaims)
 
-		//uid, err := uuid.FromString(claims["id"].(string))
-
-		if err != nil {
-			return err
-		}
-
 		currUser := model.User{}
 
 		err = mw.db.Model(&currUser).
@@ -42,15 +36,6 @@ func (mw *MiddlewareService) Auth(next echo.HandlerFunc) echo.HandlerFunc {
 		if err != nil {
 			return err
 		}
-
-		/*
-			currUser := model.AuthUser{
-				Id: uid,
-				//Name:     claims["name"].(string),
-				//Username: claims["username"].(string),
-				//Email:    claims["email"].(string),
-			}
-		*/
 
 		c.Set("user", currUser)
 

@@ -7,28 +7,34 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
-func ParseToken(token string) (*jwt.Token, error) {
-	/*
-		parts := strings.SplitN(authHeader, " ", 2)
-		if !(len(parts) == 2 && parts[0] == "Bearer") {
-			return nil, errors.BadRequest("Invalid authorization header")
-		}
-	*/
-
-	signingKey := []byte(config.Values.JWTSecret)
+func ParseAccessToken(token string) (*jwt.Token, error) {
+	signingKey := []byte(config.Values.AccessTokenSecret)
 
 	return jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
 		return signingKey, nil
 	})
 }
 
-func GenerateToken(user model.AuthUser) (string, error) {
-	signingKey := []byte(config.Values.JWTSecret)
+func ParseRefreshToken(token string) (*jwt.Token, error) {
+	signingKey := []byte(config.Values.RefreshTokenSecret)
+
+	return jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
+		return signingKey, nil
+	})
+}
+
+func GenerateAccessToken(user model.User) (string, error) {
+	signingKey := []byte(config.Values.AccessTokenSecret)
 
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id": user.Id,
-		//"name":     user.Name,
-		//"username": user.Username,
-		//"email":    user.Email,
+	}).SignedString(signingKey)
+}
+
+func GenerateRefreshToken(user model.User) (string, error) {
+	signingKey := []byte(config.Values.RefreshTokenSecret)
+
+	return jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"id": user.Id,
 	}).SignedString(signingKey)
 }

@@ -7,7 +7,6 @@ import (
 	"github.com/mattfan00/hoji/server/pkg/utl/errors"
 	"github.com/mattfan00/hoji/server/pkg/utl/jwt"
 	"github.com/mattfan00/hoji/server/pkg/utl/middleware"
-	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
 type RouteHandler struct {
@@ -41,14 +40,12 @@ func (r RouteHandler) register(c echo.Context) error {
 		return err
 	}
 
-	err := validation.ValidateStruct(&body,
+	if err := validation.ValidateStruct(&body,
 		validation.Field(&body.Email, validation.Required, is.Email),
 		validation.Field(&body.Password, validation.Required, validation.Length(4, 0)),
 		validation.Field(&body.Name, validation.Required, validation.Length(1, 50)),
 		validation.Field(&body.Username, validation.Required, validation.Length(4, 20), validation.By(errors.IsUsername)),
-	)
-
-	if err != nil {
+	); err != nil {
 		return err
 	}
 
@@ -58,20 +55,20 @@ func (r RouteHandler) register(c echo.Context) error {
 		return err
 	}
 
-	newAuthUser := model.AuthUser{
-		Id: newUser.Id,
-		//Name:     newUser.Name,
-		//Username: newUser.Username,
-		//Email:    newUser.Email,
-	}
-
-	newJwt, err := jwt.GenerateToken(newAuthUser)
+	newAccessToken, err := jwt.GenerateAccessToken(newUser)
 
 	if err != nil {
 		return err
 	}
 
-	jwt.CreateCookie(c, "token", newJwt)
+	newRefreshToken, err := jwt.GenerateRefreshToken(newUser)
+
+	if err != nil {
+		return err
+	}
+
+	jwt.CreateCookie(c, "at", newAccessToken)
+	jwt.CreateCookie(c, "rt", newRefreshToken)
 
 	return c.JSON(200, newUser)
 }
@@ -103,16 +100,20 @@ func (r RouteHandler) login(c echo.Context) error {
 		return err
 	}
 
-	newAuthUser := model.AuthUser{
-		Id: foundUser.Id,
-		//Name:     foundUser.Name,
-		//Username: foundUser.Username,
-		//Email:    foundUser.Email,
+	newAccessToken, err := jwt.GenerateAccessToken(foundUser)
+
+	if err != nil {
+		return err
 	}
 
-	newJwt, _ := jwt.GenerateToken(newAuthUser)
+	newRefreshToken, err := jwt.GenerateRefreshToken(foundUser)
 
-	jwt.CreateCookie(c, "token", newJwt)
+	if err != nil {
+		return err
+	}
+
+	jwt.CreateCookie(c, "at", newAccessToken)
+	jwt.CreateCookie(c, "rt", newRefreshToken)
 
 	return c.JSON(200, foundUser)
 }

@@ -57,8 +57,7 @@ const Header = () => {
             </Dropdown>
 
             <Button href="/entry/new">
-              <FontAwesomeIcon className="mr-1.5" icon="plus" />
-              New
+              <FontAwesomeIcon icon="plus" />
             </Button>
           </>
           ) : (
