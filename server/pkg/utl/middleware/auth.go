@@ -19,7 +19,7 @@ func (mw *MiddlewareService) Auth(next echo.HandlerFunc) echo.HandlerFunc {
 		token, err := jwt.ParseAccessToken(cookie.Value)
 
 		if err != nil {
-			return err
+			return errors.Unauthorized()
 		}
 
 		if !token.Valid {

@@ -1,10 +1,11 @@
 package jwt
 
 import (
-	"github.com/mattfan00/hoji/server/pkg/utl/config"
-	"github.com/mattfan00/hoji/server/pkg/utl/model"
+	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
+	"github.com/mattfan00/hoji/server/pkg/utl/config"
+	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
 func ParseAccessToken(token string) (*jwt.Token, error) {
@@ -27,7 +28,8 @@ func GenerateAccessToken(user model.User) (string, error) {
 	signingKey := []byte(config.Values.AccessTokenSecret)
 
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id": user.Id,
+		"id":  user.Id,
+		"exp": time.Now().Add(time.Minute * 15).Unix(),
 	}).SignedString(signingKey)
 }
 
