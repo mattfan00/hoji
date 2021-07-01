@@ -20,6 +20,14 @@ func (postgres Postgres) View(db *pg.DB, id string) (model.User, error) {
 	return foundUser, err
 }
 
+func (postgres Postgres) Update(db *pg.DB, updatedUser *model.User) error {
+	_, err := db.Model(updatedUser).
+		Where("id = ?id").
+		Update()
+
+	return err
+}
+
 func (postgres Postgres) CheckEmail(db *pg.DB, email string) (model.User, error) {
 	foundUser := model.User{}
 

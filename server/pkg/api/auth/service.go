@@ -8,10 +8,10 @@ import (
 )
 
 type AuthInterface interface {
-	Register(registerReq) (model.User, error)
-	Login(loginReq) (model.User, error)
+	Register(registerReq) (model.User, model.AuthToken, error)
+	Login(loginReq) (model.User, model.AuthToken, error)
 	Check(string) error
-	RefreshToken(string) (string, string, error)
+	RefreshToken(string) (model.AuthToken, error)
 }
 
 type AuthService struct {
@@ -21,6 +21,7 @@ type AuthService struct {
 
 type UDB interface {
 	View(*pg.DB, string) (model.User, error)
+	Update(*pg.DB, *model.User) error
 	CheckEmail(*pg.DB, string) (model.User, error)
 	CheckUsername(*pg.DB, string) (model.User, error)
 	Register(*pg.DB, *model.User) error

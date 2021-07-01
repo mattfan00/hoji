@@ -50,26 +50,14 @@ func (r RouteHandler) register(c echo.Context) error {
 		return err
 	}
 
-	newUser, err := r.svc.Register(body)
+	newUser, authToken, err := r.svc.Register(body)
 
 	if err != nil {
 		return err
 	}
 
-	newAccessToken, err := jwt.GenerateAccessToken(newUser)
-
-	if err != nil {
-		return err
-	}
-
-	newRefreshToken, err := jwt.GenerateRefreshToken(newUser)
-
-	if err != nil {
-		return err
-	}
-
-	jwt.CreateCookie(c, "at", newAccessToken)
-	jwt.CreateCookie(c, "rt", newRefreshToken)
+	jwt.CreateCookie(c, "at", authToken.Access)
+	jwt.CreateCookie(c, "rt", authToken.Refresh)
 
 	return c.JSON(200, newUser)
 }
@@ -95,26 +83,14 @@ func (r RouteHandler) login(c echo.Context) error {
 		return err
 	}
 
-	foundUser, err := r.svc.Login(body)
+	foundUser, authToken, err := r.svc.Login(body)
 
 	if err != nil {
 		return err
 	}
 
-	newAccessToken, err := jwt.GenerateAccessToken(foundUser)
-
-	if err != nil {
-		return err
-	}
-
-	newRefreshToken, err := jwt.GenerateRefreshToken(foundUser)
-
-	if err != nil {
-		return err
-	}
-
-	jwt.CreateCookie(c, "at", newAccessToken)
-	jwt.CreateCookie(c, "rt", newRefreshToken)
+	jwt.CreateCookie(c, "at", authToken.Access)
+	jwt.CreateCookie(c, "rt", authToken.Refresh)
 
 	return c.JSON(200, foundUser)
 }
@@ -136,14 +112,14 @@ func (r RouteHandler) refreshToken(c echo.Context) error {
 		return c.JSON(200, nil)
 	}
 
-	accessToken, refreshToken, err := r.svc.RefreshToken(cookie.Value)
+	authToken, err := r.svc.RefreshToken(cookie.Value)
 
 	if err != nil {
 		return err
 	}
 
-	jwt.CreateCookie(c, "at", accessToken)
-	jwt.CreateCookie(c, "rt", refreshToken)
+	jwt.CreateCookie(c, "at", authToken.Access)
+	jwt.CreateCookie(c, "rt", authToken.Refresh)
 
 	return c.JSON(200, "hello")
 }
@@ -153,7 +129,8 @@ func (r RouteHandler) current(c echo.Context) error {
 }
 
 func (r RouteHandler) logout(c echo.Context) error {
-	jwt.DeleteCookie(c, "token")
+	jwt.DeleteCookie(c, "at")
+	jwt.DeleteCookie(c, "rt")
 
 	return c.JSON(200, "Logged out")
 }

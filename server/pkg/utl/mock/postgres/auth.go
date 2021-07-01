@@ -19,6 +19,12 @@ func (m *AuthMock) View(db *pg.DB, id string) (model.User, error) {
 	return args.Get(0).(model.User), args.Error(1)
 }
 
+func (m *AuthMock) Update(db *pg.DB, updatedUser *model.User) error {
+	args := m.Called(updatedUser.Id)
+
+	return args.Error(0)
+}
+
 func (m *AuthMock) CheckEmail(db *pg.DB, email string) (model.User, error) {
 	args := m.Called(email)
 
