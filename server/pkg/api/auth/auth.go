@@ -1,8 +1,10 @@
 package auth
 
 import (
+	jwtGo "github.com/dgrijalva/jwt-go"
 	"github.com/mattfan00/hoji/server/pkg/utl/constants"
 	"github.com/mattfan00/hoji/server/pkg/utl/errors"
+	"github.com/mattfan00/hoji/server/pkg/utl/jwt"
 	"github.com/mattfan00/hoji/server/pkg/utl/model"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -56,4 +58,38 @@ func (a AuthService) Check(email string) error {
 	}
 
 	return errors.BadRequest("Email already in use")
+}
+
+func (a AuthService) RefreshToken(refreshToken string) (string, string, error) {
+	token, err := jwt.ParseRefreshToken(refreshToken)
+
+	if err != nil {
+		return "", "", err
+	}
+
+	if !token.Valid {
+		return "", "", errors.BadRequest("Token is not valid")
+	}
+
+	claims := token.Claims.(jwtGo.MapClaims)
+
+	foundUser, err := a.udb.View(a.db, claims["id"].(string))
+
+	if err != nil {
+		return "", "", err
+	}
+
+	newAccessToken, err := jwt.GenerateAccessToken(foundUser)
+
+	if err != nil {
+		return "", "", err
+	}
+
+	newRefreshToken, err := jwt.GenerateRefreshToken(foundUser)
+
+	if err != nil {
+		return "", "", err
+	}
+
+	return newAccessToken, newRefreshToken, err
 }

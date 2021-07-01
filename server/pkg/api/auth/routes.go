@@ -22,6 +22,7 @@ func Routes(e *echo.Echo, a AuthInterface, mw middleware.MiddlewareInterface) {
 	auth.POST("/register", r.register)
 	auth.POST("/login", r.login)
 	auth.POST("/check", r.check)
+	auth.POST("/refresh_token", r.refreshToken)
 	auth.GET("/me", r.current, mw.Auth)
 	auth.POST("/logout", r.logout, mw.Auth)
 }
@@ -126,6 +127,25 @@ func (r RouteHandler) check(c echo.Context) error {
 	}
 
 	return c.JSON(200, "Email valid")
+}
+
+func (r RouteHandler) refreshToken(c echo.Context) error {
+	cookie, err := c.Cookie("rt")
+
+	if err != nil {
+		return c.JSON(200, nil)
+	}
+
+	accessToken, refreshToken, err := r.svc.RefreshToken(cookie.Value)
+
+	if err != nil {
+		return err
+	}
+
+	jwt.CreateCookie(c, "at", accessToken)
+	jwt.CreateCookie(c, "rt", refreshToken)
+
+	return c.JSON(200, "hello")
 }
 
 func (r RouteHandler) current(c echo.Context) error {

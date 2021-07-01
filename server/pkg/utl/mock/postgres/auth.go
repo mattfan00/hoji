@@ -13,6 +13,12 @@ type AuthMock struct {
 	mock.Mock
 }
 
+func (m *AuthMock) View(db *pg.DB, id string) (model.User, error) {
+	args := m.Called(id)
+
+	return args.Get(0).(model.User), args.Error(1)
+}
+
 func (m *AuthMock) CheckEmail(db *pg.DB, email string) (model.User, error) {
 	args := m.Called(email)
 

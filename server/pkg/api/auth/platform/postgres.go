@@ -10,6 +10,16 @@ import (
 
 type Postgres struct{}
 
+func (postgres Postgres) View(db *pg.DB, id string) (model.User, error) {
+	foundUser := model.User{}
+
+	err := db.Model(&foundUser).
+		Where("id = ?", id).
+		Select()
+
+	return foundUser, err
+}
+
 func (postgres Postgres) CheckEmail(db *pg.DB, email string) (model.User, error) {
 	foundUser := model.User{}
 

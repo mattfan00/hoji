@@ -28,7 +28,8 @@ func GenerateAccessToken(user model.User) (string, error) {
 	signingKey := []byte(config.Values.AccessTokenSecret)
 
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id":  user.Id,
+		"id": user.Id,
+		// expiration time is 15 minutes
 		"exp": time.Now().Add(time.Minute * 15).Unix(),
 	}).SignedString(signingKey)
 }
@@ -38,5 +39,7 @@ func GenerateRefreshToken(user model.User) (string, error) {
 
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id": user.Id,
+		// expiration time is 100 days
+		"exp": time.Now().Add(time.Hour * 24 * 100).Unix(),
 	}).SignedString(signingKey)
 }

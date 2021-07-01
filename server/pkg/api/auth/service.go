@@ -11,6 +11,7 @@ type AuthInterface interface {
 	Register(registerReq) (model.User, error)
 	Login(loginReq) (model.User, error)
 	Check(string) error
+	RefreshToken(string) (string, string, error)
 }
 
 type AuthService struct {
@@ -19,6 +20,7 @@ type AuthService struct {
 }
 
 type UDB interface {
+	View(*pg.DB, string) (model.User, error)
 	CheckEmail(*pg.DB, string) (model.User, error)
 	CheckUsername(*pg.DB, string) (model.User, error)
 	Register(*pg.DB, *model.User) error
