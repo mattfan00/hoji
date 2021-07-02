@@ -1,9 +1,10 @@
 package auth
 
 import (
-	jwt "github.com/dgrijalva/jwt-go"
+	jwtGo "github.com/dgrijalva/jwt-go"
 	"github.com/go-pg/pg/v10"
 	"github.com/mattfan00/hoji/server/pkg/api/auth/platform"
+	"github.com/mattfan00/hoji/server/pkg/utl/mock/jwt"
 	"github.com/mattfan00/hoji/server/pkg/utl/mock/postgres"
 	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
@@ -30,7 +31,7 @@ type UDB interface {
 }
 
 type JWT interface {
-	ParseRefreshToken(string) (*jwt.Token, error)
+	ParseRefreshToken(string) (*jwtGo.Token, error)
 	GenerateTokens(model.User) (model.AuthToken, error)
 }
 
@@ -42,9 +43,10 @@ func New(db *pg.DB, jwt JWT) *AuthService {
 	}
 }
 
-func NewTest(pgMock *postgres.AuthMock) *AuthService {
+func NewTest(pgMock *postgres.AuthMock, jwtMock *jwt.JwtMock) *AuthService {
 	return &AuthService{
 		db:  nil,
 		udb: pgMock,
+		jwt: jwtMock,
 	}
 }

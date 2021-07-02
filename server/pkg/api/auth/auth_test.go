@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/mattfan00/hoji/server/pkg/utl/mock/jwt"
 	"github.com/mattfan00/hoji/server/pkg/utl/mock/postgres"
 	"github.com/mattfan00/hoji/server/pkg/utl/model"
 	"github.com/satori/go.uuid"
@@ -15,15 +16,28 @@ import (
 )
 
 func TestRegister(t *testing.T) {
-	type mockParams struct {
+	type registerMockParams struct {
+		email    string
+		retError error
+	}
+
+	type jwtMockParams struct {
+		email        string
+		retAuthToken model.AuthToken
+		retError     error
+	}
+
+	type updateMockParams struct {
 		email    string
 		retError error
 	}
 
 	cases := map[string]struct {
-		body    registerReq
-		mock    mockParams
-		wantErr bool
+		body         registerReq
+		registerMock registerMockParams
+		jwtMock      jwtMockParams
+		updateMock   updateMockParams
+		wantErr      bool
 	}{
 		"Successfully register user": {
 			body: registerReq{
@@ -32,7 +46,16 @@ func TestRegister(t *testing.T) {
 				Name:     "Test",
 				Username: "test",
 			},
-			mock: mockParams{
+			registerMock: registerMockParams{
+				email:    "test@test.com",
+				retError: nil,
+			},
+			jwtMock: jwtMockParams{
+				email:        "test@test.com",
+				retAuthToken: model.AuthToken{},
+				retError:     nil,
+			},
+			updateMock: updateMockParams{
 				email:    "test@test.com",
 				retError: nil,
 			},
@@ -46,24 +69,35 @@ func TestRegister(t *testing.T) {
 				Name:     "Test",
 				Username: "settings",
 			},
-			mock:    mockParams{},
-			wantErr: true,
+			registerMock: registerMockParams{},
+			wantErr:      true,
 		},
 	}
 
 	for name, test := range cases {
 		t.Run(name, func(t *testing.T) {
 			authMock := postgres.AuthMock{}
-			a := NewTest(&authMock)
+			jwtMock := jwt.JwtMock{}
+			a := NewTest(&authMock, &jwtMock)
 
-			if !reflect.ValueOf(test.mock).IsZero() {
-				authMock.On("Register", test.mock.email).Return(test.mock.retError)
+			if !reflect.ValueOf(test.registerMock).IsZero() {
+				authMock.On("Register", test.registerMock.email).Return(test.registerMock.retError)
 			}
 
-			newUser, err := a.Register(test.body)
+			if !reflect.ValueOf(test.jwtMock).IsZero() {
+				jwtMock.On("GenerateTokens", test.jwtMock.email).
+					Return(test.jwtMock.retAuthToken, test.jwtMock.retError)
+			}
+
+			if !reflect.ValueOf(test.updateMock).IsZero() {
+				authMock.On("Update", test.updateMock.email).Return(test.updateMock.retError)
+			}
+
+			newUser, _, err := a.Register(test.body)
 
 			assert.Equal(t, test.wantErr, err != nil)
 			authMock.AssertExpectations(t)
+			jwtMock.AssertExpectations(t)
 
 			if test.wantErr == false {
 				assert.Equal(t, newUser.Email, test.body.Email)
@@ -77,9 +111,20 @@ func TestRegister(t *testing.T) {
 }
 
 func TestLogin(t *testing.T) {
-	type mockParams struct {
+	type checkMockParams struct {
 		email    string
 		retUser  model.User
+		retError error
+	}
+
+	type jwtMockParams struct {
+		email        string
+		retAuthToken model.AuthToken
+		retError     error
+	}
+
+	type updateMockParams struct {
+		email    string
 		retError error
 	}
 
@@ -93,19 +138,30 @@ func TestLogin(t *testing.T) {
 	}
 
 	cases := map[string]struct {
-		body     loginReq
-		mock     mockParams
-		wantErr  bool
-		wantUser model.User
+		body       loginReq
+		checkMock  checkMockParams
+		jwtMock    jwtMockParams
+		updateMock updateMockParams
+		wantErr    bool
+		wantUser   model.User
 	}{
 		"Successfully login": {
 			body: loginReq{
 				Email:    "test@test.com",
 				Password: "password",
 			},
-			mock: mockParams{
+			checkMock: checkMockParams{
 				email:    "test@test.com",
 				retUser:  expectedUser,
+				retError: nil,
+			},
+			jwtMock: jwtMockParams{
+				email:        "test@test.com",
+				retAuthToken: model.AuthToken{},
+				retError:     nil,
+			},
+			updateMock: updateMockParams{
+				email:    "test@test.com",
 				retError: nil,
 			},
 			wantErr:  false,
@@ -117,13 +173,15 @@ func TestLogin(t *testing.T) {
 				Email:    "fail@test.com",
 				Password: "password",
 			},
-			mock: mockParams{
+			checkMock: checkMockParams{
 				email:    mock.Anything,
 				retUser:  model.User{},
 				retError: errors.New("User not found"),
 			},
-			wantErr:  true,
-			wantUser: model.User{},
+			jwtMock:    jwtMockParams{},
+			updateMock: updateMockParams{},
+			wantErr:    true,
+			wantUser:   model.User{},
 		},
 
 		"Failed login with incorrect password": {
@@ -131,27 +189,41 @@ func TestLogin(t *testing.T) {
 				Email:    "test@test.com",
 				Password: "hello",
 			},
-			mock: mockParams{
+			checkMock: checkMockParams{
 				email:    "test@test.com",
 				retUser:  expectedUser,
 				retError: nil,
 			},
-			wantErr:  true,
-			wantUser: model.User{},
+			jwtMock:    jwtMockParams{},
+			updateMock: updateMockParams{},
+			wantErr:    true,
+			wantUser:   model.User{},
 		},
 	}
 
 	for name, test := range cases {
 		t.Run(name, func(t *testing.T) {
 			authMock := postgres.AuthMock{}
-			a := NewTest(&authMock)
+			jwtMock := jwt.JwtMock{}
+			a := NewTest(&authMock, &jwtMock)
 
-			authMock.On("CheckEmail", test.mock.email).Return(test.mock.retUser, test.mock.retError)
+			authMock.On("CheckEmail", test.checkMock.email).
+				Return(test.checkMock.retUser, test.checkMock.retError)
 
-			foundUser, err := a.Login(test.body)
+			if !reflect.ValueOf(test.jwtMock).IsZero() {
+				jwtMock.On("GenerateTokens", test.jwtMock.email).
+					Return(test.jwtMock.retAuthToken, test.jwtMock.retError)
+			}
+
+			if !reflect.ValueOf(test.updateMock).IsZero() {
+				authMock.On("Update", test.updateMock.email).Return(test.updateMock.retError)
+			}
+
+			foundUser, _, err := a.Login(test.body)
 
 			assert.Equal(t, test.wantErr, err != nil)
 			authMock.AssertExpectations(t)
+			jwtMock.AssertExpectations(t)
 
 			if test.wantErr == false {
 				assert.Equal(t, test.wantUser, foundUser)
@@ -206,7 +278,8 @@ func TestCheck(t *testing.T) {
 	for name, test := range cases {
 		t.Run(name, func(t *testing.T) {
 			authMock := postgres.AuthMock{}
-			a := NewTest(&authMock)
+			jwtMock := jwt.JwtMock{}
+			a := NewTest(&authMock, &jwtMock)
 
 			authMock.On("CheckEmail", test.mock.email).Return(test.mock.retUser, test.mock.retError)
 
