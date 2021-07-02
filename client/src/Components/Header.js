@@ -15,11 +15,15 @@ const Header = () => {
       history.push("/")
     }
   })
-  const { user, setUser } = useContext(AuthContext)
+  const { user, setUser, loading } = useContext(AuthContext)
   const history = useHistory()
 
   const handleLogout = () => {
     logoutMutation.mutate()
+  }
+
+  if (loading) {
+    return <></>
   }
 
   return (
@@ -57,8 +61,7 @@ const Header = () => {
             </Dropdown>
 
             <Button href="/entry/new">
-              <FontAwesomeIcon className="mr-1.5" icon="plus" />
-              New
+              <FontAwesomeIcon icon="plus" />
             </Button>
           </>
           ) : (

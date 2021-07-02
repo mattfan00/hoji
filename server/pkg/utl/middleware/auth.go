@@ -1,38 +1,31 @@
 package middleware
 
 import (
-	jwtGo "github.com/dgrijalva/jwt-go"
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 	"github.com/mattfan00/hoji/server/pkg/utl/errors"
-	"github.com/mattfan00/hoji/server/pkg/utl/jwt"
 	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
 func (mw *MiddlewareService) Auth(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		cookie, err := c.Cookie("token")
+		cookie, err := c.Cookie("at")
+
 		if err != nil {
-			//return errors.BadRequest("Invalid cookie")
 			return c.JSON(200, nil)
 		}
 
-		token, err := jwt.ParseToken(cookie.Value)
+		token, err := mw.jwt.ParseAccessToken(cookie.Value)
 
 		if err != nil {
-			return err
+			return errors.Unauthorized("Token is not valid")
 		}
 
 		if !token.Valid {
-			return errors.Unauthorized()
+			return errors.Unauthorized("Token is not valid")
 		}
 
-		claims := token.Claims.(jwtGo.MapClaims)
-
-		//uid, err := uuid.FromString(claims["id"].(string))
-
-		if err != nil {
-			return err
-		}
+		claims := token.Claims.(jwt.MapClaims)
 
 		currUser := model.User{}
 
@@ -42,15 +35,6 @@ func (mw *MiddlewareService) Auth(next echo.HandlerFunc) echo.HandlerFunc {
 		if err != nil {
 			return err
 		}
-
-		/*
-			currUser := model.AuthUser{
-				Id: uid,
-				//Name:     claims["name"].(string),
-				//Username: claims["username"].(string),
-				//Email:    claims["email"].(string),
-			}
-		*/
 
 		c.Set("user", currUser)
 

@@ -1,4 +1,4 @@
-package jwt
+package cookie
 
 import (
 	"net/http"

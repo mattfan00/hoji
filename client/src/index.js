@@ -6,9 +6,39 @@ import './fontawesome'
 import axios from "axios"
 import Modal from "react-modal"
 
-axios.defaults.baseURL = "http://localhost:8080"
+const BASE_URL = "http://localhost:8080"
+
+axios.defaults.baseURL = BASE_URL
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.withCredentials = true
+
+axios.interceptors.response.use((response) => {
+  return response
+}, async (error) => {
+  // token is no longer valid
+  if (error.response.status === 401 && error.response.data.message == "Token is not valid") {
+    const originalRequest = error.config
+    originalRequest._retry = true
+    
+    return fetch(`${BASE_URL}/auth/refresh_token`, {
+      method: "POST",
+      headers: {
+            'Content-Type': 'application/json',
+      },
+      credentials: "include"
+    })
+      .then((response) => {
+        if (response.ok) {
+          return axios(originalRequest)
+        } else {
+          return error
+        }
+      })
+    
+  }
+
+  return Promise.reject(error)
+})
 
 Modal.setAppElement("#root")
 
@@ -17,7 +47,7 @@ ReactDOM.render(
     <App />
   </React.StrictMode>,
   document.getElementById('root')
-);
+)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
