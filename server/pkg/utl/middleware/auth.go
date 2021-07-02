@@ -1,10 +1,9 @@
 package middleware
 
 import (
-	jwtGo "github.com/dgrijalva/jwt-go"
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 	"github.com/mattfan00/hoji/server/pkg/utl/errors"
-	"github.com/mattfan00/hoji/server/pkg/utl/jwt"
 	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
@@ -16,7 +15,7 @@ func (mw *MiddlewareService) Auth(next echo.HandlerFunc) echo.HandlerFunc {
 			return c.JSON(200, nil)
 		}
 
-		token, err := jwt.ParseAccessToken(cookie.Value)
+		token, err := mw.jwt.ParseAccessToken(cookie.Value)
 
 		if err != nil {
 			return errors.Unauthorized()
@@ -26,7 +25,7 @@ func (mw *MiddlewareService) Auth(next echo.HandlerFunc) echo.HandlerFunc {
 			return errors.Unauthorized()
 		}
 
-		claims := token.Claims.(jwtGo.MapClaims)
+		claims := token.Claims.(jwt.MapClaims)
 
 		currUser := model.User{}
 

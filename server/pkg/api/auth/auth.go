@@ -1,10 +1,9 @@
 package auth
 
 import (
-	jwtGo "github.com/dgrijalva/jwt-go"
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/mattfan00/hoji/server/pkg/utl/constants"
 	"github.com/mattfan00/hoji/server/pkg/utl/errors"
-	"github.com/mattfan00/hoji/server/pkg/utl/jwt"
 	"github.com/mattfan00/hoji/server/pkg/utl/model"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -33,7 +32,7 @@ func (a AuthService) Register(body registerReq) (model.User, model.AuthToken, er
 		return model.User{}, model.AuthToken{}, err
 	}
 
-	newAuthToken, err := jwt.GenerateTokens(newUser)
+	newAuthToken, err := a.jwt.GenerateTokens(newUser)
 
 	if err != nil {
 		return model.User{}, model.AuthToken{}, err
@@ -60,7 +59,7 @@ func (a AuthService) Login(body loginReq) (model.User, model.AuthToken, error) {
 		return model.User{}, model.AuthToken{}, errors.Unauthorized("Invalid credentials")
 	}
 
-	newAuthToken, err := jwt.GenerateTokens(foundUser)
+	newAuthToken, err := a.jwt.GenerateTokens(foundUser)
 
 	if err != nil {
 		return model.User{}, model.AuthToken{}, err
@@ -83,7 +82,7 @@ func (a AuthService) Check(email string) error {
 }
 
 func (a AuthService) RefreshToken(refreshToken string) (model.AuthToken, error) {
-	token, err := jwt.ParseRefreshToken(refreshToken)
+	token, err := a.jwt.ParseRefreshToken(refreshToken)
 
 	if err != nil {
 		return model.AuthToken{}, err
@@ -94,7 +93,7 @@ func (a AuthService) RefreshToken(refreshToken string) (model.AuthToken, error) 
 		return model.AuthToken{}, errors.Unauthorized("Token is not valid")
 	}
 
-	claims := token.Claims.(jwtGo.MapClaims)
+	claims := token.Claims.(jwt.MapClaims)
 
 	foundUser, err := a.udb.View(a.db, claims["id"].(string))
 
@@ -112,7 +111,7 @@ func (a AuthService) RefreshToken(refreshToken string) (model.AuthToken, error) 
 		return model.AuthToken{}, errors.Unauthorized("Token is not valid")
 	}
 
-	newAuthToken, err := jwt.GenerateTokens(foundUser)
+	newAuthToken, err := a.jwt.GenerateTokens(foundUser)
 
 	// update the user with the newest refresh token
 	foundUser.Token = newAuthToken.Refresh

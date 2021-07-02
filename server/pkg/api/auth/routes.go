@@ -4,8 +4,8 @@ import (
 	"github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/labstack/echo/v4"
+	"github.com/mattfan00/hoji/server/pkg/utl/cookie"
 	"github.com/mattfan00/hoji/server/pkg/utl/errors"
-	"github.com/mattfan00/hoji/server/pkg/utl/jwt"
 	"github.com/mattfan00/hoji/server/pkg/utl/middleware"
 )
 
@@ -56,8 +56,8 @@ func (r RouteHandler) register(c echo.Context) error {
 		return err
 	}
 
-	jwt.CreateCookie(c, "at", authToken.Access)
-	jwt.CreateCookie(c, "rt", authToken.Refresh)
+	cookie.CreateCookie(c, "at", authToken.Access)
+	cookie.CreateCookie(c, "rt", authToken.Refresh)
 
 	return c.JSON(200, newUser)
 }
@@ -89,8 +89,8 @@ func (r RouteHandler) login(c echo.Context) error {
 		return err
 	}
 
-	jwt.CreateCookie(c, "at", authToken.Access)
-	jwt.CreateCookie(c, "rt", authToken.Refresh)
+	cookie.CreateCookie(c, "at", authToken.Access)
+	cookie.CreateCookie(c, "rt", authToken.Refresh)
 
 	return c.JSON(200, foundUser)
 }
@@ -106,20 +106,20 @@ func (r RouteHandler) check(c echo.Context) error {
 }
 
 func (r RouteHandler) refreshToken(c echo.Context) error {
-	cookie, err := c.Cookie("rt")
+	rtCookie, err := c.Cookie("rt")
 
 	if err != nil {
 		return c.JSON(200, nil)
 	}
 
-	authToken, err := r.svc.RefreshToken(cookie.Value)
+	authToken, err := r.svc.RefreshToken(rtCookie.Value)
 
 	if err != nil {
 		return err
 	}
 
-	jwt.CreateCookie(c, "at", authToken.Access)
-	jwt.CreateCookie(c, "rt", authToken.Refresh)
+	cookie.CreateCookie(c, "at", authToken.Access)
+	cookie.CreateCookie(c, "rt", authToken.Refresh)
 
 	return c.JSON(200, "hello")
 }
@@ -129,8 +129,8 @@ func (r RouteHandler) current(c echo.Context) error {
 }
 
 func (r RouteHandler) logout(c echo.Context) error {
-	jwt.DeleteCookie(c, "at")
-	jwt.DeleteCookie(c, "rt")
+	cookie.DeleteCookie(c, "at")
+	cookie.DeleteCookie(c, "rt")
 
 	return c.JSON(200, "Logged out")
 }

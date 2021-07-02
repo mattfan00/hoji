@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/go-pg/pg/v10"
 	"github.com/labstack/echo/v4"
 )
@@ -11,7 +12,12 @@ type MiddlewareInterface interface {
 }
 
 type MiddlewareService struct {
-	db *pg.DB
+	db  *pg.DB
+	jwt JWT
+}
+
+type JWT interface {
+	ParseAccessToken(string) (*jwt.Token, error)
 }
 
 func New(db *pg.DB) *MiddlewareService {

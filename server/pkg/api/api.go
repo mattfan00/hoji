@@ -6,6 +6,7 @@ import (
 	"github.com/mattfan00/hoji/server/pkg/api/entry"
 	"github.com/mattfan00/hoji/server/pkg/api/user"
 	"github.com/mattfan00/hoji/server/pkg/utl/aws"
+	"github.com/mattfan00/hoji/server/pkg/utl/jwt"
 	customMiddleware "github.com/mattfan00/hoji/server/pkg/utl/middleware"
 	"github.com/mattfan00/hoji/server/pkg/utl/server"
 
@@ -15,9 +16,11 @@ import (
 func Start(pgClient *pg.DB, awsClient aws.Interface) {
 	e := server.New()
 
+	jwtService := jwt.New()
+
 	middlewareService := customMiddleware.New(pgClient)
 	userService := user.New(pgClient, awsClient)
-	authService := auth.New(pgClient)
+	authService := auth.New(pgClient, jwtService)
 	entryService := entry.New(pgClient, awsClient)
 	bookmarkService := bookmark.New(pgClient)
 

@@ -8,7 +8,13 @@ import (
 	"github.com/mattfan00/hoji/server/pkg/utl/model"
 )
 
-func ParseAccessToken(token string) (*jwt.Token, error) {
+func New() JwtService {
+	return JwtService{}
+}
+
+type JwtService struct{}
+
+func (j JwtService) ParseAccessToken(token string) (*jwt.Token, error) {
 	signingKey := []byte(config.Values.AccessTokenSecret)
 
 	return jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
@@ -16,7 +22,7 @@ func ParseAccessToken(token string) (*jwt.Token, error) {
 	})
 }
 
-func ParseRefreshToken(token string) (*jwt.Token, error) {
+func (j JwtService) ParseRefreshToken(token string) (*jwt.Token, error) {
 	signingKey := []byte(config.Values.RefreshTokenSecret)
 
 	return jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
@@ -24,7 +30,7 @@ func ParseRefreshToken(token string) (*jwt.Token, error) {
 	})
 }
 
-func GenerateAccessToken(user model.User) (string, error) {
+func (j JwtService) GenerateAccessToken(user model.User) (string, error) {
 	signingKey := []byte(config.Values.AccessTokenSecret)
 
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
@@ -34,7 +40,7 @@ func GenerateAccessToken(user model.User) (string, error) {
 	}).SignedString(signingKey)
 }
 
-func GenerateRefreshToken(user model.User) (string, error) {
+func (j JwtService) GenerateRefreshToken(user model.User) (string, error) {
 	signingKey := []byte(config.Values.RefreshTokenSecret)
 
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
@@ -44,14 +50,14 @@ func GenerateRefreshToken(user model.User) (string, error) {
 	}).SignedString(signingKey)
 }
 
-func GenerateTokens(user model.User) (model.AuthToken, error) {
-	newAccessToken, err := GenerateAccessToken(user)
+func (j JwtService) GenerateTokens(user model.User) (model.AuthToken, error) {
+	newAccessToken, err := j.GenerateAccessToken(user)
 
 	if err != nil {
 		return model.AuthToken{}, err
 	}
 
-	newRefreshToken, err := GenerateRefreshToken(user)
+	newRefreshToken, err := j.GenerateRefreshToken(user)
 
 	if err != nil {
 		return model.AuthToken{}, err
