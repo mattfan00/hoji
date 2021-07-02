@@ -36,7 +36,7 @@ func (j JwtService) GenerateAccessToken(user model.User) (string, error) {
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id": user.Id,
 		// expiration time is 15 minutes
-		"exp": time.Now().Add(time.Minute * 15).Unix(),
+		"exp": time.Now().Add(time.Second * 15).Unix(),
 	}).SignedString(signingKey)
 }
 

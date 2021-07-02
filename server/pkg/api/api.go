@@ -18,7 +18,8 @@ func Start(pgClient *pg.DB, awsClient aws.Interface) {
 
 	jwtService := jwt.New()
 
-	middlewareService := customMiddleware.New(pgClient)
+	middlewareService := customMiddleware.New(pgClient, jwtService)
+
 	userService := user.New(pgClient, awsClient)
 	authService := auth.New(pgClient, jwtService)
 	entryService := entry.New(pgClient, awsClient)

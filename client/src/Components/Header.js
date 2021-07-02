@@ -15,11 +15,15 @@ const Header = () => {
       history.push("/")
     }
   })
-  const { user, setUser } = useContext(AuthContext)
+  const { user, setUser, loading } = useContext(AuthContext)
   const history = useHistory()
 
   const handleLogout = () => {
     logoutMutation.mutate()
+  }
+
+  if (loading) {
+    return <></>
   }
 
   return (

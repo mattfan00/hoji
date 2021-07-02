@@ -18,11 +18,11 @@ func (mw *MiddlewareService) Auth(next echo.HandlerFunc) echo.HandlerFunc {
 		token, err := mw.jwt.ParseAccessToken(cookie.Value)
 
 		if err != nil {
-			return errors.Unauthorized()
+			return errors.Unauthorized("Token is not valid")
 		}
 
 		if !token.Valid {
-			return errors.Unauthorized()
+			return errors.Unauthorized("Token is not valid")
 		}
 
 		claims := token.Claims.(jwt.MapClaims)

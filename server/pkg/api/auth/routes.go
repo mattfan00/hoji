@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/labstack/echo/v4"
@@ -109,6 +110,7 @@ func (r RouteHandler) refreshToken(c echo.Context) error {
 	rtCookie, err := c.Cookie("rt")
 
 	if err != nil {
+		fmt.Println(err)
 		return c.JSON(200, nil)
 	}
 

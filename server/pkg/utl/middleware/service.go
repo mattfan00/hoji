@@ -20,8 +20,9 @@ type JWT interface {
 	ParseAccessToken(string) (*jwt.Token, error)
 }
 
-func New(db *pg.DB) *MiddlewareService {
+func New(db *pg.DB, jwt JWT) *MiddlewareService {
 	return &MiddlewareService{
-		db: db,
+		db:  db,
+		jwt: jwt,
 	}
 }

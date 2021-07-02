@@ -84,11 +84,11 @@ func (a AuthService) Check(email string) error {
 func (a AuthService) RefreshToken(refreshToken string) (model.AuthToken, error) {
 	token, err := a.jwt.ParseRefreshToken(refreshToken)
 
+	// if the provided refresh token is expired
 	if err != nil {
-		return model.AuthToken{}, err
+		return model.AuthToken{}, errors.Unauthorized("Token is not valid")
 	}
 
-	// if the provided refresh token is expired
 	if !token.Valid {
 		return model.AuthToken{}, errors.Unauthorized("Token is not valid")
 	}
