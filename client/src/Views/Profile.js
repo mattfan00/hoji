@@ -37,13 +37,12 @@ const Profile = () => {
 
   return (
     <>
-      <ProfileHeader 
+      <ProfileHeader
         profile={profile}
         isBookmark={checkBookmark()}
-        expanded={true}
       />
 
-      <div className="mt-10">
+      <div className="mt-8">
         {profile.entries?.map(({
           id, 
           created_at,

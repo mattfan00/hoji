@@ -1,7 +1,7 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
 import { useQuery } from "react-query"
-import ProfileHeader from "../Components/ProfileHeader"
+import ProfilePreview from "../Components/ProfilePreview"
 import axios from "axios"
 
 const Bookmarks = () => {
@@ -39,7 +39,7 @@ const Bookmarks = () => {
       {bookmarks.length !== 0 ? (
         sortedBookmarks().map(({ bookmark_user: user }) => (
           <div className="mb-4 cursor-pointer" onClick={() => handleClick(user.username)} key={user.id}>
-            <ProfileHeader
+            <ProfilePreview
               profile={user}
               isBookmark={true}
             />
@@ -48,7 +48,6 @@ const Bookmarks = () => {
       ) : (
         <div>You haven't bookmarked any profiles yet!</div>
       )}
-
     </>
   )
 }
