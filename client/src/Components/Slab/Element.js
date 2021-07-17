@@ -52,7 +52,14 @@ const Element = ({
       )
     case 'link':
       return (
-        <a {...attributes} href={element.url} className="color">
+        <a 
+          {...attributes} 
+          href={element.url} 
+          className="color"
+          target="_blank"
+          rel="noreferrer"
+          onClick={(e) => e.stopPropagation()}
+        >
           {children}
         </a>
       )

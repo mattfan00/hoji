@@ -27,50 +27,50 @@ const Header = () => {
   }
 
   return (
-    <header className="flex items-center pt-6 mb-4">
-      <>
-        <div className="flex items-center">
-          <div className="logo w-8 mr-5">
-            <Link to={user ? "/discover" : "/"}><Logo /></Link>
-          </div>
+    <header className="flex justify-between items-center pt-4 px-6 mb-10">
+      <div className="flex items-center">
+        <div className="logo w-8 mr-5">
+          <Link to={user ? "/discover" : "/"}><Logo /></Link>
         </div>
-        <div className="flex items-center">
-          {user ? (
-          <>
-            <Dropdown className="mr-3">
-              <Dropdown.Button>
-                {user.username}
-              </Dropdown.Button>
-
-              <Dropdown.Item href={`/${user.username}`}>
-                <FontAwesomeIcon className="fa-fw mr-1.5" icon="user" />
-                Profile
-              </Dropdown.Item>
-              <Dropdown.Item href="/bookmarks">
-                <FontAwesomeIcon className="fa-fw mr-1.5" icon="bookmark" />
-                Bookmarks
-              </Dropdown.Item>
-              <Dropdown.Item href="/settings">
-                <FontAwesomeIcon className="fa-fw mr-1.5" icon="cog" />
-                Settings
-              </Dropdown.Item>
-              <Dropdown.Item onClick={handleLogout}>
-                <FontAwesomeIcon className="fa-fw mr-1.5" icon="sign-out-alt" />
-                Logout
-              </Dropdown.Item>
-            </Dropdown>
-
-            <Button href="/entry/new">
-              <FontAwesomeIcon icon="plus" />
-            </Button>
-          </>
-          ) : (
-          <Button href="/login">
-            <FontAwesomeIcon icon="sign-in-alt" />
+      </div>
+      <div className="flex items-center">
+        {user ? (
+        <>
+          <Button className="mr-2" href="/entry/new">
+            <FontAwesomeIcon icon="plus" />
           </Button>
-          )}
-        </div>
-      </>
+
+          <Dropdown
+            direction="left"
+          >
+            <Dropdown.Button>
+              {user.username}
+            </Dropdown.Button>
+
+            <Dropdown.Item href={`/${user.username}`}>
+              <FontAwesomeIcon className="fa-fw mr-1.5" icon="user" />
+              Profile
+            </Dropdown.Item>
+            <Dropdown.Item href="/bookmarks">
+              <FontAwesomeIcon className="fa-fw mr-1.5" icon="bookmark" />
+              Bookmarks
+            </Dropdown.Item>
+            <Dropdown.Item href="/settings">
+              <FontAwesomeIcon className="fa-fw mr-1.5" icon="cog" />
+              Settings
+            </Dropdown.Item>
+            <Dropdown.Item onClick={handleLogout}>
+              <FontAwesomeIcon className="fa-fw mr-1.5" icon="sign-out-alt" />
+              Logout
+            </Dropdown.Item>
+          </Dropdown>
+        </>
+        ) : (
+        <Button href="/login">
+          <FontAwesomeIcon icon="sign-in-alt" />
+        </Button>
+        )}
+      </div>
     </header>
   )
 }
