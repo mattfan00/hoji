@@ -44,27 +44,27 @@ const ProfileHeader = ({
       </div>
 
       {profile.description || profile.location || profile.website ? (
-      <div className="mt-4 mb-14">
+      <div className="mt-2 mb-20">
         {profile.description ? (
-        <div className="mb-4 pl-2 border-l-4">{profile.description}</div>
+        <div className="text-gray-400 mb-4">{profile.description}</div>
         ): ""}
 
 
         {profile.location || profile.website ? (
-        <>
+        <div className="flex flex-wrap">
           {profile.location ? (
-          <div>
+          <span className="mr-4">
             <FontAwesomeIcon className="fa-fw mr-1" icon="map-marker-alt" size="sm" />
             <span>{profile.location}</span>
-          </div>
+          </span>
           ): ""}
           {profile.website ? (
-          <div>
+          <span>
             <FontAwesomeIcon className="fa-fw mr-1" icon="link" size="sm" />
             <a className="color" href={profile.website} target="_blank">{profile.website}</a>
-          </div>
+          </span>
           ): ""}
-        </>
+        </div>
         ) : ""}
       </div>
       ) : ""}

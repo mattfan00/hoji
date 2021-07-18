@@ -1,18 +1,18 @@
 import React, { useState } from "react"
 import { ReactEditor, useSlate } from "slate-react"
 import { Transforms } from "slate"
+import { Formik, Form } from "formik"
+import * as Yup from "yup"
 import Button from "../../Button"
 import Input from "../../Input"
 import { isBlockActive, unwrapLink, insertLink } from "../Utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Modal from "react-modal"
-import isUrl from "is-url"
 
 const Link = ({
 }) => {
   const editor = useSlate()
   const [showURLInput, setShowURLInput] = useState(false)
-  const [urlValue, setUrlValue] = useState("")
   const [currSelection, setCurrSelection] = useState({})
 
   const cancelPreview = () => {
@@ -28,8 +28,8 @@ const Link = ({
     setCurrSelection(editor.selection)
   }
 
-  const confirmLink = () => {
-    insertLink(editor, urlValue, currSelection)
+  const confirmLink = (url) => {
+    insertLink(editor, url, currSelection)
     ReactEditor.focus(editor)
 
     hideModal()
@@ -37,7 +37,6 @@ const Link = ({
 
   const hideModal = () => {
     setShowURLInput(false)
-    setUrlValue("")
     setCurrSelection({})
   }
 
@@ -66,24 +65,34 @@ const Link = ({
         className="modal link"
         overlayClassName="overlay"
       >
-        <Input 
-          value={urlValue}
-          onChange={(e) => setUrlValue(e.target.value)}
-          autoFocus 
-        />
-        <div className="flex justify-end mt-2">
-          <Button 
-            className="mr-2" 
-            onMouseDown={cancelPreview}
-          >Cancel</Button>
-          <Button 
-            variant="primary" 
-            onClick={confirmLink}
-            disabled={!isUrl(urlValue)}
-          >Submit</Button>
-        </div>
-      </Modal>
+        <Formik
+          initialValues={{ url: "" }}
+          validationSchema={Yup.object({
+           url: Yup.string().url('Invalid URL').required('Required'),
+          })}
+          onSubmit={(values) => {
+            confirmLink(values.url)
+          }}
+        >
+          <Form>
+            <Input 
+              name="url"
+              autoFocus 
+            />
 
+            <div className="flex justify-end mt-2">
+              <Button 
+                className="mr-2" 
+                onMouseDown={cancelPreview}
+              >Cancel</Button>
+              <Button 
+                variant="primary" 
+                type="submit"
+              >Submit</Button>
+            </div>
+          </Form>
+        </Formik>
+      </Modal>
     </>
   )
 }
