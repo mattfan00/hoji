@@ -37,6 +37,13 @@ const Profile = () => {
 
   return (
     <>
+      {/*
+      <img 
+        className="mb-5 rounded-xl"
+        src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F493f1a92-2750-4f44-904d-b38025d2739e%2FFrame_575.png?table=block&id=ed456500-6f19-4a2f-be7d-3a4965d7b15a&spaceId=e12b42ac-4e54-476f-a4f5-7d6bdb1e61e2&width=2380&userId=54acc7c8-9648-4353-a287-d051a5ff353b&cache=v2"
+      />
+      */}
+
       <ProfileHeader
         profile={profile}
         isBookmark={checkBookmark()}

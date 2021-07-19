@@ -41,7 +41,7 @@ const Element = ({
     case 'heading':
       return <h3 {...attributes} className="mt-8">{children}</h3>
     case 'list-item':
-      return <li {...attributes}>{children}</li>
+      return <li {...attributes} className="mb-2">{children}</li>
     case 'image':
       return (
         <Image
@@ -64,7 +64,7 @@ const Element = ({
         </a>
       )
     default:
-      return <p {...attributes} className="first:mt-0">{children}</p>
+      return <p {...attributes} className="prose">{children}</p>
   }
 }
 

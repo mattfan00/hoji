@@ -6,6 +6,7 @@ import DefaultProPic from "../../Icons/DefaultProPic"
 const EntryHeader = ({
   author,
   createdAt,
+  expanded,
 }) => {
   const dateFormat = () => {
     if (dayjs().isSame(createdAt, "day")) {
@@ -17,6 +18,7 @@ const EntryHeader = ({
 
   return (
     <div className="flex mb-2 items-center">
+      {expanded ? (
       <Link 
         to={`/${author?.username}`} 
         className="mr-3 text-xs font-medium hover:underline flex items-center"
@@ -30,7 +32,9 @@ const EntryHeader = ({
           )}
         </div>
         {author?.username}
-      </Link>
+      </Link> 
+      ) : ""}
+
       <div className="mr-3 text-xs text-gray-400">{dateFormat()}</div>
     </div>
   )

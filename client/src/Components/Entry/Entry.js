@@ -54,6 +54,7 @@ const Entry = ({
         <EntryHeader
           author={author}
           createdAt={createdAt}
+          expanded={expanded}
         />
 
         {user?.username === author.username ? (

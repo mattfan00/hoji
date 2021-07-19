@@ -50,6 +50,7 @@ const ProfileHeader = ({
         ): ""}
 
 
+        {/*
         {profile.location || profile.website ? (
         <div className="flex flex-wrap">
           {profile.location ? (
@@ -66,6 +67,8 @@ const ProfileHeader = ({
           ): ""}
         </div>
         ) : ""}
+        */}
+
       </div>
       ) : ""}
     </div>

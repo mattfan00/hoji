@@ -37,9 +37,8 @@ module.exports = {
       },
     },
     fontFamily: {
-      // 'sans': ['Inter'],
-      'sans': ['Avenir Next'],
-      // 'sans': ['Helvetica Neue']
+      'sans': ['Inter'],
+      //'sans': ['Avenir Next'],
       'mono': ['monospace']
       //'mono': ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace']
     },
