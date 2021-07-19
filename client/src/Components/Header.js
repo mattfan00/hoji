@@ -36,11 +36,12 @@ const Header = () => {
       <div className="flex items-center">
         {user ? (
         <>
-          <Button className="mr-2" href="/entry/new">
+          <Button size="sm" className="mr-2" href="/entry/new">
             <FontAwesomeIcon icon="plus" />
           </Button>
 
           <Dropdown
+            size="sm"
             direction="left"
           >
             <Dropdown.Button>

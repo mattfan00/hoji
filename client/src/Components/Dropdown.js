@@ -17,7 +17,7 @@ export const DropdownItem = ({
   onClick,
   onMouseDown,
 }) => {
-  const style = `dropdownItem block first:rounded-t-md last:rounded-b-md px-3 py-1 font-semibold text-xs hover:bg-gray-100 cursor-pointer transition-colors`
+  const style = `dropdownItem block first:rounded-t-md last:rounded-b px-3 py-1 font-semibold text-xs hover:bg-gray-100 cursor-pointer transition-colors`
 
   return (
     <>
@@ -91,7 +91,7 @@ const Dropdown = ({
           <ClickOutside action={closeDropdown}>
               <div 
                 onClick={closeDropdown} 
-                className={`absolute ${size === "sm" ? "top-1" : "top-2"} ${direction === "left" ? "right-0" : "left-0"} w-auto whitespace-nowrap rounded-md shadow-md bg-white z-20`}
+                className={`absolute ${size === "sm" ? "top-1" : "top-2"} ${direction === "left" ? "right-0" : "left-0"} w-auto whitespace-nowrap rounded shadow-md bg-white z-20`}
               >
                 {items()}
               </div>

@@ -57,7 +57,7 @@
       font-semibold
       text-xs
       px-2.5 py-1.5
-      rounded-md
+      rounded
       focus:outline-none
       hover:bg-gray-200
       transition-colors

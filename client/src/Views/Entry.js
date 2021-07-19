@@ -26,6 +26,7 @@ const EntryView = () => {
       title={entry.title}
       content={entry.content}
       expanded={true}
+      community={true}
     />
   )
 }

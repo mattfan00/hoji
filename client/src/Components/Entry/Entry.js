@@ -23,6 +23,7 @@ const Entry = ({
   title,
   photos,
   expanded,
+  community,
 }) => {
   const deleteMutation = useMutation(() => axios.delete(`/entry/${id}`))
   const [showDeleteModal, setShowDeleteModal] = useState(false)
@@ -54,7 +55,7 @@ const Entry = ({
         <EntryHeader
           author={author}
           createdAt={createdAt}
-          expanded={expanded}
+          community={community}
         />
 
         {user?.username === author.username ? (

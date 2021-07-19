@@ -55,6 +55,7 @@ const Discover = () => {
                   description={description}
                   content={content}
                   photos={photos}
+                  community={true}
                 />
               </>
            ))}
