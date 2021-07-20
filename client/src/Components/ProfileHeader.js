@@ -34,6 +34,12 @@ const ProfileHeader = ({
 
   return (
     <div>
+      {profile.avatar ? (
+      <div className="mb-4 w-16 h-16 rounded overflow-hidden">
+          <img className="object-cover w-full h-full" alt="Avatar" src={profile.avatar} />
+      </div>
+      ) : ""}
+
       <div className="flex justify-between items-center">
         <h1 className="mb-0">{profile.name}</h1>
         {user && user.username !== profile.username ? (
@@ -46,7 +52,7 @@ const ProfileHeader = ({
       {profile.description || profile.location || profile.website ? (
       <div className="mt-2 mb-20">
         {profile.description ? (
-        <div className="text-gray-400 mb-4">{profile.description}</div>
+        <div className="text-gray-500 mb-4">{profile.description}</div>
         ): ""}
 
 

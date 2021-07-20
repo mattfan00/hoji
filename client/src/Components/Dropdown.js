@@ -91,7 +91,7 @@ const Dropdown = ({
           <ClickOutside action={closeDropdown}>
               <div 
                 onClick={closeDropdown} 
-                className={`absolute ${size === "sm" ? "top-1" : "top-2"} ${direction === "left" ? "right-0" : "left-0"} w-auto whitespace-nowrap rounded shadow-md bg-white z-20`}
+                className={`absolute ${size === "sm" ? "top-1" : "top-2"} ${direction === "left" ? "right-0" : "left-0"} w-auto whitespace-nowrap rounded shadow bg-white z-20`}
               >
                 {items()}
               </div>

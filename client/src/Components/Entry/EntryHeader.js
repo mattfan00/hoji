@@ -24,6 +24,7 @@ const EntryHeader = ({
         className="mr-3 text-xs font-medium hover:underline flex items-center"
         onClick={(e) => e.stopPropagation()}
       >
+        {/*
         <div className="mr-2 w-6 h-6 rounded-full overflow-hidden">
           {author?.avatar ? (
             <img className="object-cover w-full h-full" alt="Avatar" src={author.avatar} />
@@ -31,6 +32,7 @@ const EntryHeader = ({
             <DefaultProPic />
           )}
         </div>
+        */}
         {author?.username}
       </Link> 
       ) : ""}
