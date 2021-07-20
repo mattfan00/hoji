@@ -29,8 +29,24 @@
     @apply my-4
   }
 
+  blockquote {
+    @apply pl-2 border-l-4 my-4;
+  }
+
+  ul {
+    @apply list-disc px-10 my-4;
+  }
+  
+  ol {
+    @apply list-decimal px-10 my-4;
+  }
+
   a.color {
     @apply hover:underline text-blue-400
+  }
+
+  code {
+    @apply block font-mono text-xs bg-gray-100 p-4;
   }
 
   .custom-input[placeholder]:empty:before {
@@ -96,7 +112,11 @@
   }
 
   .prose {
-    @apply first:mt-0 text-gray-600;
+    @apply text-gray-600;
+  }
+
+  .prose p { 
+    @apply first:mt-0 
   }
 
   .lowercase {

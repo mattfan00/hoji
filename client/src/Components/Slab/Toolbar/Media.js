@@ -4,6 +4,7 @@ import { useSlate } from "slate-react"
 import Button from "../../Button"
 import { insertImage, isBlockActive } from "../Utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { BiImage } from "react-icons/bi"
 import axios from "axios"
 
 const Media = () => {
@@ -34,7 +35,7 @@ const Media = () => {
         className="mr-1"
         onClick={showFileBrowser}
         disabled={isBlockActive(editor, "image")}
-      ><FontAwesomeIcon icon="image" /></Button>
+      ><BiImage size="1.5em" /></Button>
       <input ref={inputFile} className="hidden" type="file" accept="image/*" onChange={handleImageUpload} />
     </>
   )

@@ -32,24 +32,6 @@ const Element = ({
   element, 
 }) => {
   switch (element.type) {
-    case 'block-quote':
-      return <blockquote {...attributes}>{children}</blockquote>
-    case 'bulleted-list':
-      return <ul {...attributes} className="list-disc px-10 my-4">{children}</ul>
-    case 'numbered-list':
-      return <ol {...attributes} className="list-decimal px-10 my-4">{children}</ol>
-    case 'heading':
-      return <h3 {...attributes} className="mt-8">{children}</h3>
-    case 'list-item':
-      return <li {...attributes} className="mb-2">{children}</li>
-    case 'image':
-      return (
-        <Image
-          attributes={attributes}
-          children={children}
-          element={element}
-        />
-      )
     case 'link':
       return (
         <a 
@@ -62,6 +44,26 @@ const Element = ({
         >
           {children}
         </a>
+      )
+    case 'heading':
+      return <h3 {...attributes} className="mt-8">{children}</h3>
+    case 'bulleted-list':
+      return <ul {...attributes}>{children}</ul>
+    case 'numbered-list':
+      return <ol {...attributes}>{children}</ol>
+    case 'list-item':
+      return <li {...attributes} className="mb-2">{children}</li>
+    case 'block-quote':
+      return <blockquote {...attributes}>{children}</blockquote>
+    case 'code-block':
+      return <code {...attributes}>{children}</code>
+    case 'image':
+      return (
+        <Image
+          attributes={attributes}
+          children={children}
+          element={element}
+        />
       )
     default:
       return <p {...attributes} className="prose">{children}</p>

@@ -5,6 +5,7 @@ import Button from "../../Button"
 import Media from "./Media"
 import Link from "./Link"
 import { isInlineActive, toggleInline, isBlockActive, toggleBlock } from "../Utils"
+import { BiCodeBlock, BiHeading } from "react-icons/bi"
 
 const INLINE_STYLES = [
   { label: <FontAwesomeIcon icon="bold" />, format: "bold" },
@@ -17,6 +18,8 @@ const BLOCK_STYLES = [
   { label: <FontAwesomeIcon icon="heading" />, format: "heading" },
   { label: <FontAwesomeIcon icon="list-ul" />, format: "bulleted-list" },
   { label: <FontAwesomeIcon icon="list-ol" />, format: "numbered-list" },
+  { label: <FontAwesomeIcon icon="quote-right" />, format: "block-quote" },
+  { label: <BiCodeBlock size="1.5em" />, format: "code-block" },
 ]
 
 const Toolbar = () => {
