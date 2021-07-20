@@ -34,6 +34,7 @@ const Post = ({
         <div className={`entry-content ${!expanded ? "collapsed" : ""}`}>
           <Slate editor={editor} value={JSON.parse(content)}>
             <Editable 
+              className="prose"
               readOnly 
               renderLeaf={renderLeaf}
               renderElement={renderElement}

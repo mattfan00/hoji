@@ -66,7 +66,7 @@ const Element = ({
         />
       )
     default:
-      return <p {...attributes} className="prose">{children}</p>
+      return <p {...attributes}>{children}</p>
   }
 }
 

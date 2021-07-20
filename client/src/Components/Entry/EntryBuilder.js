@@ -165,28 +165,13 @@ const EntryBuilder = ({
         {renderType()}
       </div>
 
-      <div className="flex justify-end items-center">
-        <div className="flex">
-          {/*
-          <Button 
-            className="mr-2"
-            disabled={!changed}
-            onClick={() => submit(false)}
-          >Save Draft</Button>
-          */}
-          <Button
-            variant="primary"
-            disabled={submitDisabled()}
-            onClick={() => submit()}
-          >{editing ? "Update" : "Post"}</Button>
-        </div>
-
-        {type === "thought" ? (
-        <FadeAnimation show={charLimit - content.length <= 20}>
-          <span className={`font-semibold${content.length > charLimit ? " text-red-500" : ""}`}>{content.length} </span>
-          / {charLimit}
-        </FadeAnimation>
-        ) : ""}
+      <div className="flex justify-end">
+        <Button
+          //variant="primary"
+          className="w-full"
+          disabled={submitDisabled()}
+          onClick={() => submit()}
+        >{editing ? "Update" : "Submit"}</Button>
       </div>
     </div>
   )
