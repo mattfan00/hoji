@@ -8,7 +8,7 @@ const Leaf = ({
   const classes = []
 
   if (leaf.bold) {
-    classes.push("font-bold")
+    classes.push("font-bold text-black")
   }
 
   if (leaf.italic) {
