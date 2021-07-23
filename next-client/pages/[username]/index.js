@@ -1,5 +1,6 @@
 import Header from "../../components/Header"
 import Entry from "../../components/Entry"
+import { fetcher } from "../../lib/query"
 
 const Profile = ({ profile }) => {
   return (
@@ -21,12 +22,11 @@ const Profile = ({ profile }) => {
 export async function getServerSideProps({ params }) {
   const { username } = params
 
-  const res = await fetch(`http://localhost:8080/user/${username}`)
-  const data = await res.json()
+  const profile = await fetcher({ queryKey: `/user/${username}` })
 
   return {
     props: {
-      profile: data
+      profile
     }
   }
 }
