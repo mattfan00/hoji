@@ -2,24 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply font-sans;
-  }
+body {
+  @apply font-sans;
+}
 
-  h1 {
-    @apply text-3xl font-bold;
-  }
+h1 {
+  @apply text-3xl font-bold;
+}
 
-  h2 {
-    @apply text-2xl font-bold;
-  }
+h2 {
+  @apply text-2xl font-bold;
+}
 
-  h3 {
-    @apply text-xl font-bold;
-  }
+h3 {
+  @apply text-xl font-bold;
+}
 
-  h4 {
-    @apply text-lg font-bold;
-  }
+h4 {
+  @apply text-lg font-bold;
+}
+
+/*==============================================*/
+
+.btn {
+  @apply
+    bg-gray-100
+    font-semibold
+    px-3 py-1.5
+    rounded
+    focus:outline-none
+    hover:bg-gray-200
+    transition-colors
 }

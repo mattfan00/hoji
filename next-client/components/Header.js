@@ -1,3 +1,6 @@
+import { Button } from "../ui"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
 export default function Header({ profile }) {
   return (
     <header className="max-w-3xl mx-auto mt-20 mb-10">
@@ -15,7 +18,12 @@ export default function Header({ profile }) {
             </div>
           </div>
           <div>
-            hello
+            <Button className="mr-2">
+              <FontAwesomeIcon icon={["fas", "bookmark"]} size="sm" />
+            </Button>
+            <Button>
+              <FontAwesomeIcon icon="bars" size="sm" />
+            </Button>
           </div>
         </div>
       </div>
