@@ -11,7 +11,7 @@ const Entry = ({
 
   const onClick = () => {
     if (!expanded) {
-      router.push(`/`)
+      router.push(`/entry/${entry.id}`)
     }
   }
 

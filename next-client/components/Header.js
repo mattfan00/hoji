@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const Header = ({ profile }) => {
   return (
-    <header className="max-w-4xl mx-auto mt-20 mb-16 px-8">
-      <div className="flex items-center">
+    <header className="w-screen px-8">
+      <div className="flex items-center max-w-3xl mx-auto mt-20 mb-16">
         <div className="flex flex-1 items-center">
           {profile.avatar ? (
           <div className="w-12 h-12 rounded overflow-hidden mr-4">

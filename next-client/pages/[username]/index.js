@@ -1,4 +1,5 @@
 import Header from "../../components/Header"
+import PageWrapper from "../../components/PageWrapper"
 import Entry from "../../components/Entry"
 import { fetcher } from "../../lib/query"
 
@@ -6,7 +7,7 @@ const Profile = ({ profile }) => {
   return (
     <>
       <Header profile={profile} />
-      <div className="max-w-3xl mx-auto px-8">
+      <PageWrapper>
         {profile.entries.map((entry) => (
           <Entry
             key={entry.id}
@@ -14,12 +15,12 @@ const Profile = ({ profile }) => {
             expanded={false}
           />
         ))}
-      </div>
+      </PageWrapper>
     </>
   )
 }
 
-export async function getServerSideProps({ params }) {
+export const getServerSideProps = async ({ params }) => {
   const { username } = params
 
   const profile = await fetcher({ queryKey: `/user/${username}` })
