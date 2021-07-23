@@ -1,9 +1,9 @@
 import { Button } from "../ui"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-export default function Header({ profile }) {
+const Header = ({ profile }) => {
   return (
-    <header className="max-w-3xl mx-auto mt-20 mb-10">
+    <header className="max-w-4xl mx-auto mt-20 mb-16 px-8">
       <div className="flex items-center">
         {profile.avatar ? (
         <div className="w-10 h-10 rounded overflow-hidden mr-4">
@@ -30,3 +30,5 @@ export default function Header({ profile }) {
     </header>
   )
 }
+
+export default Header

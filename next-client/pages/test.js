@@ -1,4 +1,4 @@
-export default function Test({ entries}) {
+const Test = ({ entries}) => {
   return (
     <div>
       {entries.map((entry) => (
@@ -18,3 +18,5 @@ export async function getServerSideProps() {
     }
   }
 }
+
+export default Test

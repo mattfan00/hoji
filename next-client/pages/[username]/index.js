@@ -1,11 +1,18 @@
 import Header from "../../components/Header"
+import Entry from "../../components/Entry"
 
-export default function Profile({ profile }) {
+const Profile = ({ profile }) => {
   return (
     <>
       <Header profile={profile} />
-      <div className="max-w-2xl mx-auto">
-        hello
+      <div className="max-w-3xl mx-auto px-8">
+        {profile.entries.map((entry) => (
+          <Entry
+            key={entry.id}
+            entry={entry}
+            expanded={false}
+          />
+        ))}
       </div>
     </>
   )
@@ -23,3 +30,5 @@ export async function getServerSideProps({ params }) {
     }
   }
 }
+
+export default Profile
