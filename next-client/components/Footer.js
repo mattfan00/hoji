@@ -5,7 +5,7 @@ const Footer = ({
   author,
 }) => {
   return (
-    <footer className="mt-36 py-10 flex items-center justify-center">
+    <footer className="mt-32 py-10 flex items-center justify-center">
       <Link href="/">
         <a className="w-10 mr-8">
           <Logo />
