@@ -23,8 +23,9 @@ func (postgres Postgres) View(db *pg.DB, id string) (model.Entry, error) {
 			Select()
 	*/
 
-	sql := `SELECT "entry".*, "user"."id" AS "user__id", "user"."username" AS "user__username", "user"."avatar" AS "user__avatar" FROM "entries" AS "entry" LEFT JOIN "users" AS "user" ON 
-	("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL WHERE ((entry.id = ?)) AND "entry"."deleted_at" IS NULL`
+	sql := `SELECT "entry".*, "user"."id" AS "user__id", "user"."username" AS "user__username", "user"."name" AS "user__name", "user"."avatar" AS "user__avatar" 
+	FROM "entries" AS "entry" LEFT JOIN "users" AS "user" ON ("user"."id" = "entry"."user_id") AND "user"."deleted_at" IS NULL 
+	WHERE ((entry.id = ?)) AND "entry"."deleted_at" IS NULL`
 
 	_, err := db.QueryOne(&foundEntry, sql, id)
 
