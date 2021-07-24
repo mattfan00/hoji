@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply text-sm font-sans pt-16;
+  @apply text-sm font-sans pt-12;
   line-height: 1.625;
 }
 

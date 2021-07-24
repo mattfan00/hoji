@@ -1,3 +1,4 @@
+import Head from "next/head"
 import { QueryClientProvider } from "react-query"
 import { queryClient } from "../lib/query"
 import axios from "axios"
@@ -13,9 +14,15 @@ axios.defaults.withCredentials = true
 
 const MyApp = ({ Component, pageProps }) => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
-    </QueryClientProvider>
+    <>
+      <Head>
+        <title>hoji</title>
+      </Head>
+
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+      </QueryClientProvider>
+    </>
   )
 }
 
