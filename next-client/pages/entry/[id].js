@@ -1,3 +1,4 @@
+import Head from "next/head"
 import Header from "../../components/Header"
 import Entry from "../../components/Entry"
 import PageWrapper from "../../components/PageWrapper"
@@ -6,6 +7,9 @@ import { fetcher } from "../../lib/query"
 const EntryView = ({ entry }) => {
   return (
     <>
+      <Head>
+        <title>{entry.user.name} | hoji</title>
+      </Head>
       {/*
       <Header profile={entry.user} />
       */}
@@ -25,8 +29,6 @@ export const getServerSideProps = async ({ params }) => {
   const { id } = params
 
   const entry = await fetcher({ queryKey: `/entry/${id}`})
-
-  console.log(entry)
 
   return {
     props: {

@@ -37,7 +37,7 @@ const Entry = ({
           href={`/${author.username}`} 
           onClick={(e) => e.stopPropagation()}
         >
-          <a className="mr-3 font-medium hover:underline flex items-center">
+          <a className="mr-3 font-semibold hover:underline flex items-center">
             {/*
             <div className="mr-2 w-6 h-6 rounded-full overflow-hidden">
               {author.avatar ? (
