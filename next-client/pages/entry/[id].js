@@ -29,10 +29,10 @@ const EntryView = ({ entry }) => {
   )
 }
 
-export const getServerSideProps = async (ctx) => {
-  const { id } = ctx.params
+export const getServerSideProps = async ({ req, params }) => {
+  const { id } = params
 
-  const { data: entry } = await serverQuery(ctx).get(`/entry/${id}`)
+  const { data: entry } = await serverQuery(req).get(`/entry/${id}`)
 
   return {
     props: {

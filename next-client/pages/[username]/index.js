@@ -3,6 +3,7 @@ import Header from "../../components/Header"
 import PageWrapper from "../../components/PageWrapper"
 import Entry from "../../components/Entry"
 import { serverQuery } from "../../lib/axios"
+import { getCurrentUser } from "../../lib/auth"
 
 const Profile = ({ profile }) => {
   return (
@@ -24,10 +25,11 @@ const Profile = ({ profile }) => {
   )
 }
 
-export const getServerSideProps = async (ctx) => {
-  const { username } = ctx.params
+export const getServerSideProps = async ({ req, params }) => {
+  const { username } = params
 
-  const { data: profile } = await serverQuery(ctx).get(`/user/${username}`)
+  //const user = await getCurrentUser(req)
+  const { data: profile } = await serverQuery(req).get(`/user/${username}`)
 
   return {
     props: {

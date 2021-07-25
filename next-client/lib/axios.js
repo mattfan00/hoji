@@ -29,13 +29,13 @@ const createRefreshInterceptor = (instance) => {
   })
 }
 
-export const serverQuery = ({ req }) => {
+export const serverQuery = (req) => {
   const instance = axios.create({
     baseURL: BASE_URL,
     headers: req.headers,
   })
 
-  createRefreshInterceptor(instance)
+  //createRefreshInterceptor(instance)
 
   return instance
 }

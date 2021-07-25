@@ -7,23 +7,20 @@ export const AuthProvider = ({
   children,
   initialUser,
 }) => {
-  /*
   const { isLoading } = useQuery(`/auth/me`, {
     onSuccess: (data) => {
       setUser(data)
     },
-    //initialData: initialUser
   })
-  */
 
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(initialUser)
 
   return (
     <AuthContext.Provider
       value={{
         user,
         setUser,
-        //isLoading
+        isLoading
       }}
     >
       {children}

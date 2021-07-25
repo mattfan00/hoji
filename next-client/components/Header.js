@@ -1,8 +1,11 @@
 import { Button } from "../ui"
+import { useAuth } from "../contexts/auth"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import classNames from "classnames"
 
 const Header = ({ profile }) => {
+  const { user } = useAuth()
+
   return (
     <header className="sticky top-0 bg-white z-20 w-screen px-8">
       <div 

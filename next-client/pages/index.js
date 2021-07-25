@@ -1,5 +1,3 @@
-import { serverQuery } from "../lib/axios"
-
 const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -26,16 +24,6 @@ const Home = () => {
       </footer>
     </div>
   )
-}
-
-export const getServerSideProps = async (ctx) => {
-  const { data: user } = await serverQuery(ctx).get(`/auth/me`)
-
-  return {
-    props: {
-      user: user || null,
-    }
-  }
 }
 
 export default Home
