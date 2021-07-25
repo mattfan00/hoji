@@ -1,18 +1,15 @@
 import Head from "next/head"
 import { QueryClientProvider } from "react-query"
 import { queryClient } from "../lib/query"
-import axios from "axios"
+import { AuthProvider } from "../contexts/auth"
 
 import "../styles/global.css"
 import "../fontawesome"
 
-const BASE_URL = "http://localhost:8080"
-
-axios.defaults.baseURL = BASE_URL
-axios.defaults.headers.post['Content-Type'] = 'application/json'
-axios.defaults.withCredentials = true
-
-const MyApp = ({ Component, pageProps }) => {
+const MyApp = ({ 
+  Component, 
+  pageProps, 
+}) => {
   return (
     <>
       <Head>
@@ -20,7 +17,9 @@ const MyApp = ({ Component, pageProps }) => {
       </Head>
 
       <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
+        <AuthProvider initialUser={pageProps.user}>
+          <Component {...pageProps} />
+        </AuthProvider>
       </QueryClientProvider>
     </>
   )

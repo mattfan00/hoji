@@ -1,8 +1,9 @@
 import { QueryClient } from "react-query"
-import axios from "axios"
+import { clientQuery } from "./axios"
+
 
 export const fetcher = async ({ queryKey }) => {
-  const { data } = await axios.get(queryKey)
+  const { data } = await clientQuery().get(queryKey[0])
   return data
 }
 

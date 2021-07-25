@@ -3,7 +3,7 @@ import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 import Entry from "../../components/Entry"
 import PageWrapper from "../../components/PageWrapper"
-import { fetcher } from "../../lib/query"
+import { serverQuery } from "../../lib/axios"
 
 const EntryView = ({ entry }) => {
   return (
@@ -29,10 +29,10 @@ const EntryView = ({ entry }) => {
   )
 }
 
-export const getServerSideProps = async ({ params }) => {
-  const { id } = params
+export const getServerSideProps = async (ctx) => {
+  const { id } = ctx.params
 
-  const entry = await fetcher({ queryKey: `/entry/${id}`})
+  const { data: entry } = await serverQuery(ctx).get(`/entry/${id}`)
 
   return {
     props: {

@@ -2,7 +2,7 @@ import Head from "next/head"
 import Header from "../../components/Header"
 import PageWrapper from "../../components/PageWrapper"
 import Entry from "../../components/Entry"
-import { fetcher } from "../../lib/query"
+import { serverQuery } from "../../lib/axios"
 
 const Profile = ({ profile }) => {
   return (
@@ -24,14 +24,14 @@ const Profile = ({ profile }) => {
   )
 }
 
-export const getServerSideProps = async ({ params }) => {
-  const { username } = params
+export const getServerSideProps = async (ctx) => {
+  const { username } = ctx.params
 
-  const profile = await fetcher({ queryKey: `/user/${username}` })
+  const { data: profile } = await serverQuery(ctx).get(`/user/${username}`)
 
   return {
     props: {
-      profile
+      profile,
     }
   }
 }
