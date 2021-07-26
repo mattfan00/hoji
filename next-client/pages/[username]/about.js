@@ -1,10 +1,9 @@
 import Head from "next/head"
 import Header from "../../components/Header"
 import PageWrapper from "../../components/PageWrapper"
-import Entry from "../../components/Entry"
 import { serverQuery } from "../../lib/axios"
 
-const Profile = ({ profile }) => {
+const About = ({ profile }) => {
   return (
     <>
       <Head>
@@ -12,13 +11,8 @@ const Profile = ({ profile }) => {
       </Head>
       <Header profile={profile} />
       <PageWrapper>
-        {profile.entries.map((entry) => (
-          <Entry
-            key={entry.id}
-            entry={entry}
-            expanded={false}
-          />
-        ))}
+        <h2>About Me</h2>
+        <p>{profile.description}</p>
       </PageWrapper>
     </>
   )
@@ -37,4 +31,4 @@ export const getServerSideProps = async ({ req, params }) => {
   }
 }
 
-export default Profile
+export default About

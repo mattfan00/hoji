@@ -1,5 +1,6 @@
 import { Button, Dropdown } from "../ui"
 import { useAuth } from "../contexts/auth"
+import NextLink from "../components/NextLink"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import classNames from "classnames"
 
@@ -24,9 +25,16 @@ const Header = ({ profile }) => {
           </div>
           ) : ""}
           <div className="flex items-baseline">
-            <h3>{profile.name}</h3>
+            <NextLink href={`/${profile.username}`}>
+              <h3>{profile.name}</h3>
+            </NextLink>
             <div className="ml-6">
-              <div className="text-gray-500">About</div>
+              <NextLink 
+                href={`/${profile.username}/about`}
+                className="text-gray-500"
+              >
+                About
+              </NextLink>
             </div>
           </div>
         </div>

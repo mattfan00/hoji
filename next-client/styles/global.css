@@ -5,6 +5,7 @@
 body {
   @apply font-sans pt-12;
   line-height: 1.6;
+  /*letter-spacing: -.01em*/
 }
 
 h1 {
