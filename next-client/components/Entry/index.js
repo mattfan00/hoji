@@ -37,7 +37,7 @@ const Entry = ({
           href={`/${author.username}`} 
           onClick={(e) => e.stopPropagation()}
         >
-          <a className="mr-3 font-semibold hover:underline flex items-center">
+          <a className="mr-3 font-semibold text-sm hover:underline flex items-center">
             {/*
             <div className="mr-2 w-6 h-6 rounded-full overflow-hidden">
               {author.avatar ? (
@@ -52,7 +52,7 @@ const Entry = ({
         </Link> 
         ) : ""}
 
-        <div className="text-gray-400">{dateFormat()}</div>
+        <div className="text-gray-400 text-sm">{dateFormat()}</div>
       </div>
 
       {/* display post */}

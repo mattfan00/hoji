@@ -19,13 +19,13 @@ const Footer = ({
           </NextLink>
           <NextLink 
             href={`/${author.username}`}
-            className="mr-8 text-gray-400"
+            className="mr-8 text-gray-500"
           >
             Back to profile 
           </NextLink>
           <NextLink 
             href={user ? `/${user.username}` : "/"}
-            className="mr-8 text-gray-400"
+            className="mr-8 text-gray-500"
           >
               {user ? "Me" : "Login"}
           </NextLink>
