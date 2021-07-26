@@ -44,11 +44,11 @@ const Header = ({ profile }) => {
             <Dropdown.Items 
               direction="left"
             >
-              <Dropdown.Item>
-                <div>hey</div>
+              <Dropdown.Item href="/">
+                hey
               </Dropdown.Item>
-              <Dropdown.Item>
-                <div>whats up</div>
+              <Dropdown.Item onClick={() => console.log("hey")}>
+                whats up
               </Dropdown.Item>
             </Dropdown.Items>
           </Dropdown>
