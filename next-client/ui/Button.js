@@ -1,9 +1,9 @@
 import classNames from "classnames"
 
-export function Button({
+export const Button = ({
   children,
   className = "",
-}) {
+}) => {
   return (
     <button 
       className={classNames("btn", className)}

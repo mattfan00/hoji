@@ -1,4 +1,4 @@
-import { Button } from "../ui"
+import { Button, Dropdown } from "../ui"
 import { useAuth } from "../contexts/auth"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import classNames from "classnames"
@@ -36,9 +36,22 @@ const Header = ({ profile }) => {
           <Button className="mr-2">
             <FontAwesomeIcon icon={["fas", "bookmark"]} size="sm" />
           </Button>
-          <Button>
-            <FontAwesomeIcon icon="bars" size="sm" />
-          </Button>
+          <Dropdown>
+            <Dropdown.Button>
+              <FontAwesomeIcon icon="bars" size="sm" />
+            </Dropdown.Button>
+
+            <Dropdown.Items 
+              direction="left"
+            >
+              <Dropdown.Item>
+                <div>hey</div>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <div>whats up</div>
+              </Dropdown.Item>
+            </Dropdown.Items>
+          </Dropdown>
         </div>
       </div>
 
