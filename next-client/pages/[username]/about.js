@@ -11,8 +11,15 @@ const About = ({ profile }) => {
       </Head>
       <Header profile={profile} />
       <PageWrapper>
-        <h2>About Me</h2>
-        <p>{profile.description}</p>
+        {profile.avatar ? (
+        <div className="ml-10 float-right w-32 h-32 rounded overflow-hidden">
+          <img className="object-cover w-full h-full" alt="Avatar" src={profile.avatar} />
+        </div>
+        ) : ""}
+        <div>
+          <h2>About Me</h2>
+          <p>{profile.description}</p>
+        </div>
       </PageWrapper>
     </>
   )

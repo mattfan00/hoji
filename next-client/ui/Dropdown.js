@@ -38,7 +38,7 @@ export const DropdownItem = ({
   href,
   onClick,
 }) => {
-  const style = "block px-4 py-1.5 font-semibold text-xs rounded cursor-pointer transition-colors"
+  const style = "block px-3 py-1.5 font-semibold text-xs rounded cursor-pointer transition-colors"
 
   return (
     <Menu.Item>

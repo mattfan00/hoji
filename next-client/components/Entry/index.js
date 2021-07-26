@@ -28,7 +28,7 @@ const Entry = ({
 
   return (
     <div 
-      className={classNames("mb-12", { "cursor-pointer": !expanded })}
+      className={classNames("mb-8", { "cursor-pointer": !expanded })}
       onClick={onClick}
     >
       <div className="flex mb-2 items-center">

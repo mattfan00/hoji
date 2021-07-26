@@ -19,11 +19,6 @@ const Header = ({ profile }) => {
       >
         {profile ? (
         <div className="flex flex-1 items-center">
-          {profile.avatar ? (
-          <div className="w-11 h-11 rounded overflow-hidden mr-4">
-            <img className="object-cover w-full h-full" alt="Avatar" src={profile.avatar} />
-          </div>
-          ) : ""}
           <div className="flex items-baseline">
             <NextLink href={`/${profile.username}`}>
               <h3>{profile.name}</h3>
@@ -41,9 +36,18 @@ const Header = ({ profile }) => {
         ) : ""}
 
         <div>
-          <Button className="mr-2">
-            <FontAwesomeIcon icon={["fas", "bookmark"]} size="sm" />
-          </Button>
+          {user ? (
+            user.username === profile.username ? (
+              <Button href="/entry/new" className="mr-2">
+              <FontAwesomeIcon icon="plus" size="sm" />
+            </Button>
+            ) : (
+            <Button className="mr-2">
+              <FontAwesomeIcon icon={["fas", "bookmark"]} size="sm" />
+            </Button>
+            )
+          ) : ""}
+
           <Dropdown>
             <Dropdown.Button>
               <FontAwesomeIcon icon="bars" size="sm" />
@@ -53,11 +57,34 @@ const Header = ({ profile }) => {
               direction="left"
             >
               <Dropdown.Item href="/">
-                hey
+                <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
+                Home
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => console.log("hey")}>
-                whats up
-              </Dropdown.Item>
+              {user ? (
+                <>
+                <Dropdown.Item>
+                  <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
+                  Profile
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
+                  Bookmarks
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
+                  Settings
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
+                  Logout
+                </Dropdown.Item>
+                </>
+              ) : (
+                <Dropdown.Item>
+                  <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
+                  Login
+                </Dropdown.Item>
+              )}
             </Dropdown.Items>
           </Dropdown>
         </div>

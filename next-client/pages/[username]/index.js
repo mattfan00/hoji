@@ -12,7 +12,7 @@ const Profile = ({ profile }) => {
       </Head>
       <Header profile={profile} />
       <PageWrapper>
-        {profile.entries.map((entry) => (
+        {profile.entries?.map((entry) => (
           <Entry
             key={entry.id}
             entry={entry}

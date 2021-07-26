@@ -13,9 +13,8 @@ const Footer = ({
         <>
           <NextLink 
             href="/"
-            className="w-10 mr-8"
           >
-            <Logo />
+            <Logo className="w-10 mr-8" />
           </NextLink>
           <NextLink 
             href={`/${author.username}`}
