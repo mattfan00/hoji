@@ -2,7 +2,7 @@ import Head from "next/head"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 import Entry from "../../components/Entry"
-import PageWrapper from "../../components/PageWrapper"
+import ContentWrapper from "../../components/ContentWrapper"
 import { serverQuery } from "../../lib/axios"
 
 const EntryView = ({ entry }) => {
@@ -14,17 +14,16 @@ const EntryView = ({ entry }) => {
       {/*
       <Header profile={entry.user} />
       */}
-      <PageWrapper>
+      <ContentWrapper>
         <Entry
           entry={entry}
           author={entry.user}
           expanded={true}
-          community={true}
         />
         <Footer 
           author={entry.user}
         />
-      </PageWrapper>
+      </ContentWrapper>
     </>
   )
 }

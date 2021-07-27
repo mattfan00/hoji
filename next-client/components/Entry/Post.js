@@ -6,6 +6,16 @@ import Leaf from "../Slab/Leaf"
 import Element from "../Slab/Element"
 import classNames from "classnames"
 
+const TitleWrapper = ({ children, expanded }) => {
+  return (
+    expanded ? (
+    <h1 className="mb-20 break-words">{children}</h1>
+    ) : (
+    <div className="mb-1 break-words font-semibold">{children}</div>
+    )
+  )
+}
+
 const Post = ({ 
   title,
   content,
@@ -19,7 +29,7 @@ const Post = ({
   return (
     <>
       {title ? (
-        <h2 className="mb-4 break-words">{title}</h2>
+      <TitleWrapper expanded={expanded}>{title}</TitleWrapper>
       ) : ""}
 
       <div className={classNames("relative", { "collapsed": !expanded })}>

@@ -1,6 +1,6 @@
 import Head from "next/head"
 import Header from "../../components/Header"
-import PageWrapper from "../../components/PageWrapper"
+import ContentWrapper from "../../components/ContentWrapper"
 import Entry from "../../components/Entry"
 import { serverQuery } from "../../lib/axios"
 
@@ -10,9 +10,10 @@ const Profile = ({ profile }) => {
       <Head>
         <title>{profile.name} | hoji</title>
       </Head>
-      <PageWrapper>
-        <Header profile={profile} />
 
+      <Header profile={profile} />
+
+      <ContentWrapper>
         {profile.entries?.map((entry) => (
           <Entry
             key={entry.id}
@@ -20,7 +21,7 @@ const Profile = ({ profile }) => {
             expanded={false}
           />
         ))}
-      </PageWrapper>
+      </ContentWrapper>
     </>
   )
 }

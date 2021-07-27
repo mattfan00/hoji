@@ -46,7 +46,7 @@ const Element = ({
         </a>
       )
     case 'heading':
-      return <h3 {...attributes} className="mt-8">{children}</h3>
+      return <h2 {...attributes} className="mt-8">{children}</h2>
     case 'bulleted-list':
       return <ul {...attributes}>{children}</ul>
     case 'numbered-list':

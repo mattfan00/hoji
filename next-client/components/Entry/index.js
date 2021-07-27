@@ -8,7 +8,6 @@ const Entry = ({
   entry,
   author,
   expanded,
-  community,
 }) => {
   const router = useRouter()
 
@@ -31,8 +30,8 @@ const Entry = ({
       className={classNames("mb-8", { "cursor-pointer": !expanded })}
       onClick={onClick}
     >
-      <div className="flex mb-2 items-center">
-        {community ? (
+      <div className={classNames("flex items-center", expanded ? "mb-14" : "mb-1")}>
+        {expanded ? (
         <Link 
           href={`/${author.username}`} 
           onClick={(e) => e.stopPropagation()}
