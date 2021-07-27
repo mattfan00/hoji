@@ -10,8 +10,9 @@ const Profile = ({ profile }) => {
       <Head>
         <title>{profile.name} | hoji</title>
       </Head>
-      <Header profile={profile} />
       <PageWrapper>
+        <Header profile={profile} />
+
         {profile.entries?.map((entry) => (
           <Entry
             key={entry.id}

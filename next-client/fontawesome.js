@@ -5,6 +5,14 @@ import {
   faBookmark as faBookmarkSolid,
   faBars,
   faPlus,
+  faBold,
+  faItalic,
+  faUnderline,
+  faCode,
+  faHeading,
+  faListOl,
+  faListUl,
+  faQuoteRight,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -16,4 +24,12 @@ library.add(
   faBookmarkRegular,
   faBars,
   faPlus,
+  faBold,
+  faItalic,
+  faUnderline,
+  faCode,
+  faHeading,
+  faListOl,
+  faListUl,
+  faQuoteRight,
 )

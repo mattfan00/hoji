@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply font-sans pt-12;
+  @apply font-sans;
   line-height: 1.6;
   /*letter-spacing: -.01em*/
 }
@@ -60,6 +60,22 @@ code {
     focus-visible:ring-2
     hover:bg-gray-200
     transition-colors
+}
+
+.btn-text {
+  @apply bg-white hover:bg-gray-100 !important
+}
+
+.btn.disabled {
+  @apply cursor-default pointer-events-none opacity-50;
+}
+
+.btn.active {
+  @apply bg-gray-200;
+}
+
+.btn-text.active {
+  @apply bg-gray-100 !important;
 }
 
 .prose {

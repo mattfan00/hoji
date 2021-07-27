@@ -1,7 +1,7 @@
 import React, { useRef } from "react"
 import { useMutation } from "react-query"
 import { useSlate } from "slate-react"
-import Button from "../../Button"
+import { Button } from "../../../ui"
 import { insertImage, isBlockActive } from "../Utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { BiImage } from "react-icons/bi"

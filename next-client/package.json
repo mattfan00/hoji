@@ -14,15 +14,18 @@
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
     "dayjs": "^1.10.6",
+    "formik": "^2.2.9",
     "image-extensions": "^1.1.0",
     "is-url": "^1.2.4",
     "next": "latest",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.2.0",
     "react-query": "^3.19.0",
     "slate": "^0.63.0",
     "slate-history": "^0.62.0",
-    "slate-react": "^0.65.2"
+    "slate-react": "^0.65.2",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",

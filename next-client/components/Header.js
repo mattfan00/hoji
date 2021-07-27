@@ -8,7 +8,7 @@ const Header = ({ profile }) => {
   const { user } = useAuth()
 
   return (
-    <header className="sticky top-0 bg-white z-20 w-screen px-8">
+    <header className="sticky top-0 bg-white z-20">
       <div 
         className={
           classNames(
@@ -36,7 +36,7 @@ const Header = ({ profile }) => {
         ) : ""}
 
         <div>
-          {user ? (
+          {user && profile ? (
             user.username === profile.username ? (
               <Button href="/entry/new" className="mr-2">
               <FontAwesomeIcon icon="plus" size="sm" />

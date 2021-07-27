@@ -1,9 +1,8 @@
-import React from "react"
 import { useSlate } from "slate-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import Button from "../../Button"
+import { Button } from "../../../ui"
 import Media from "./Media"
-import Link from "./Link"
+//import Link from "./Link"
 import { isInlineActive, toggleInline, isBlockActive, toggleBlock } from "../Utils"
 import { BiCodeBlock, BiHeading } from "react-icons/bi"
 
@@ -31,18 +30,16 @@ const Toolbar = () => {
         <Button
           key={format}
           variant="text"
-          size="sm"
+          //size="sm"
           className="mr-1"
           active={isInlineActive(editor, format)}
-          disabled={isBlockActive(editor, "image")}
+          //disabled={isBlockActive(editor, "image")}
           onMouseDown={(e) => {
             e.preventDefault()
             toggleInline(editor, format)
           }}
         >{label}</Button>
       ))}
-
-      <Link />
 
       {BLOCK_STYLES.map(({ label, format }) => (
         <Button

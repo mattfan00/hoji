@@ -4,13 +4,13 @@ import { Slate, Editable } from "slate-react"
 import isHotkey from "is-hotkey"
 import Element from "./Element"
 import Leaf from "./Leaf"
-import Toolbar from "./Toolbar/"
+import Toolbar from "./Toolbar"
 import withSlab from "./withSlab"
 import { HOTKEYS, toggleInline } from "./Utils"
 
 const Slab = ({
-  value,
-  setValue,
+  content,
+  setContent,
 }) => {
   const editor = useMemo(() => withSlab(createEditor()), [])
 
@@ -20,8 +20,8 @@ const Slab = ({
   return (
     <Slate
       editor={editor}
-      value={value}
-      onChange={newValue => setValue(newValue)}
+      value={content}
+      onChange={newValue => setContent(newValue)}
     >
       <Toolbar />
       <Editable 
