@@ -48,6 +48,11 @@ code {
   @apply block font-mono text-xs bg-gray-100 p-4;
 }
 
+.custom-input[placeholder]:empty:before {
+  content: attr(placeholder);
+  opacity: 0.333;
+}
+
 /*==============================================*/
   
 .btn {
