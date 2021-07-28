@@ -13,6 +13,7 @@ import {
   faListOl,
   faListUl,
   faQuoteRight,
+  faSignInAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -32,4 +33,5 @@ library.add(
   faListOl,
   faListUl,
   faQuoteRight,
+  faSignInAlt,
 )

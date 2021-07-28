@@ -1,11 +1,22 @@
+import { useRouter } from "next/router"
+import { useMutation } from "react-query"
 import { Button, Dropdown } from "../ui"
 import { useAuth } from "../contexts/auth"
 import NextLink from "../components/NextLink"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Logo from "../icons/Logo"
+import { clientQuery } from "../lib/axios"
 
 const Header = ({ profile }) => {
-  const { user } = useAuth()
+  const { user, setUser } = useAuth()
+  const router = useRouter()
+
+  const logoutMutation = useMutation(() => clientQuery().post("/auth/logout"), {
+    onSuccess: () => {
+      setUser(null)
+      router.push("/")
+    }
+  })
 
   return (
     <header className="w-screen px-8">
@@ -15,6 +26,7 @@ const Header = ({ profile }) => {
             <Logo className="w-8" />
           </NextLink>
           <div>
+            {user ? (
             <Dropdown>
               <Dropdown.Button>
                 <FontAwesomeIcon icon="bars" size="sm" />
@@ -23,37 +35,35 @@ const Header = ({ profile }) => {
               <Dropdown.Items 
                 direction="left"
               >
-                <Dropdown.Item href="/">
+                <>
+                <Dropdown.Item>
                   <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
-                  Home
+                  Profile
                 </Dropdown.Item>
-                {user ? (
-                  <>
-                  <Dropdown.Item>
-                    <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
-                    Profile
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
-                    Bookmarks
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
-                    Settings
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
-                    Logout
-                  </Dropdown.Item>
-                  </>
-                ) : (
-                  <Dropdown.Item>
-                    <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
-                    Login
-                  </Dropdown.Item>
-                )}
+                <Dropdown.Item href="/entry/new">
+                  <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
+                  Write an entry
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
+                  Bookmarks
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
+                  Settings
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => logoutMutation.mutate()}>
+                  <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
+                  Logout
+                </Dropdown.Item>
+                </>
               </Dropdown.Items>
             </Dropdown>
+            ) : (
+            <Button href="/login">
+              <FontAwesomeIcon icon="sign-in-alt" size="sm" />
+            </Button>
+            )}
           </div>
         </div>
 

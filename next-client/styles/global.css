@@ -59,7 +59,8 @@ code {
   @apply
     bg-gray-100
     font-semibold
-    px-3 py-1
+    px-3 py-1.5
+    text-sm
     rounded
     focus:outline-none
     focus-visible:ring-2
