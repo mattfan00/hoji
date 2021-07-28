@@ -84,6 +84,10 @@ code {
   @apply bg-gray-100 !important;
 }
 
+.input {
+  @apply border border-solid rounded-md px-3 py-1.5 focus:outline-none
+}
+
 .prose {
   /*
   @apply text-gray-700;

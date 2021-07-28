@@ -7,14 +7,16 @@ export const Button = ({
   className,
   variant,
   active,
+  disabled,
   onClick,
   onMouseDown,
 }) => {
   const style = classNames(
     "btn",
     variant ? `btn-${variant}` : "",
-    className,
     { "active": active },
+    { "disabled": disabled },
+    className,
   )
 
   return (
