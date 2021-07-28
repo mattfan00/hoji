@@ -9,7 +9,7 @@ const Header = ({ profile }) => {
 
   return (
     <header className="w-screen px-8">
-      <div className="max-w-4xl mx-auto py-6">
+      <div className="max-w-2xl mx-auto py-6">
         <div className="flex items-center justify-between">
           <NextLink href="/">
             <Logo className="w-8" />

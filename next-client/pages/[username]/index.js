@@ -14,13 +14,14 @@ const Profile = ({ profile }) => {
       <Header profile={profile} />
 
       <ContentWrapper>
-        {profile.entries?.map((entry) => (
-          <Entry
-            key={entry.id}
-            entry={entry}
-            expanded={false}
-          />
-        ))}
+          {profile.entries?.map((entry) => (
+            <Entry
+              key={entry.id}
+              entry={entry}
+              expanded={false}
+            />
+          ))}
+
       </ContentWrapper>
     </>
   )

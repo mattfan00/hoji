@@ -30,7 +30,7 @@ const Entry = ({
       className={classNames("mb-8", { "cursor-pointer": !expanded })}
       onClick={onClick}
     >
-      <div className={classNames("flex items-center", expanded ? "mb-14" : "mb-1")}>
+      <div className={classNames("flex items-center", expanded ? "mb-10" : "mb-1")}>
         {expanded ? (
         <Link 
           href={`/${author.username}`} 
