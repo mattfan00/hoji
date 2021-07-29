@@ -40,7 +40,7 @@ const Header = ({
                 direction="left"
               >
                 <>
-                <Dropdown.Item>
+                <Dropdown.Item href={`/${user.username}`}>
                   <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
                   Profile
                 </Dropdown.Item>
@@ -54,7 +54,7 @@ const Header = ({
                   Bookmarks
                 </Dropdown.Item>
                 */}
-                <Dropdown.Item>
+                <Dropdown.Item href="/settings">
                   <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
                   Settings
                 </Dropdown.Item>
