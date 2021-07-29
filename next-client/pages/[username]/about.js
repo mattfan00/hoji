@@ -1,6 +1,7 @@
 import Head from "next/head"
 import Header from "../../components/Header"
 import ContentWrapper from "../../components/ContentWrapper"
+import AboutPage from "../../modules/profile/AboutPage"
 import { serverQuery } from "../../lib/axios"
 
 const About = ({ profile }) => {
@@ -13,16 +14,7 @@ const About = ({ profile }) => {
       <Header profile={profile} />
 
       <ContentWrapper>
-
-        {profile.avatar ? (
-        <div className="ml-10 float-right w-32 h-32 rounded overflow-hidden">
-          <img className="object-cover w-full h-full" alt="Avatar" src={profile.avatar} />
-        </div>
-        ) : ""}
-        <div>
-          <h2>About</h2>
-          <p>{profile.description}</p>
-        </div>
+        <AboutPage profile={profile} />
       </ContentWrapper>
     </>
   )

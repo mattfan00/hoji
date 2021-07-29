@@ -14,7 +14,7 @@ const Settings = () => {
       <Header />
 
       <WaitForAuth>
-        <ContentWrapper>
+        <ContentWrapper> 
           <SettingsPage />
         </ContentWrapper>
       </WaitForAuth>

@@ -1,4 +1,4 @@
-import EntryBuilder from "../../components/EntryBuilder"
+import NewEntryPage from "../../modules/entry/NewEntryPage"
 import WaitForAuth from "../../components/WaitForAuth"
 
 const NewEntry = () => {
@@ -6,7 +6,7 @@ const NewEntry = () => {
     <WaitForAuth>
       <div className="w-screen h-screen px-8">
         <div className="max-w-2xl mx-auto h-full">
-          <EntryBuilder />
+          <NewEntryPage />
         </div>
       </div>
     </WaitForAuth>

@@ -1,26 +1,10 @@
 import Head from "next/head"
 import Header from "../../components/Header"
 import ContentWrapper from "../../components/ContentWrapper"
-import Entry from "../../components/Entry"
+import ProfilePage from "../../modules/profile/ProfilePage"
 import { serverQuery } from "../../lib/axios"
-import { useQuery } from "react-query"
-import { useAuth } from "../../contexts/auth"
 
 const Profile = ({ profile }) => {
-  const { isLoading, user } = useAuth()
-
-  /*
-  const { data: bookmarks, isLoading: isBookmarksLoading } = useQuery(`/bookmark`, {
-    enabled: (!isLoading && user) ? true : false
-  })
-  */
-
-  const checkBookmark = () => {
-    return bookmarks?.find((bookmark) => (
-      profile.id === bookmark.bookmark_user.id
-    )) ? true : false
-  } 
-
   return (
     <>
       <Head>
@@ -33,14 +17,7 @@ const Profile = ({ profile }) => {
       />
 
       <ContentWrapper>
-          {profile.entries?.map((entry) => (
-            <Entry
-              key={entry.id}
-              entry={entry}
-              expanded={false}
-            />
-          ))}
-
+        <ProfilePage profile={profile} />
       </ContentWrapper>
     </>
   )

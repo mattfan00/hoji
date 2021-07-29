@@ -1,8 +1,6 @@
 import Head from "next/head"
-import Header from "../../components/Header"
-import Footer from "../../components/Footer"
-import Entry from "../../components/Entry"
 import ContentWrapper from "../../components/ContentWrapper"
+import EntryPage from "../../modules/entry/EntryPage"
 import { serverQuery } from "../../lib/axios"
 
 const EntryView = ({ entry }) => {
@@ -11,18 +9,9 @@ const EntryView = ({ entry }) => {
       <Head>
         <title>{entry.user.name} | hoji</title>
       </Head>
-      {/*
-      <Header profile={entry.user} />
-      */}
+
       <ContentWrapper>
-        <Entry
-          entry={entry}
-          author={entry.user}
-          expanded={true}
-        />
-        <Footer 
-          author={entry.user}
-        />
+        <EntryPage entry={entry} />
       </ContentWrapper>
     </>
   )
