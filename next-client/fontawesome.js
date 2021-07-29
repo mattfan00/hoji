@@ -14,6 +14,7 @@ import {
   faListUl,
   faQuoteRight,
   faSignInAlt,
+  faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -34,4 +35,5 @@ library.add(
   faListUl,
   faQuoteRight,
   faSignInAlt,
+  faExclamationTriangle,
 )

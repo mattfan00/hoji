@@ -8,8 +8,7 @@ export const Button = ({
   variant,
   active,
   disabled,
-  onClick,
-  onMouseDown,
+  ...rest
 }) => {
   const style = classNames(
     "btn",
@@ -26,6 +25,7 @@ export const Button = ({
     >
       <button
         className={style}
+        {...rest}
       >
         {children}
       </button>
@@ -33,8 +33,7 @@ export const Button = ({
     ) : (
     <button 
       className={style}
-      onClick={onClick}
-      onMouseDown={onMouseDown}
+      {...rest}
     >
       {children}
     </button>

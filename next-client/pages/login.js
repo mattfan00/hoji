@@ -32,7 +32,7 @@ const Login = () => {
   return (
     <>
       <Head>
-        <title>Login</title>
+        <title>Login | hoji</title>
       </Head>
 
       <Header />
