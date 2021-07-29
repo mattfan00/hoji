@@ -3,20 +3,24 @@ import { useMutation } from "react-query"
 import { Button, Dropdown } from "../ui"
 import { useAuth } from "../contexts/auth"
 import NextLink from "../components/NextLink"
+import ProfileHeader from "../components/ProfileHeader"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Logo from "../icons/Logo"
 import { clientQuery } from "../lib/axios"
 
-const Header = ({ profile }) => {
-  const { user, setUser } = useAuth()
-  const router = useRouter()
-
+const Header = ({ 
+  profile,
+  isBookmark
+}) => {
   const logoutMutation = useMutation(() => clientQuery().post("/auth/logout"), {
     onSuccess: () => {
       setUser(null)
       router.push("/")
     }
   })
+
+  const { user, setUser } = useAuth()
+  const router = useRouter()
 
   return (
     <header className="w-screen px-8">
@@ -44,10 +48,12 @@ const Header = ({ profile }) => {
                   <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
                   Write an entry
                 </Dropdown.Item>
+                {/*
                 <Dropdown.Item>
                   <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
                   Bookmarks
                 </Dropdown.Item>
+                */}
                 <Dropdown.Item>
                   <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
                   Settings
@@ -68,21 +74,10 @@ const Header = ({ profile }) => {
         </div>
 
         {profile ? (
-        <div className="pt-24">
-          <div className="flex flex-col">
-            <h1>{profile.name}</h1>
-            <div className="pt-2 text-gray-500">
-              <NextLink 
-                href={`/${profile.username}`}
-                className="mr-4"
-              >Blog</NextLink>
-              <NextLink 
-                href={`/${profile.username}/about`}
-                className="mr-4"
-              >About</NextLink>
-            </div>
-          </div>
-        </div>
+        <ProfileHeader
+          profile={profile}
+          isBookmark={isBookmark}
+        />
         ) : ""}
       </div>
 
