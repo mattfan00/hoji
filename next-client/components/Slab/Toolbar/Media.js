@@ -30,8 +30,7 @@ const Media = () => {
   return (
     <>
       <Button
-        variant="text"
-        size="sm"
+        variant="ghost"
         className="mr-1"
         onClick={showFileBrowser}
         disabled={isBlockActive(editor, "image")}

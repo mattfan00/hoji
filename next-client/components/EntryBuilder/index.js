@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useRouter } from "next/router"
-import { useMutation } from "react-query"
+import { useQuery, useMutation } from "react-query"
 import { emptyBlock, trimEnd, hasText } from "../Slab/Utils" 
 import { Button } from "../../ui"
 import NextLink from "../../components/NextLink"
@@ -12,11 +12,20 @@ import Post from "./Post"
 const EntryBuilder = ({ editing }) => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState(() => emptyBlock())
+  const initialTitle = useRef(null)
   const { user } = useAuth()
   const router = useRouter()
+  const { id } = router.query
 
   const submitMutation = useMutation(newEntry => clientQuery().post("/entry", newEntry), {
     onSuccess: () => {
+      router.push(`/${user.username}`)
+    }
+  })
+
+  const updateMutation = useMutation(updatedEntry => clientQuery().put(`/entry/${id}`, updatedEntry), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(`/user/${user.username}`)
       router.push(`/${user.username}`)
     }
   })
@@ -33,6 +42,24 @@ const EntryBuilder = ({ editing }) => {
     submitMutation.mutate(body)
   }
 
+  const { data: entry, isLoading } = useQuery(`/entry/${id}`, {
+    enabled: editing ? true : false,
+    onSuccess: (data) => {
+      // check if user is allowed to edit the entry
+      if (user.id != data.user_id) {
+        router.push(`/entry/${id}`)
+      }
+
+      setTitle(data.title || "")
+      initialTitle.current = data.title || ""
+      setContent(JSON.parse(data.content))
+    }
+  }) 
+
+  if (editing && isLoading) {
+    return <></>
+  }
+
   return (
     <> 
       <div className="pt-12 pb-32">
@@ -40,6 +67,7 @@ const EntryBuilder = ({ editing }) => {
           content={content}
           setContent={setContent}
           onTitleChange={handleTitleChange} 
+          initialTitle={initialTitle.current}
         />
       </div>
 

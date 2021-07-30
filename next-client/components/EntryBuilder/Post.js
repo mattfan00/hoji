@@ -5,6 +5,7 @@ const Post = ({
   content,
   setContent,
   onTitleChange,
+  initialTitle,
 }) => {
   return (
     <>
@@ -12,7 +13,7 @@ const Post = ({
         className="mb-8"
         placeholder="give your entry a title..."
         onChange={(value) => onTitleChange(value)}
-        //initial={initialTitle}
+        initial={initialTitle}
         tagName="h2"
         charLimit={200}
       />

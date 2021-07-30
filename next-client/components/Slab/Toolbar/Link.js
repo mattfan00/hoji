@@ -43,8 +43,7 @@ const Link = ({
   return (
     <>
       <Button
-        variant="text"
-        size="sm"
+        variant="ghost"
         className="mr-1"
         active={isBlockActive(editor, "link")}
         onMouseDown={(e) => {

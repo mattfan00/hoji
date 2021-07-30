@@ -23,6 +23,7 @@ const ProfilePage = ({ profile }) => {
         <Entry
           key={entry.id}
           entry={entry}
+          author={profile}
           expanded={false}
         />
       ))}

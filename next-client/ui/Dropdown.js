@@ -1,16 +1,18 @@
+import React from "react"
 import { Menu } from "@headlessui/react"
 import NextLink from "../components/NextLink"
 import classNames from "classnames"
+import { Button } from "../ui"
 
 export const DropdownButton = ({ 
   children, 
-  className = "" 
+  ...rest
 }) => {
   return (
-    <Menu.Button 
-      className={classNames("btn", className)}
-    >
-      {children}
+    <Menu.Button as={React.Fragment}>
+      <Button {...rest}>
+        {children}
+      </Button>
     </Menu.Button>
   )
 }

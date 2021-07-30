@@ -15,10 +15,13 @@ import {
   faQuoteRight,
   faSignInAlt,
   faExclamationTriangle,
+  faEllipsisH, 
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
   faBookmark as faBookmarkRegular,
+  faEdit,
+  faTrashAlt,
 } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
@@ -36,4 +39,7 @@ library.add(
   faQuoteRight,
   faSignInAlt,
   faExclamationTriangle,
+  faEllipsisH, 
+  faEdit,
+  faTrashAlt,
 )

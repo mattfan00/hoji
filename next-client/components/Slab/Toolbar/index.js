@@ -29,8 +29,7 @@ const Toolbar = () => {
       {INLINE_STYLES.map(({ label, format }) => (
         <Button
           key={format}
-          variant="text"
-          //size="sm"
+          variant="ghost"
           className="mr-1"
           active={isInlineActive(editor, format)}
           //disabled={isBlockActive(editor, "image")}
@@ -44,8 +43,7 @@ const Toolbar = () => {
       {BLOCK_STYLES.map(({ label, format }) => (
         <Button
           key={format}
-          variant="text"
-          size="sm"
+          variant="ghost"
           className="mr-1"
           active={isBlockActive(editor, format)}
           disabled={isBlockActive(editor, "image")}

@@ -6,6 +6,7 @@ export const Button = ({
   href,
   className,
   variant,
+  size,
   active,
   disabled,
   ...rest
@@ -13,6 +14,7 @@ export const Button = ({
   const style = classNames(
     "btn",
     variant ? `btn-${variant}` : "",
+    size ? `btn-${size}` : "",
     { "active": active },
     { "disabled": disabled },
     className,
