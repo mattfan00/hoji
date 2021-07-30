@@ -39,7 +39,13 @@ const EntryBuilder = ({ editing }) => {
       content: JSON.stringify(trimEnd(content))
     }
 
-    submitMutation.mutate(body)
+    // if editing, then update
+    // else, submit a new entry
+    if (editing) {
+      updateMutation.mutate(body)
+    } else {
+      submitMutation.mutate(body)
+    }
   }
 
   const { data: entry, isLoading } = useQuery(`/entry/${id}`, {
