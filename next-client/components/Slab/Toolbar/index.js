@@ -2,9 +2,9 @@ import { useSlate } from "slate-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button } from "../../../ui"
 import Media from "./Media"
-//import Link from "./Link"
+import Link from "./Link"
 import { isInlineActive, toggleInline, isBlockActive, toggleBlock } from "../Utils"
-import { BiCodeBlock, BiHeading } from "react-icons/bi"
+import { BiCodeBlock } from "react-icons/bi"
 
 const INLINE_STYLES = [
   { label: <FontAwesomeIcon icon="bold" />, format: "bold" },
@@ -39,6 +39,8 @@ const Toolbar = () => {
           }}
         >{label}</Button>
       ))}
+
+      <Link />
 
       {BLOCK_STYLES.map(({ label, format }) => (
         <Button

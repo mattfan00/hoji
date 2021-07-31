@@ -9,8 +9,24 @@ export const Button = ({
   size,
   active,
   disabled,
+  onClick,
+  onMouseDown,
   ...rest
 }) => {
+  const handleClick = (e) => {
+    if (onClick) {
+      e.stopPropagation()
+      onClick(e)
+    }
+  }
+
+  const handleMouseDown = (e) => {
+    if (onMouseDown) {
+      e.stopPropagation()
+      onMouseDown(e)
+    }
+  }
+
   const style = classNames(
     "btn",
     variant ? `btn-${variant}` : "",
@@ -35,6 +51,8 @@ export const Button = ({
     ) : (
     <button 
       className={style}
+      onClick={handleClick}
+      onMouseDown={handleMouseDown}
       {...rest}
     >
       {children}

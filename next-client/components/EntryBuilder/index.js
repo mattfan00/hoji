@@ -78,7 +78,7 @@ const EntryBuilder = ({ editing }) => {
         />
       </div>
 
-      <div className="fixed bottom-0 left-0 z-20 bg-white w-full px-8">
+      <div className="fixed bottom-0 left-0 bg-white w-full px-8">
         <div className="flex items-center justify-between py-8 max-w-2xl mx-auto">
           <NextLink href={`/${user.username}`}>Cancel</NextLink>
           <Button

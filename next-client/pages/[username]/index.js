@@ -1,10 +1,19 @@
 import Head from "next/head"
+import { useRouter } from "next/router"
 import Header from "../../components/Header"
 import ContentWrapper from "../../components/ContentWrapper"
 import ProfilePage from "../../modules/profile/ProfilePage"
 import { serverQuery } from "../../lib/axios"
+import { useQuery } from "react-query"
 
 const Profile = ({ profile }) => {
+  const router = useRouter()
+  const { username } = router.query
+
+  const { data, isLoading: isProfileLoading } = useQuery(`/user/${username}`, {
+    initialData: profile
+  })
+
   return (
     <>
       <Head>
@@ -17,7 +26,7 @@ const Profile = ({ profile }) => {
       />
 
       <ContentWrapper>
-        <ProfilePage profile={profile} />
+        <ProfilePage profile={data} />
       </ContentWrapper>
     </>
   )

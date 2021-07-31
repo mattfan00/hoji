@@ -1,13 +1,12 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { ReactEditor, useSlate } from "slate-react"
 import { Transforms } from "slate"
 import { Formik, Form } from "formik"
 import * as Yup from "yup"
-import Button from "../../Button"
-import Input from "../../Input"
+import { Button, Modal } from "../../../ui"
+import FormInput from "../../../components/FormInput"
 import { isBlockActive, unwrapLink, insertLink } from "../Utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import Modal from "react-modal"
 
 const Link = ({
 }) => {
@@ -47,7 +46,8 @@ const Link = ({
         className="mr-1"
         active={isBlockActive(editor, "link")}
         onMouseDown={(e) => {
-          e.preventDefault()
+          //e.preventDefault()
+          console.log("mouse down")
 
           if (isBlockActive(editor, "link")) {
             unwrapLink(editor)
@@ -59,10 +59,8 @@ const Link = ({
       ><FontAwesomeIcon icon="link" /></Button>
 
       <Modal
-        closeTimeoutMS={250}
-        isOpen={showURLInput}
-        className="modal link"
-        overlayClassName="overlay"
+        open={showURLInput}
+        onClose={() => setShowURLInput(false)}
       >
         <Formik
           initialValues={{ url: "" }}
@@ -74,9 +72,8 @@ const Link = ({
           }}
         >
           <Form>
-            <Input 
+            <FormInput 
               name="url"
-              autoFocus 
             />
 
             <div className="flex justify-end mt-2">

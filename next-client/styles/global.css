@@ -84,7 +84,7 @@ code {
   @apply bg-gray-200;
 }
 
-.btn-text.active {
+.btn-ghost.active {
   @apply bg-gray-100 !important;
 }
 

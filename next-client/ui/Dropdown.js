@@ -29,6 +29,7 @@ export const DropdownItems = ({
         { "left-0": direction === "right", "right-0": direction === "left" },
         className
       )}
+      onClick={(e) => e.stopPropagation()}
     >
       {children}
     </Menu.Items>
