@@ -26,7 +26,7 @@ func Init() *pg.DB {
 
 	db.AddQueryHook(pgdebug.DebugHook{
 		// Print all queries.
-		Verbose: true,
+		//Verbose: true,
 	})
 
 	return db

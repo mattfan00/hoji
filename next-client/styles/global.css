@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply font-sans;
+  line-height: 1.6;
+  /*letter-spacing: -.02em*/
+}
+
+h1 {
+  @apply text-3xl font-semibold;
+}
+
+h2 {
+  @apply text-2xl font-semibold;
+}
+
+h3 {
+  @apply text-xl font-semibold;
+}
+
+h4 {
+  @apply text-lg font-semibold;
+}
+
+p {
+  @apply my-5
+}
+
+blockquote {
+  @apply pl-2 border-l-4 my-4;
+}
+
+ul {
+  @apply list-disc px-10 my-4;
+}
+
+ol {
+  @apply list-decimal px-10 my-4;
+}
+
+a.color {
+  @apply underline text-blue-400
+}
+
+code {
+  @apply block font-mono text-sm bg-gray-100 p-4;
+}
+
+.custom-input[placeholder]:empty:before {
+  content: attr(placeholder);
+  opacity: 0.333;
+}
+
+/*==============================================*/
+.code {
+  @apply 
+    font-mono
+    px-1
+    py-0.5
+    text-sm
+    rounded-sm
+    bg-gray-100
+    text-red-500
+}
+  
+.btn {
+  @apply
+    bg-gray-100
+    font-medium
+    px-3 py-1.5
+    text-sm
+    rounded
+    focus:outline-none
+    focus-visible:ring-2
+    hover:bg-gray-200
+    transition-colors
+}
+
+.btn-ghost {
+  @apply bg-white hover:bg-gray-100 !important
+}
+
+.btn-plain {
+  @apply bg-white hover:bg-white !important
+}
+
+.btn.disabled {
+  @apply cursor-default pointer-events-none opacity-50;
+}
+
+.btn.active {
+  @apply bg-gray-200;
+}
+
+.btn-ghost.active {
+  @apply bg-gray-100 !important;
+}
+
+.btn-sm {
+  @apply px-2 py-1 !important
+}
+
+.input {
+  @apply border border-solid rounded-md px-3 py-1.5 focus:outline-none
+}
+
+.prose {
+  /*
+  @apply text-gray-700;
+  */
+}
+
+.prose p { 
+  @apply first:mt-0;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4 { 
+  /*
+  @apply text-black;
+  */
+}
+
+.collapsed {
+  @apply overflow-hidden;
+  content: "";
+  max-height: 150px;
+}
+
+.collapsed:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  background: linear-gradient(transparent 70%, white);
+  pointer-events: none;
+}
