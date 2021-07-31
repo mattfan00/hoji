@@ -1,6 +1,7 @@
 import { useState, useRef } from "react"
 import { useRouter } from "next/router"
 import { useQuery, useMutation } from "react-query"
+import { queryClient } from "../../lib/query"
 import { emptyBlock, trimEnd, hasText } from "../Slab/Utils" 
 import { Button } from "../../ui"
 import NextLink from "../../components/NextLink"
