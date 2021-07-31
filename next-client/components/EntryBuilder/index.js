@@ -63,6 +63,10 @@ const EntryBuilder = ({ editing }) => {
     }
   }) 
 
+  const submitDisabled = () => {
+    return title === "" || !hasText(content) 
+  }
+
   if (editing && isLoading) {
     return <></>
   }
@@ -83,8 +87,7 @@ const EntryBuilder = ({ editing }) => {
           <NextLink href={`/${user.username}`}>Cancel</NextLink>
           <Button
             //variant="primary"
-            //className="w-full"
-            //disabled={submitDisabled()}
+            disabled={submitDisabled()}
             onClick={() => submit()}
           >{editing ? "Update" : "Submit"}</Button>
         </div>

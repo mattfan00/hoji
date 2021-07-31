@@ -41,11 +41,9 @@ const Header = ({
               >
                 <>
                 <Dropdown.Item href={`/${user.username}`}>
-                  <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
                   Profile
                 </Dropdown.Item>
                 <Dropdown.Item href="/entry/new">
-                  <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
                   Write an entry
                 </Dropdown.Item>
                 {/*
@@ -55,11 +53,9 @@ const Header = ({
                 </Dropdown.Item>
                 */}
                 <Dropdown.Item href="/settings">
-                  <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
                   Settings
                 </Dropdown.Item>
                 <Dropdown.Item onClick={() => logoutMutation.mutate()}>
-                  <FontAwesomeIcon icon={["far", "bookmark"]} className="mr-1.5 fa-fw" />
                   Logout
                 </Dropdown.Item>
                 </>

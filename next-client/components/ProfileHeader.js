@@ -20,7 +20,6 @@ const ProfileHeader = ({
     }
   }, [isBookmark])
 
-
   const toggleBookmark = async () => {
     setBookmark(!bookmark)
 
@@ -34,15 +33,15 @@ const ProfileHeader = ({
   return (
     <div className="pt-24">
       <div className="flex flex-col">
-        <h1>{profile.name}</h1>
-        <div className="pt-2 text-gray-500 flex">
+        <h2>{profile.name}</h2>
+        <div className="mt-1 text-gray-500 underline text-sm flex">
           <NextLink 
             href={`/${profile.username}`}
-            className="mr-4"
+            className="mr-3"
           >Blog</NextLink>
           <NextLink 
             href={`/${profile.username}/about`}
-            className="mr-4"
+            className="mr-3"
           >About</NextLink>
 
           {/* user && user.username !== profile.username ? (

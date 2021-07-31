@@ -5,7 +5,7 @@
 body {
   @apply font-sans;
   line-height: 1.6;
-  letter-spacing: -.02em
+  /*letter-spacing: -.02em*/
 }
 
 h1 {
@@ -41,11 +41,11 @@ ol {
 }
 
 a.color {
-  @apply hover:underline text-blue-400
+  @apply underline text-blue-400
 }
 
 code {
-  @apply block font-mono text-xs bg-gray-100 p-4;
+  @apply block font-mono text-sm bg-gray-100 p-4;
 }
 
 .custom-input[placeholder]:empty:before {
@@ -54,6 +54,16 @@ code {
 }
 
 /*==============================================*/
+.code {
+  @apply 
+    font-mono
+    px-1
+    py-0.5
+    text-sm
+    rounded-sm
+    bg-gray-100
+    text-red-500
+}
   
 .btn {
   @apply
