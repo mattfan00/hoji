@@ -18,6 +18,8 @@ func New() *echo.Echo {
 		AllowCredentials: true,
 	}))
 
+	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20)))
+
 	e.HTTPErrorHandler = errors.CustomHTTPErrorHandler
 
 	e.GET("/", func(c echo.Context) error {
