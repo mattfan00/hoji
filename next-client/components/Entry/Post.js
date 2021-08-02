@@ -9,7 +9,7 @@ import classNames from "classnames"
 const TitleWrapper = ({ children, expanded }) => {
   return (
     expanded ? (
-    <h1 className="mb-20 break-words">{children}</h1>
+    <h1 className="mb-10 break-words">{children}</h1>
     ) : (
     <div className="mb-1 break-words font-semibold">{children}</div>
     )

@@ -1,10 +1,12 @@
+import { useRouter } from "next/router"
 import { useState, useEffect } from "react"
 import { useMutation } from "react-query"
 import { useAuth } from "../contexts/auth"
 import NextLink from "../components/NextLink"
 import { clientQuery } from "../lib/axios"
+import classNames from "classnames"
 
-const ProfileHeader = ({ 
+const ProfileHeader = ({
   profile,
   isBookmark
 }) => {
@@ -13,6 +15,9 @@ const ProfileHeader = ({
 
   const [bookmark, setBookmark] = useState(null)
   const { user } = useAuth()
+  const router = useRouter()
+
+  const path = router.pathname.split("/").slice(-1)[0]
 
   useEffect(() => {
     if (isBookmark != null) {
@@ -33,27 +38,27 @@ const ProfileHeader = ({
   return (
     <div className="pt-24">
       <div className="flex flex-col">
-        <h2>{profile.name}</h2>
-        <div className="mt-1 text-gray-500 underline text-sm flex">
-          <NextLink 
+        <h1>{profile.name}</h1>
+        <div className="mt-2 text-black text-sm flex">
+          <NextLink
             href={`/${profile.username}`}
-            className="mr-3"
+            className={classNames("mr-3", { "text-gray-500 underline": path !== "[username]"})}
           >Blog</NextLink>
-          <NextLink 
+          <NextLink
             href={`/${profile.username}/about`}
-            className="mr-3"
+            className={classNames("mr-3", { "text-gray-500 underline": path !== "about"})}
           >About</NextLink>
 
           {/* user && user.username !== profile.username ? (
             <>
               <div className="mr-4 font-thin">•</div>
               {bookmark ? (
-              <div 
+              <div
                 className="cursor-pointer"
                 onClick={toggleBookmark}
               >Following</div>
               ) : (
-              <div 
+              <div
                 className="cursor-pointer"
                 onClick={toggleBookmark}
               >Follow</div>
