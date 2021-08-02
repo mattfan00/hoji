@@ -14,7 +14,7 @@ const Post = ({
         placeholder="give your entry a title..."
         onChange={(value) => onTitleChange(value)}
         initial={initialTitle}
-        tagName="h2"
+        tagName="h1"
         charLimit={200}
       />
 

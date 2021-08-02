@@ -16,8 +16,7 @@ const ProfileHeader = ({
   const [bookmark, setBookmark] = useState(null)
   const { user } = useAuth()
   const router = useRouter()
-
-  const path = router.pathname.split("/").slice(-1)[0]
+  const path = router.asPath
 
   useEffect(() => {
     if (isBookmark != null) {
@@ -39,14 +38,14 @@ const ProfileHeader = ({
     <div className="pt-24">
       <div className="flex flex-col">
         <h1>{profile.name}</h1>
-        <div className="mt-2 text-black text-sm flex">
+        <div className="mt-2 text-sm flex">
           <NextLink
             href={`/${profile.username}`}
-            className={classNames("mr-3", { "text-gray-500 underline": path !== "[username]"})}
+            className={classNames("mr-3", { "text-gray-500 underline": router.asPath !== `/${profile.username}` })}
           >Blog</NextLink>
           <NextLink
             href={`/${profile.username}/about`}
-            className={classNames("mr-3", { "text-gray-500 underline": path !== "about"})}
+            className={classNames("mr-3", { "text-gray-500 underline": router.asPath !== `/${profile.username}/about` })}
           >About</NextLink>
 
           {/* user && user.username !== profile.username ? (
