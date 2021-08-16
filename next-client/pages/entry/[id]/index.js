@@ -1,5 +1,6 @@
 import Head from "next/head"
 import ContentWrapper from "../../../components/ContentWrapper"
+import Header from "../../../components/Header"
 import EntryPage from "../../../modules/entry/EntryPage"
 import { serverQuery } from "../../../lib/axios"
 
@@ -9,6 +10,8 @@ const EntryView = ({ entry }) => {
       <Head>
         <title>{entry.user.name} | hoji</title>
       </Head>
+
+      <Header />
 
       <ContentWrapper>
         <EntryPage entry={entry} />

@@ -1,4 +1,3 @@
-import Footer from "../../components/Footer"
 import Entry from "../../components/Entry"
 
 const EntryPage = ({ entry }) => {
@@ -8,9 +7,6 @@ const EntryPage = ({ entry }) => {
         entry={entry}
         author={entry.user}
         expanded={true}
-      />
-      <Footer 
-        author={entry.user}
       />
     </>
   )

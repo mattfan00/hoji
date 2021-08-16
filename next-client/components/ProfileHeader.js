@@ -35,10 +35,10 @@ const ProfileHeader = ({
   }
 
   return (
-    <div className="pt-24">
+    <div className="mb-16">
       <div className="flex flex-col">
-        <h1>{profile.name}</h1>
-        <div className="mt-2 text-sm flex">
+        <h4>{profile.name}</h4>
+        <div className="mt-1 text-sm flex">
           <NextLink
             href={`/${profile.username}`}
             className={classNames("mr-3", { "text-gray-500 underline": router.asPath !== `/${profile.username}` })}

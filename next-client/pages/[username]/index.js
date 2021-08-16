@@ -20,10 +20,7 @@ const Profile = ({ profile }) => {
         <title>{profile.name} | hoji</title>
       </Head>
 
-      <Header 
-        profile={profile} 
-        //isBookmark={checkBookmark()}
-      />
+      <Header />
 
       <ContentWrapper>
         <ProfilePage profile={data} />

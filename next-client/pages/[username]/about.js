@@ -11,7 +11,9 @@ const About = ({ profile }) => {
         <title>{profile.name} | hoji</title>
       </Head>
 
-      <Header profile={profile} />
+      <Header />
+
+      
 
       <ContentWrapper>
         <AboutPage profile={profile} />

@@ -1,8 +1,11 @@
 import Entry from "../../components/Entry"
+import ProfileHeader from "../../components/ProfileHeader"
 import { useQuery } from "react-query"
 import { useAuth } from "../../contexts/auth"
 
-const ProfilePage = ({ profile }) => {
+const ProfilePage = ({ 
+  profile,
+}) => {
   const { isLoading, user } = useAuth()
 
   /*
@@ -19,6 +22,10 @@ const ProfilePage = ({ profile }) => {
 
   return (
     <>
+      <ProfileHeader
+        profile={profile}
+      />
+
       {profile.entries?.map((entry) => (
         <Entry
           key={entry.id}
