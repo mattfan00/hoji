@@ -21,7 +21,7 @@ const Header = () => {
 
   return (
     <header className="w-screen px-8 mb-20">
-      <div className="max-w-6xl mx-auto py-6">
+      <div className="max-w-2xl mx-auto py-6">
         <div className="flex items-center justify-between">
           <NextLink href="/">
             <Logo className="w-8" />

@@ -2,12 +2,15 @@ const ContentWrapper = ({
   children,
   size = "2xl"
 }) => {
+  const sizeMap = {
+    "sm": "max-w-sm",
+    "2xl": "max-w-2xl",
+  }
+
   return (
     <main className="w-screen px-8">
-      <div className="max-w-6xl mx-auto">
-        <div className={`max-w-${size} pb-20`}>
-          {children}
-        </div>
+      <div className={`${sizeMap[size]} mx-auto  pb-20`}>
+        {children}
       </div>
     </main>
   )

@@ -86,7 +86,7 @@ const Post = ({
           href={`/${author.username}`} 
           onClick={(e) => e.stopPropagation()}
         >
-          <a className="mr-3 font-semibold text-sm hover:underline flex items-center">
+          <a className="mr-3 font-bold text-sm hover:underline flex items-center">
             {author.name}
           </a>
         </Link> 

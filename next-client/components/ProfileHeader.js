@@ -4,6 +4,7 @@ import { useMutation } from "react-query"
 import { useAuth } from "../contexts/auth"
 import NextLink from "../components/NextLink"
 import { clientQuery } from "../lib/axios"
+import { Button } from "../ui"
 import classNames from "classnames"
 
 const ProfileHeader = ({
@@ -35,18 +36,38 @@ const ProfileHeader = ({
   }
 
   return (
-    <div className="mb-16">
+    <div className="mb-6">
       <div className="flex flex-col">
-        <h4>{profile.name}</h4>
-        <div className="mt-1 text-sm flex">
+        <h1>{profile.name}</h1>
+        <div className="mt-4 text-sm">{profile.description}</div>
+        <div className="mt-10 text-sm flex">
+          <Button 
+            size="sm"
+            variant="ghost"
+            active={router.asPath === `/${profile.username}`}
+            href={`/${profile.username}`}
+            className="mr-2"
+          >
+            Blog
+          </Button>
+          <Button 
+            size="sm"
+            variant="ghost"
+            active={router.asPath === `/${profile.username}/about`}
+            href={`/${profile.username}/about`}
+          >
+            About
+          </Button>
+          {/*
           <NextLink
             href={`/${profile.username}`}
-            className={classNames("mr-3", { "text-gray-500 underline": router.asPath !== `/${profile.username}` })}
+            //className={classNames("mr-3", { "text-gray-500 underline": router.asPath !== `/${profile.username}` })}
           >Blog</NextLink>
           <NextLink
             href={`/${profile.username}/about`}
-            className={classNames("mr-3", { "text-gray-500 underline": router.asPath !== `/${profile.username}/about` })}
+            //className={classNames("mr-3", { "text-gray-500 underline": router.asPath !== `/${profile.username}/about` })}
           >About</NextLink>
+          */}
 
           {/* user && user.username !== profile.username ? (
             <>
