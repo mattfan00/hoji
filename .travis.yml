@@ -4,7 +4,7 @@ jobs:
       node_js: node
 
       before_script:
-        - cd client
+        - cd next-client
         - npm install
 
     - language: go
