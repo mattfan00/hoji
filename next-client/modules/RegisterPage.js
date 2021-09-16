@@ -91,7 +91,7 @@ const SubmitPage = ({
          username: Yup.string()
           .min(4, "Must be at least ${min} characters")
           .max(20, "Must be at most ${max} characters")
-          .matches("^[a-zA-Z_]*$", "Must contain letters, numbers, or '_'")
+          .matches("^[a-zA-Z0-9_]*$", "Must contain letters, numbers, or '_'")
           .required('Required'),
          password: Yup.string()
           .min(4, "Must be at least ${min} characters")

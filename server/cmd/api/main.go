@@ -9,9 +9,11 @@ import (
 
 func main() {
 	config.Init()
+
 	pg := postgres.Init()
+	defer pg.Close()
+
 	aws := aws.Init()
 
 	api.Start(pg, aws)
-
 }

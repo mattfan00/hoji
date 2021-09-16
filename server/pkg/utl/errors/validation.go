@@ -7,7 +7,7 @@ import (
 
 func IsUsername(value interface{}) error {
 	s, _ := value.(string)
-	if !regexp.MustCompile("^[a-zA-Z_]*$").MatchString(s) {
+	if !regexp.MustCompile("^[a-zA-Z0-9_]*$").MatchString(s) {
 		return errors.New("must contain letters, numbers, or '_'")
 	}
 

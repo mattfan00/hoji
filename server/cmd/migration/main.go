@@ -28,9 +28,9 @@ func main() {
 	fmt.Println("connected to db")
 
 	deleteQueries := []string{
-		//"DROP TABLE IF EXISTS entries",
+		"DROP TABLE IF EXISTS entries",
 		"DROP TABLE IF EXISTS bookmarks",
-		//"DROP TABLE IF EXISTS users",
+		"DROP TABLE IF EXISTS users",
 	}
 
 	for _, q := range deleteQueries {
@@ -50,8 +50,8 @@ func main() {
 
 func createSchema(db *pg.DB) error {
 	models := []interface{}{
-		//(*model.User)(nil),
-		//(*model.Entry)(nil),
+		(*model.User)(nil),
+		(*model.Entry)(nil),
 		(*model.Bookmark)(nil),
 	}
 

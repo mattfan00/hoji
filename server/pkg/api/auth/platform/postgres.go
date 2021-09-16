@@ -1,6 +1,7 @@
 package platform
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/go-pg/pg/v10"
@@ -52,6 +53,7 @@ func (postgres Postgres) Register(db *pg.DB, newUser *model.User) error {
 	_, err := postgres.CheckEmail(db, newUser.Email)
 
 	if err == nil || err != pg.ErrNoRows {
+		fmt.Println(err)
 		return errors.BadRequest("Email already in use")
 	}
 

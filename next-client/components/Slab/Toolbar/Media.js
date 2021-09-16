@@ -5,11 +5,10 @@ import { Button } from "../../../ui"
 import { insertImage, isBlockActive } from "../Utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { BiImage } from "react-icons/bi"
-import axios from "axios"
+import { clientQuery } from "../../../lib/axios"
 
 const Media = () => {
-  const uploadMutation = useMutation(formData => axios.post(`/entry/image`, formData), {
-    onSuccess: ({ data }) => {
+  const uploadMutation = useMutation(formData => clientQuery().post(`/entry/image`, formData), { onSuccess: ({ data }) => {
       insertImage(editor, data)
     } 
   })
