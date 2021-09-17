@@ -25,7 +25,7 @@ const Toolbar = () => {
   const editor = useSlate()
 
   return (
-    <div className="flex flex-wrap sticky top-0 z-10 p-1 bg-white mb-4 border-b">
+    <div className="flex flex-wrap sticky top-0 z-10 p-1 bg-white mb-4 shadow rounded-lg">
       {INLINE_STYLES.map(({ label, format }) => (
         <Button
           key={format}

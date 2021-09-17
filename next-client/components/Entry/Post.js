@@ -11,18 +11,8 @@ import { Dropdown, Modal, Button } from "../../ui"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { clientQuery } from "../../lib/axios"
 import { queryClient } from "../../lib/query"
+import { dateFormat } from "../../lib/dateFormat"
 import classNames from "classnames"
-import dayjs from "dayjs"
-
-const TitleWrapper = ({ children, expanded }) => {
-  return (
-    expanded ? (
-    <h1 className="mb-2 break-words">{children}</h1>
-    ) : (
-    <div className="mb-1 break-words font-semibold">{children}</div>
-    )
-  )
-}
 
 const Post = ({ 
   entry,
@@ -40,23 +30,15 @@ const Post = ({
 
   const shortenText = (str, maxLen, separator = " ") => {
     if (str.length <= maxLen) return str
-    return str.substr(0, str.lastIndexOf(separator, maxLen)) + "..."
+    return str.substr(0, str.lastIndexOf(separator, maxLen)) + "…"
   }
 
   const generatePreviewText = () => {
-    const parsed = JSON.parse(content)
+    const parsed = JSON.parse(entry.content)
     const firstParagraph = parsed.find((element) => element.type === "paragraph")
     const text = Node.string(firstParagraph)
     
-    return shortenText(text, 370)
-  }
-
-  const dateFormat = () => {
-    if (dayjs().isSame(entry.created_at, "day")) {
-      return dayjs(entry.created_at).format("h:mm a") 
-    } else {
-      return dayjs(entry.created_at).format("MMM D, YYYY")
-    }
+    return shortenText(text, 250)
   }
 
   const deleteEntry = async () => {
@@ -77,84 +59,86 @@ const Post = ({
 
   return (
     <>
-      {entry.title ? (
-      <TitleWrapper expanded={expanded}>{entry.title}</TitleWrapper>
-      ) : ""}
+      {expanded ? (
+      <>
+        <h1 className="mb-2 break-words">{entry.title}</h1>
 
-      <div className={classNames("flex items-center", "mb-4")}>
-        <Link 
-          href={`/${author.username}`} 
-          onClick={(e) => e.stopPropagation()}
-        >
-          <a className="mr-3 font-bold text-sm hover:underline flex items-center">
-            {author.name}
-          </a>
-        </Link> 
-
-        <div className="text-gray-400 text-sm mr-3">{dateFormat()}</div>
-
-        {user?.username === author.username ? (
-        <>
-          <Dropdown>
-            <Dropdown.Button
-              variant="ghost"
-              size="sm"
-            >
-              <FontAwesomeIcon className="text-gray-400" icon="ellipsis-h" />
-            </Dropdown.Button>
-
-            <Dropdown.Items>
-              <Dropdown.Item href={`/entry/${entry.id}/edit`}>
-                <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "edit"]} />
-                Edit
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => setShowDeleteModal(true)}>
-                <span className="text-red-500">
-                  <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "trash-alt"]} />
-                  Delete
-                </span>
-              </Dropdown.Item>
-            </Dropdown.Items>
-          </Dropdown>
-
-          <Modal
-            open={showDeleteModal}
-            onClose={() => setShowDeleteModal(false)}
+        <div className={classNames("flex items-center", "mb-4")}>
+          <Link 
+            href={`/${author.username}`} 
+            onClick={(e) => e.stopPropagation()}
           >
-            Are you sure you want to delete your entry?
-            <div className="flex justify-end mt-4">
-              <Button 
-                className="mr-2"
-                onClick={() => setShowDeleteModal(false)}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="danger"
-                onClick={deleteEntry}
-              >
-                Delete
-              </Button>
-            </div>
-          </Modal>
-        </>
-        ) : ""}
-      </div>
+            <a className="mr-3 font-bold text-sm hover:underline flex items-center">
+              {author.name}
+            </a>
+          </Link> 
 
-      <div className="relative mt-14">
-        {expanded ? (
+          <div className="text-gray-400 text-sm mr-3">{dateFormat(entry.created_at)}</div>
+
+          {user?.username === author.username ? (
+          <>
+            <Dropdown>
+              <Dropdown.Button
+                variant="ghost"
+                size="sm"
+              >
+                <FontAwesomeIcon className="text-gray-400" icon="ellipsis-h" />
+              </Dropdown.Button>
+
+              <Dropdown.Items>
+                <Dropdown.Item href={`/entry/${entry.id}/edit`}>
+                  <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "edit"]} />
+                  Edit
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setShowDeleteModal(true)}>
+                  <span className="text-red-500">
+                    <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "trash-alt"]} />
+                    Delete
+                  </span>
+                </Dropdown.Item>
+              </Dropdown.Items>
+            </Dropdown>
+
+            <Modal
+              open={showDeleteModal}
+              onClose={() => setShowDeleteModal(false)}
+            >
+              Are you sure you want to delete your entry?
+              <div className="flex justify-end mt-4">
+                <Button 
+                  className="mr-2"
+                  onClick={() => setShowDeleteModal(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={deleteEntry}
+                >
+                  Delete
+                </Button>
+              </div>
+            </Modal>
+          </>
+          ) : ""}
+        </div>
+
         <Slate editor={editor} value={JSON.parse(entry.content)}>
           <Editable 
-            className="prose"
+            className="prose mt-14"
             readOnly 
             renderLeaf={renderLeaf}
             renderElement={renderElement}
           />
         </Slate>
-        ) : (
-        generatePreviewText()
-        )}
-      </div>
+      </>
+      ) : (
+      <>
+        <h3 className="mb-1 break-words">{entry.title}</h3>
+        <div className="mb-2">{generatePreviewText()}</div>
+        <div className="text-gray-400 text-sm">{dateFormat(entry.created_at)}</div>
+      </>
+      )}
     </>
   )
 }

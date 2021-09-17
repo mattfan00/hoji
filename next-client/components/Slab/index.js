@@ -11,6 +11,8 @@ import { HOTKEYS, toggleInline } from "./Utils"
 const Slab = ({
   content,
   setContent,
+  placeholder,
+  autofocus,
 }) => {
   const editor = useMemo(() => withSlab(createEditor()), [])
 
@@ -28,8 +30,8 @@ const Slab = ({
         className="prose"
         renderLeaf={renderLeaf}
         renderElement={renderElement}
-        placeholder="start writing your entry here..."
-        autoFocus={true}
+        placeholder={placeholder}
+        autofocus={autofocus}
         
         onKeyDown={(event) => {
           for (const hotkey in HOTKEYS) {

@@ -2,10 +2,8 @@ import { useRouter } from "next/router"
 import { useState, useEffect } from "react"
 import { useMutation } from "react-query"
 import { useAuth } from "../contexts/auth"
-import NextLink from "../components/NextLink"
 import { clientQuery } from "../lib/axios"
 import { Button } from "../ui"
-import classNames from "classnames"
 
 const ProfileHeader = ({
   profile,
@@ -39,7 +37,9 @@ const ProfileHeader = ({
     <div className="mb-6">
       <div className="flex flex-col">
         <h1>{profile.name}</h1>
-        <div className="mt-4 text-sm">{profile.description}</div>
+        {profile.description && (
+        <div className="mt-2 text-sm">{profile.description}</div>
+        )}
         <div className="mt-10 text-sm flex">
           <Button 
             size="sm"

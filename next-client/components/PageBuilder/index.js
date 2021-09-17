@@ -73,11 +73,20 @@ const EntryBuilder = ({ editing }) => {
   return (
     <> 
       <div className="pt-12 pb-32">
-        <Post
+        <CustomInput
+          className="mb-8"
+          placeholder="Page Title"
+          onChange={(value) => onTitleChange(value)}
+          initial={initialTitle}
+          tagName="h1"
+          charLimit={200}
+          placeholder="Give your page a title..."
+        />
+
+        <Slab 
           content={content}
           setContent={setContent}
-          onTitleChange={handleTitleChange} 
-          initialTitle={initialTitle.current}
+          placeholder="Start writing here..."
         />
       </div>
 
@@ -88,7 +97,6 @@ const EntryBuilder = ({ editing }) => {
             variant="plain"
           >Cancel</Button>
           <Button
-            //variant="primary"
             disabled={submitDisabled()}
             onClick={() => submit()}
           >{editing ? "Update" : "Submit"}</Button>

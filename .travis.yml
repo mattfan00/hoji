@@ -1,11 +1,11 @@
 jobs:
   include:
-    - language: node_js
-      node_js: node
+    #- language: node_js
+    #  node_js: node
 
-      before_script:
-        - cd next-client
-        - npm install
+    #  before_script:
+    #    - cd next-client
+    #    - npm install
 
     - language: go
       go: master
