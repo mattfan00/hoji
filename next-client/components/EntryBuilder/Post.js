@@ -12,7 +12,7 @@ const Post = ({
       <CustomInput
         className="mb-8"
         placeholder="Give your entry a title..."
-        onChange={(value) => onTitleChange(value)}
+        onChange={(_, value) => onTitleChange(value)}
         initial={initialTitle}
         tagName="h1"
         charLimit={200}
@@ -23,6 +23,7 @@ const Post = ({
         content={content}
         setContent={setContent}
         placeholder="Start writing here..."
+        focus={true}
       />
     </>
   )

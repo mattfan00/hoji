@@ -1,4 +1,4 @@
-import EntryBuilder from "../../components/EntryBuilder"
+import EntryBuilder from "../../../components/EntryBuilder"
 
 const NewEntryPage = () => {
   return (

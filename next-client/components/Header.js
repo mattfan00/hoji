@@ -40,7 +40,7 @@ const Header = () => {
                 <Dropdown.Item href={`/${user.username}`}>
                   Profile
                 </Dropdown.Item>
-                <Dropdown.Item href="/entry/new">
+                <Dropdown.Item href="/publish/entry">
                   Write an entry
                 </Dropdown.Item>
                 {/*

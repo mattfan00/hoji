@@ -88,10 +88,9 @@ const EntryBuilder = ({ editing }) => {
             variant="plain"
           >Cancel</Button>
           <Button
-            //variant="primary"
             disabled={submitDisabled()}
             onClick={() => submit()}
-          >{editing ? "Update" : "Submit"}</Button>
+          >Submit</Button>
         </div>
       </div>
     </> 

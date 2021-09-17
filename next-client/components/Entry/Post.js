@@ -86,7 +86,7 @@ const Post = ({
               </Dropdown.Button>
 
               <Dropdown.Items>
-                <Dropdown.Item href={`/entry/${entry.id}/edit`}>
+                <Dropdown.Item href={`/publish/entry/${entry.id}`}>
                   <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "edit"]} />
                   Edit
                 </Dropdown.Item>

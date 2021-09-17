@@ -1,5 +1,5 @@
-import NewEntryPage from "../../modules/entry/NewEntryPage"
-import WaitForAuth from "../../components/WaitForAuth"
+import NewEntryPage from "../../../modules/publish/entry/NewEntryPage"
+import WaitForAuth from "../../../components/WaitForAuth"
 
 const NewEntry = () => {
   return (

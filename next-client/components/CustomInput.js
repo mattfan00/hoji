@@ -26,21 +26,25 @@ const CustomInput = ({
   }, [initial]) 
 
   const handleChange = (e) => {
-    const charLength = textInput.current.innerText.trim().length
-    if (charLength === 0) {
-      textInput.current.innerText = ""
-    }
+    if (e.keyCode == 13 ) {
+      e.preventDefault()
+    } else {
+      const charLength = textInput.current.innerText.trim().length
+      if (charLength === 0) {
+        textInput.current.innerText = ""
+      }
 
-    if (charLimit && charLength > charLimit && e.keyCode != 8) {
-      textInput.current.innerText = textInput.current.innerText.slice(0, charLimit)
-      placeCaretAtEnd(textInput.current)
-      return
-    }
+      if (charLimit && charLength > charLimit && e.keyCode != 8) {
+        textInput.current.innerText = textInput.current.innerText.slice(0, charLimit)
+        placeCaretAtEnd(textInput.current)
+        return
+      }
 
-    onChange(textInput.current.innerText)
+      onChange(e, textInput.current.innerText)
+    }
   }
 
-  function placeCaretAtEnd(el) {
+  const placeCaretAtEnd = (el) => {
     el.focus();
     if (typeof window.getSelection != "undefined"
       && typeof document.createRange != "undefined") {
@@ -73,7 +77,8 @@ const CustomInput = ({
         contentEditable="true"
         ref={textInput}
         //dangerouslySetInnerHTML={{__html: defaultValue.current}}
-        onInput={handleChange}
+        //onInput={handleChange}
+        onKeyDown={handleChange}
         onPaste={removeFormatting}
       ></CustomTag>
     </div>

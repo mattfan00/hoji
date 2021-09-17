@@ -1,4 +1,4 @@
-import EditEntryPage from "../../../modules/entry/EditEntryPage"
+import EditEntryPage from "../../../modules/publish/entry/EditEntryPage"
 import WaitForAuth from "../../../components/WaitForAuth"
 
 const EditEntry = () => {
