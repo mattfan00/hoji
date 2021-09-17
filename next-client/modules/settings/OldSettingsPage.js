@@ -1,13 +1,13 @@
 import { useState, useRef } from "react"
 import { useMutation } from "react-query"
-import { queryClient } from "../lib/query"
+import { queryClient } from "../../lib/query"
 import { Formik, Form } from "formik"
 import * as Yup from "yup"
-import { Button } from "../ui/Button"
-import FormInput from "../components/FormInput"
-import FormTextArea from "../components/FormTextArea"
-import { clientQuery } from "../lib/axios"
-import { useAuth } from "../contexts/auth"
+import { Button } from "../../ui/Button"
+import FormInput from "../../components/FormInput"
+import FormTextArea from "../../components/FormTextArea"
+import { clientQuery } from "../../lib/axios"
+import { useAuth } from "../../contexts/auth"
 
 
 const Settings = () => {

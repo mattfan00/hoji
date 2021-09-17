@@ -1,5 +1,5 @@
 import Head from "next/head"
-import SettingsPage from "../modules/SettingsPage"
+import SettingsPage from "../modules/settings/SettingsPage"
 import Header from "../components/Header"
 import ContentWrapper from "../components/ContentWrapper"
 import WaitForAuth from "../components/WaitForAuth"

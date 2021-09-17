@@ -14,7 +14,7 @@ const FormTextArea = ({
   return (
     <div className={classNames("flex flex-col", className)}>
       {label ? (
-      <div className="text-sm mb-1">
+      <div className="text-sm mb-1 font-semibold">
         <label htmlFor={name}>{label}</label>
       </div>
       ) : ""}
