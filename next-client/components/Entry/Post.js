@@ -7,7 +7,11 @@ import withSlab from "../Slab/withSlab"
 import Leaf from "../Slab/Leaf"
 import Element from "../Slab/Element"
 import { useAuth } from "../../contexts/auth"
-import { Dropdown, Modal, Button } from "../../ui"
+import { 
+  Dropdown, 
+  Modal, 
+  Button 
+} from "../../ui"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { clientQuery } from "../../lib/axios"
 import { queryClient } from "../../lib/query"
@@ -85,7 +89,7 @@ const Post = ({
                 <FontAwesomeIcon className="text-gray-400" icon="ellipsis-h" />
               </Dropdown.Button>
 
-              <Dropdown.Items>
+              <Dropdown.Menu>
                 <Dropdown.Item href={`/publish/entry/${entry.id}`}>
                   <FontAwesomeIcon className="fa-fw mr-1.5" icon={["far", "edit"]} />
                   Edit
@@ -96,7 +100,7 @@ const Post = ({
                     Delete
                   </span>
                 </Dropdown.Item>
-              </Dropdown.Items>
+              </Dropdown.Menu>
             </Dropdown>
 
             <Modal

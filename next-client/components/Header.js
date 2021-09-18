@@ -33,7 +33,7 @@ const Header = () => {
                 <FontAwesomeIcon icon="bars" size="sm" />
               </Dropdown.Button>
 
-              <Dropdown.Items 
+              <Dropdown.Menu
                 direction="left"
               >
                 <>
@@ -56,7 +56,7 @@ const Header = () => {
                   Logout
                 </Dropdown.Item>
                 </>
-              </Dropdown.Items>
+              </Dropdown.Menu>
             </Dropdown>
             ) : (
             <Button href="/login">

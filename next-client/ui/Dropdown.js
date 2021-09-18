@@ -17,7 +17,7 @@ export const DropdownButton = ({
   )
 }
 
-export const DropdownItems = ({ 
+export const DropdownMenu = ({ 
   children,
   direction = "right",
   className = "",
@@ -79,6 +79,6 @@ export const Dropdown = ({
   )
 }
 
-Dropdown.Button = DropdownButton
-Dropdown.Items = DropdownItems
 Dropdown.Item = DropdownItem
+Dropdown.Menu = DropdownMenu
+Dropdown.Button = DropdownButton
